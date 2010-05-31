@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<style name="Form"></style>
+<style name="Form.Layout">
+	<item name="android:layout_width">fill_parent</item>
+  	<item name="android:layout_height">wrap_content</item>
+  	<item name="android:padding">10dip</item>
+  	<item name="android:orientation">vertical</item>
+</style>
+<style name="Form.Element">
+	<item name="android:layout_width">fill_parent</item>
+	<item name="android:layout_height">wrap_content</item>
+</style>
+<style name="Form.Element.Text">
+	<item name="android:textSize">20dip</item>
+</style>
+<style name="Form.Element.Edit">
+	<item name="android:textSize">20dip</item>
+</style>
+<style name="Form.Element.Divider">
+	<item name="android:layout_marginTop">5dip</item>
+	<item name="android:layout_marginBottom">5dip</item>
+</style>
+
+<style name="Form.ButtonsLayout">
+	<item name="android:layout_width">fill_parent</item>
+  	<item name="android:layout_height">wrap_content</item>
+  	<item name="android:layout_marginTop">20dip</item>
+  	<item name="android:orientation">horizontal</item>
+</style>
+
+<style name="Form.Button">
+	<item name="android:layout_width">fill_parent</item>
+	<item name="android:layout_height">60dip</item>
+	<item name="android:layout_weight">1</item>
+	<item name="android:textSize">20dip</item>
+	
+</style>
+
+</resources>
