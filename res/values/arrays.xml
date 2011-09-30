@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string-array name="entries_color_preference">
+		<item>Не устанавливать</item>
+        <item>Синий</item>
+        <item>Зеленый</item>
+        <item>Желтый</item>
+        <item>Красный</item>  
+        <item>Ярко-синий</item>
+        <item>Ярко-зеленый</item>
+        <item>Ярко-желтый</item>
+        <item>Ярко-красный</item>
+    </string-array>
+
+    <string-array name="entryvalues_color_preference">
+    	<item>-1</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>  
+        <item>4</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+    
+    
+    <string-array name="entries_list_text_rows_preference">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>  
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    
+    
+    <string-array name="entries_table_button_size_preference">
+        <item>Маленький</item>
+        <item>Средний</item>
+        <item>Большой</item>
+    </string-array>
+
+    <string-array name="entryvalues_table_button_size_preference">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    
+    
+    <string-array name="entries_report_calc_type_preference">
+        <item>По хронометру</item>
+        <item>По посещениям</item>
+    </string-array>
+
+    <string-array name="entryvalues_report_calc_type_preference">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    
+</resources>

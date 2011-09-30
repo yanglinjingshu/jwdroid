@@ -1,0 +1,37 @@
+<resources>
+    <color name="gray">#999999</color>
+    <color name="gray_light">#cbcbcb</color>
+    
+    <color name="lightgray">#d8d8d8</color>
+    <color name="lightgray_light">#f8f8f8</color>
+    
+    <color name="green">#559955</color>
+    <color name="green_light">#6fc76f</color>
+    
+    <color name="lightgreen">#4ed44e</color>
+    <color name="lightgreen_light">#5eff5e</color>    
+    
+    <color name="red">#995555</color>
+    <color name="red_light">#d07474</color>
+    
+    <color name="lightred">#d64444</color>
+    <color name="lightred_light">#ff5151</color>    
+    
+    <color name="blue">#557799</color>
+    <color name="blue_light">#73a1cf</color>
+    
+    <color name="lightblue">#408fde</color>
+    <color name="lightblue_light">#49a4ff</color>
+    
+    <color name="yellow">#999555</color>
+    <color name="yellow_light">#cfca73</color>
+    
+    <color name="lightyellow">#d5cc40</color>
+    <color name="lightyellow_light">#fff54d</color>       
+    
+    <color name="dlg_active_border">#eeeeee</color> 
+    <color name="btn_disabled">#555555</color>
+    
+    
+    <color name="list_divider">#cccccc</color>
+</resources>

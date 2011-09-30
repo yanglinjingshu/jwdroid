@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:icon="@android:drawable/ic_menu_info_details" android:title="Информация" android:id="@+id/menu_info"></item>
+	<group android:id="@+id/menu_group_table">		
+		<item android:icon="@drawable/ic_menu_arrange" android:title="Раскладка">
+			<menu>
+				<item android:title="Упорядочить" android:id="@+id/menu_arrange" />
+				<item android:title="Сдвинуть всё вверх" android:id="@+id/menu_shift_up" />
+				<item android:title="Сдвинуть всё вниз" android:id="@+id/menu_shift_down" />
+				<item android:title="Сдвинуть всё влево" android:id="@+id/menu_shift_left" />
+				<item android:title="Сдвинуть всё вправо" android:id="@+id/menu_shift_right" />
+			</menu>
+		</item>
+	</group>  
+	<item android:icon="@android:drawable/ic_menu_preferences" android:title="Настройки" android:id="@+id/menu_preferences"></item>
+	<item android:icon="@android:drawable/ic_menu_send" android:title="Отправить отзыв" android:id="@+id/menu_feedback"></item>
+</menu>

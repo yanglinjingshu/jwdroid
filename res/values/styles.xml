@@ -12,10 +12,13 @@
 	<item name="android:layout_height">wrap_content</item>
 </style>
 <style name="Form.Element.Text">
-	<item name="android:textSize">20dip</item>
+	<item name="android:textSize">18dip</item>
 </style>
 <style name="Form.Element.Edit">
-	<item name="android:textSize">20dip</item>
+	<item name="android:textSize">18dip</item>
+</style>
+<style name="Form.Element.TextNote">
+	<item name="android:textSize">14dip</item>
 </style>
 <style name="Form.Element.Divider">
 	<item name="android:layout_marginTop">5dip</item>
@@ -25,16 +28,54 @@
 <style name="Form.ButtonsLayout">
 	<item name="android:layout_width">fill_parent</item>
   	<item name="android:layout_height">wrap_content</item>
-  	<item name="android:layout_marginTop">20dip</item>
   	<item name="android:orientation">horizontal</item>
 </style>
 
 <style name="Form.Button">
 	<item name="android:layout_width">fill_parent</item>
-	<item name="android:layout_height">60dip</item>
+	<item name="android:layout_height">50dip</item>
 	<item name="android:layout_weight">1</item>
-	<item name="android:textSize">20dip</item>
+	<item name="android:textSize">16dip</item>
 	
+</style>
+
+
+
+<style name="DlgColor"></style>
+<style name="DlgColor.ColorButton">
+	<item name="android:layout_width">35dip</item>
+	<item name="android:layout_height">35dip</item>
+	<item name="android:layout_marginRight">6dip</item>
+	<item name="android:layout_marginLeft">6dip</item>
+	<item name="android:layout_marginTop">6dip</item>
+	<item name="android:layout_marginBottom">6dip</item>
+	<item name="android:textStyle">bold</item>
+	<item name="android:textSize">12dip</item>
+	<item name="android:textColor">#ffffff</item>
+	<item name="android:shadowColor">#000000</item>
+	<item name="android:shadowDx">1</item>
+	<item name="android:shadowDy">1</item>
+	<item name="android:shadowRadius">1</item>
+	<item name="android:maxLines">1</item>
+</style>
+
+<style name="DlgColor.ColorButton.Light">
+</style>
+
+<style name="DlgColor.ButtonContainer">
+	<item name="android:layout_width">47dip</item>
+	<item name="android:layout_height">47dip</item>
+</style>
+
+<style name="DlgColor.ActiveBorder">
+	<item name="android:layout_width">47dip</item>
+	<item name="android:layout_height">47dip</item>
+	<item name="android:layout_marginRight">0dip</item>
+	<item name="android:layout_marginLeft">0dip</item>
+	<item name="android:layout_marginTop">0dip</item>
+	<item name="android:layout_marginBottom">0dip</item>
+	<item name="android:background">@drawable/dlg_active_border</item>
+	<item name="android:visibility">visible</item>
 </style>
 
 </resources>

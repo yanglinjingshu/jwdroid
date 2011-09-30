@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+  
+  <ImageView
+  	android:layout_width="wrap_content"
+  	android:layout_height="wrap_content" 
+  	android:src="@drawable/main_menu_logo"/>
+  	
+  	
+  <TableLayout
+  	android:layout_width="wrap_content"
+  	android:layout_height="wrap_content"
+  	android:layout_marginTop="20dip"
+  	android:layout_gravity="center_horizontal">
+  	
+  	<TableRow>  	
+  		<LinearLayout 
+  			android:layout_width="wrap_content"
+  			android:layout_height="wrap_content"
+  			android:padding="20dip"
+  			android:orientation="vertical"
+  			android:gravity="center_horizontal|top">
+  	
+		  	<ImageView android:id="@+id/btn_territories"
+		  		android:layout_width="wrap_content"
+		  		android:layout_height="wrap_content"	
+		  		android:src="@drawable/main_menu_territories"
+		  		android:clickable="true"/>
+	  
+			<TextView
+			  	android:layout_width="wrap_content"
+			  	android:layout_height="wrap_content"
+			  	android:text="Участки"
+			  	android:textStyle="bold"
+			  	android:textSize="18dip"/>  
+		</LinearLayout>
+		
+		
+		<LinearLayout 
+  			android:layout_width="wrap_content"
+  			android:layout_height="wrap_content"
+  			android:padding="20dip"
+  			android:orientation="vertical"
+  			android:gravity="center_horizontal|top">
+  	
+		  	<ImageView android:id="@+id/btn_people"	  	
+		  		android:layout_width="wrap_content"
+		  		android:layout_height="wrap_content"	
+		  		android:src="@drawable/main_menu_people"
+		  		android:clickable="true"/>
+	  
+			<TextView
+			  	android:layout_width="wrap_content"
+			  	android:layout_height="wrap_content"
+			  	android:text="Люди"
+			  	android:textStyle="bold"
+			  	android:textSize="18dip"/>  
+		</LinearLayout>
+		  	
+		<LinearLayout 
+  			android:layout_width="wrap_content"
+  			android:layout_height="wrap_content"
+  			android:padding="20dip"
+  			android:clickable="true"
+  			android:orientation="vertical"
+  			android:gravity="center_horizontal|top">
+  	
+		  	<ImageView android:id="@+id/btn_reports"  	
+		  		android:layout_width="wrap_content"
+		  		android:layout_height="wrap_content"	
+		  		android:src="@drawable/main_menu_reports"
+		  		android:clickable="true"/>
+	  
+			<TextView
+			  	android:layout_width="wrap_content"
+			  	android:layout_height="wrap_content"
+			  	android:text="Отчеты"
+			  	android:textStyle="bold"
+			  	android:textSize="18dip"/>  
+		</LinearLayout>  	
+		
+		<LinearLayout 
+  			android:layout_width="wrap_content"
+  			android:layout_height="wrap_content"
+  			android:padding="20dip"
+  			android:clickable="true"
+  			android:orientation="vertical"
+  			android:gravity="center_horizontal|top">
+  	
+		  	<ImageView android:id="@+id/btn_chrono"  	
+		  		android:layout_width="wrap_content"
+		  		android:layout_height="wrap_content"	
+		  		android:src="@drawable/main_menu_chrono"
+		  		android:clickable="true"/>
+	  
+			<TextView
+			  	android:layout_width="wrap_content"
+			  	android:layout_height="wrap_content"
+			  	android:text="Хронометр"
+			  	android:textStyle="bold"
+			  	android:textSize="18dip"/>  
+		</LinearLayout>  	
+	  		
+	 </TableRow>
+	 
+	 
+	  
+	</TableLayout>
+    
+</LinearLayout>

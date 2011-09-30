@@ -14,6 +14,25 @@
 <item>Структированный</item>
 </string-array>
 <string name="lbl_territory_type">Тип:</string>
-<string name="err_empty_territory_name">Введите название!</string>
+<string name="err_empty_name">Введите название!</string>
 <string name="msg_territory_added">Участок добавлен</string>
+<string name="menu_delete">Удалить</string>
+<string name="msg_territory_deleted">Участок удален</string>
+<string name="territory_list_empty">Список участков пуст. Вы можете добавить новый участок, нажав кнопку \&quot;Меню\&quot;.</string>
+<string name="group_list_empty">Список участков пуст. Вы можете добавить новый участок, нажав кнопку \&quot;Меню\&quot;.</string>
+<string name="btn_ok">OK</string>
+<string name="dlg_territory_delete_msg">Операция удаления участка не может быть отменена. Вы уверены?</string>
+<string name="dlg_territory_delete_title">Удаление участка</string>
+<string name="title_territory_list">Участки</string>
+<string name="menu_gen_layout">Создать подъезды</string>
+<string name="dlg_group_add_title">Добавление группы</string>
+<string name="dlg_group_add_label">Название группы:</string>
+<string name="dlg_group_add_note">Например: Подъезд №1</string>
+<string name="dlg_territory_add_label">Название участка:</string>
+<string name="dlg_territory_add_title">Добавление участка</string>
+<string name="dlg_territory_add_note">Например: ул. Сосновая, 2</string>
+<string name="msg_group_added">Группа добавлена</string>
+<string name="msg_group_deleted">Группа удалена</string>
+<string name="dlg_group_delete_msg">Операция удаления группы не может быть отменена. Вы уверены?</string>
+<string name="dlg_group_delete_title">Удаление группы</string>
 </resources>

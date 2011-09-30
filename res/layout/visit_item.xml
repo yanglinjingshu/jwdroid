@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="horizontal">
+		
+	<RelativeLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"	
+		android:layout_weight="1"								
+		android:orientation="vertical"
+		android:paddingLeft="5dip"
+		android:paddingTop="8dip"
+		android:paddingBottom="8dip"
+		android:paddingRight="7dip">
+		
+		<ImageView android:id="@+id/visit_item_type_icon"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentTop="true"/>
+		
+
+		<TextView 
+		    android:id="@+id/visit_item_date"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentTop="true"
+		    android:layout_toRightOf="@id/visit_item_type_icon"
+		    android:layout_marginLeft="7dip"
+		    android:textSize="12dip"
+		    android:textColor="#000000"
+		    android:textStyle="bold"/>
+		    
+		<TextView 
+		    android:id="@+id/visit_item_desc"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_alignLeft="@id/visit_item_date"
+		    android:layout_below="@id/visit_item_date"
+		    android:layout_marginTop="3dip"
+		   	android:layout_weight="1"
+		    android:textSize="15dip"
+		    android:textColor="#000000"/>	
+		    				    
+		
+		<TextView 
+		    android:id="@+id/visit_item_info"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignLeft="@id/visit_item_desc"
+		    android:layout_below="@id/visit_item_desc"
+		    android:layout_marginTop="4dip"
+		    android:textSize="12dip"
+		    android:textColor="#999999"/>	
+		    
+					
+	</RelativeLayout>
+	
+	<View
+		android:layout_width="1px"
+		android:layout_height="match_parent"
+		android:background="#dddddd"/>	
+		
+</LinearLayout>
+	    	

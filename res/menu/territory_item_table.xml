@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:title="Задать положение" android:id="@+id/menu_set_position" />
+	<item android:title="Переместить вверх" android:id="@+id/menu_shift_up" />
+	<item android:title="Переместить вниз" android:id="@+id/menu_shift_down" />
+	<item android:title="Переместить влево" android:id="@+id/menu_shift_left" />
+	<item android:title="Переместить вправо" android:id="@+id/menu_shift_right" />
+</menu>
