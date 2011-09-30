@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"		
+		xmlns:app="http://schemas.android.com/apk/res/com.jwdroid"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <LinearLayout
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:background="@drawable/titlebar"
+    	android:orientation="horizontal"
+    	android:gravity="center_horizontal" >
+    	<TextView 
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_weight="1"
+    		android:layout_marginTop="3dip"
+    		android:layout_marginLeft="6dip"
+    		android:textColor="#ffffff"
+    		android:textSize="18dip"
+    		android:textStyle="bold"
+    		android:text="Люди" />
+    	<Button android:id="@+id/title_btn_add"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:background="@drawable/title_btn_round_add" 
+    		android:visibility="invisible"/>
+    </LinearLayout>
+    
+    
+    	
+    
+    <TextView android:id="@+id/people_list_empty"
+    	android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center_horizontal"
+    	android:paddingTop="20dip"
+  		android:paddingLeft="10dip"
+  		android:paddingRight="10dip"
+  		android:textColor="#999999"
+  		android:textSize="16dip"	
+    	android:text="Список людей пуст.\n\nДобавить людей можно в разделе &quot;Участки&quot;."
+    	android:visibility="gone"/>
+	
+	<ListView android:id="@+id/people_list"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1" 
+		android:divider="#cccccc"
+		android:dividerHeight="1px"/>
+		
+    
+</LinearLayout>

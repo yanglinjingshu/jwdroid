@@ -3,17 +3,35 @@
       package="com.jwdroid"
       android:versionCode="1"
       android:versionName="1.0">
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    
     <application android:icon="@drawable/icon" android:label="@string/app_name" android:debuggable="true">
-        <activity android:label="@string/app_name" android:name=".TerritoryList">
+    	<activity android:name="MainMenu" android:theme="@android:style/Theme.Light.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".TerritoryList" android:label="@string/app_name" android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
 
     <activity android:name=".TerritoryAdd" android:label="@string/title_territory_add"></activity>
+	<activity android:name=".Territory" android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
+	<activity android:name=".Door" android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
+	<activity android:name=".Visit" android:theme="@android:style/Theme.Light.NoTitleBar"></activity>	
+	<activity android:name=".TerritoryInfo" android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
+	<activity android:name=".Preferences"></activity>
+	<activity android:name=".PeopleList" android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
+	<activity android:name=".Chrono" android:launchMode="singleTop" android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
+	<activity android:name=".Session" android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
+	<activity android:name=".Report" android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
+	<activity android:name=".ReportList" android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
+	
+	<service android:name=".ChronoService"></service>
+
 </application>
-    <uses-sdk android:minSdkVersion="4" />
+    <uses-sdk android:minSdkVersion="8"/>
+
+
 
 
 </manifest> 

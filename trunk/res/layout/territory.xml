@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/territory"
+  xmlns:android="http://schemas.android.com/apk/res/android"  
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+  
+      <LinearLayout
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:background="@drawable/titlebar"
+    	android:orientation="horizontal"
+    	android:gravity="center_horizontal|top" >
+    	<TextView android:id="@+id/territory_name"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_weight="1"
+    		android:layout_marginTop="2dip"
+    		android:layout_marginLeft="6dip"
+    		android:textColor="#ffffff"
+    		android:textSize="18dip"
+    		android:lines="1"
+    		android:textStyle="bold" />
+    	<Button android:id="@+id/title_btn_display_mode"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:background="@drawable/title_btn_struct" />
+    	<Button android:id="@+id/title_btn_add"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:background="@drawable/title_btn_round_add" />
+    </LinearLayout>
+    
+</LinearLayout>

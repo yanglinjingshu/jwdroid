@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/door"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res/com.jwdroid"  
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+  
+      <RelativeLayout
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:background="@drawable/titlebar"
+    	android:orientation="horizontal" >
+    	<LinearLayout android:id="@+id/title_btn_back"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:orientation="vertical"
+    		android:background="@drawable/title_btn_back"
+    		android:gravity="top"
+    		android:clickable="true">
+	    	<TextView android:id="@+id/territory_name"
+	    		android:layout_width="wrap_content"
+	    		android:layout_height="wrap_content"
+	    		android:textColor="#ffffff"
+	    		android:textSize="12dip"
+	    		android:lines="1" 
+	    		android:textStyle="bold"/>
+	    	<TextView android:id="@+id/door_name"
+	    		android:layout_width="wrap_content"
+	    		android:layout_height="wrap_content"
+	    		android:textColor="#ffffff"
+	    		android:textSize="17dip"
+	    		android:lines="1"
+	    		android:textStyle="bold" />
+	    </LinearLayout>
+    	<Button android:id="@+id/title_btn_color"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_alignParentRight="true"
+    		android:background="@drawable/title_btn_color" />    	
+    	<com.jwdroid.TriangleView android:id="@+id/title_color1"
+	    	android:layout_width="18dip"
+	    	android:layout_height="18dip"
+	    	android:layout_alignRight="@id/title_btn_color"	    	
+	    	android:layout_alignTop="@id/title_btn_color"
+	    	app:orientation="top_right"
+	    	app:fillColor="@color/gray"
+	    	app:radius="0" />
+	    <com.jwdroid.TriangleView android:id="@+id/title_color2"
+	    	android:layout_width="7dip"
+	    	android:layout_height="7dip"
+	    	android:layout_alignRight="@id/title_btn_color"
+	    	android:layout_alignTop="@id/title_btn_color"
+	    	app:orientation="top_right"
+	    	app:fillColor="@color/gray"
+	    	app:radius="0" />
+	    <Button android:id="@+id/title_btn_add"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_toLeftOf="@id/title_btn_color"    		
+    		android:background="@drawable/title_btn_doc_add" />
+    </RelativeLayout>
+    
+</LinearLayout>

@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/territory"
+  xmlns:android="http://schemas.android.com/apk/res/android"  
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+  
+      <LinearLayout
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:background="@drawable/titlebar"
+    	android:orientation="horizontal"
+    	android:gravity="center_horizontal|top" >
+    	<TextView android:id="@+id/title"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_weight="1"
+    		android:layout_marginTop="2dip"
+    		android:layout_marginLeft="6dip"
+    		android:textColor="#ffffff"
+    		android:textSize="18dip"
+    		android:lines="1"
+    		android:textStyle="bold" 
+    		android:text="Служение 22.09.11 в 16:10"/>
+    	<Button android:id="@+id/title_btn_ok"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:background="@drawable/title_btn_ok" />
+    </LinearLayout>
+    
+    <ScrollView 
+	  android:layout_width="match_parent"
+	  android:layout_height="match_parent"	  
+	  android:fadingEdge="none"
+	  android:fillViewport="true"
+	  >    
+	  
+	  	<LinearLayout
+	    	android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical"
+	    	android:background="#eeeeee">
+    
+		    <LinearLayout
+		    	android:layout_width="match_parent"
+		    	android:layout_height="wrap_content"
+		    	android:orientation="vertical"
+		    	android:background="#ffffff"
+		    	android:padding="8dip">
+		    	
+		    	<LinearLayout
+			    	android:layout_width="match_parent"
+			    	android:layout_height="wrap_content"
+			    	android:gravity="center">
+			    	
+			    	<ImageButton android:id="@+id/btn_timer_less" 
+			    		android:layout_width="40dip"
+			    		android:layout_height="40dip"
+			    		android:layout_marginRight="12dip"
+			    		android:src="@drawable/minus_disablable"/>		
+		    	
+			    	<TextView android:id="@+id/lbl_timer_hour"
+			    		android:layout_width="wrap_content"
+			    		android:layout_height="wrap_content"
+			    		android:textSize="80dip"
+			    		android:text="00"/>
+			    	<TextView android:id="@+id/lbl_timer_colon"
+			    		android:layout_width="wrap_content"
+			    		android:layout_height="wrap_content"
+			    		android:textSize="60dip"
+			    		android:text=":"/>
+			    	<TextView android:id="@+id/lbl_timer_minute"
+			    		android:layout_width="wrap_content"
+			    		android:layout_height="wrap_content"
+			    		android:textSize="80dip"
+			    		android:text="00"/>
+			    		
+			    	<ImageButton android:id="@+id/btn_timer_more" 
+			    		android:layout_width="40dip"
+			    		android:layout_height="40dip"
+			    		android:layout_marginLeft="12dip"
+			    		android:src="@drawable/plus_disablable"/>	
+			    				    		
+		    	</LinearLayout>
+		    	
+		    	<TextView
+		    		android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:layout_gravity="center"
+			    	android:textSize="15dip"
+			    	android:textStyle="bold"
+			    	android:text="Описание служения:" />
+			    	
+			    <EditText android:id="@+id/edit_desc"
+			    	android:layout_width="match_parent"
+			    	android:layout_height="wrap_content"
+			    	android:layout_marginTop="2dip"
+			    	android:inputType="textMultiLine"
+			    	android:minLines="1" />
+		    		
+		    </LinearLayout>
+		    
+		    <View 
+		    	android:layout_width="match_parent"
+		    	android:layout_height="1px"
+		    	android:background="#bbbbbb"/>
+		    
+		    <RelativeLayout
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="match_parent"
+		    	
+		    	android:layout_gravity="center">
+		    	
+		   		    	
+		    		
+				<TableLayout 
+		    		android:layout_width="wrap_content"
+		    		android:layout_height="wrap_content"
+		    		android:layout_below="@id/chk_calc_auto"
+		    		android:layout_alignParentLeft="true"
+		    		android:layout_marginTop="15dip">
+		    		
+		    		<TableRow>
+		    		
+		    			<TextView  
+				    		android:layout_width="wrap_content"
+				    		android:layout_height="wrap_content"
+				    		android:layout_gravity="right"
+				    		android:paddingTop="10dip"
+				    		android:textSize="16dip"
+				    		android:textColor="#777"
+				    		android:text="Журналы:"/> 
+				    		
+				    	<LinearLayout
+			    			android:layout_width="wrap_content"
+			    			android:layout_height="wrap_content"
+			    			android:gravity="center_vertical">
+			    			
+			    			<ImageButton android:id="@+id/btn_magazines_less" 
+					    		android:layout_width="40dip"
+					    		android:layout_height="40dip"
+					    		android:layout_marginLeft="8dip"
+					    		android:src="@drawable/minus_disablable"/>					    		
+					    			
+				    		<TextView android:id="@+id/text_magazines" 
+					    		android:layout_width="30dip"
+					    		android:layout_height="wrap_content"
+					    		android:gravity="center"
+					    		android:layout_marginLeft="8dip"
+					    		android:textStyle="bold"
+					    		android:textSize="20dip"
+					    		android:text="0"/>    
+					    		
+					    	<ImageButton android:id="@+id/btn_magazines_more" 
+					    		android:layout_width="40dip"
+					    		android:layout_height="40dip"
+					    		android:layout_marginLeft="8dip"
+					    		android:src="@drawable/plus_disablable"/>	
+			    			
+			    		</LinearLayout>				    	
+		    		
+		    		</TableRow>
+		    		
+		    		<TableRow>
+		    		
+		    			<TextView 
+				    		android:layout_width="100dip"
+				    		android:layout_height="wrap_content"
+				    		android:layout_gravity="right"
+				    		android:paddingTop="10dip"
+				    		android:textSize="16dip"
+				    		android:textColor="#777"
+				    		android:text="Брошюры:"/> 
+				    		
+				    	<LinearLayout
+			    			android:layout_width="wrap_content"
+			    			android:layout_height="wrap_content"
+			    			android:gravity="center_vertical">
+			    			
+			    			<ImageButton android:id="@+id/btn_brochures_less" 
+					    		android:layout_width="40dip"
+					    		android:layout_height="40dip"
+					    		android:layout_marginLeft="8dip"
+					    		android:src="@drawable/minus_disablable"/>					    		
+					    			
+				    		<TextView android:id="@+id/text_brochures" 
+					    		android:layout_width="30dip"
+					    		android:layout_height="wrap_content"
+					    		android:gravity="center"
+					    		android:layout_marginLeft="8dip"
+					    		android:textStyle="bold"
+					    		android:textSize="20dip"
+					    		android:text="0"/>    
+					    		
+					    	<ImageButton android:id="@+id/btn_brochures_more" 
+					    		android:layout_width="40dip"
+					    		android:layout_height="40dip"
+					    		android:layout_marginLeft="8dip"
+					    		android:src="@drawable/plus_disablable"/>	
+			    			
+			    		</LinearLayout>				    	
+		    		
+		    		</TableRow>
+		    		
+		    		<TableRow>
+		    		
+		    			<TextView 
+				    		android:layout_width="wrap_content"
+				    		android:layout_height="wrap_content"
+				    		android:layout_gravity="right"
+				    		android:paddingTop="10dip"
+				    		android:textSize="16dip"
+				    		android:textColor="#777"
+				    		android:text="Книги:"/> 
+				    		
+				    	<LinearLayout
+			    			android:layout_width="wrap_content"
+			    			android:layout_height="wrap_content"
+			    			android:gravity="center_vertical">
+			    			
+			    			<ImageButton android:id="@+id/btn_books_less" 
+					    		android:layout_width="40dip"
+					    		android:layout_height="40dip"
+					    		android:layout_marginLeft="8dip"
+					    		android:src="@drawable/minus_disablable"/>					    		
+					    			
+				    		<TextView android:id="@+id/text_books" 
+					    		android:layout_width="30dip"
+					    		android:layout_height="wrap_content"
+					    		android:gravity="center"
+					    		android:layout_marginLeft="8dip"
+					    		android:textStyle="bold"
+					    		android:textSize="20dip"
+					    		android:text="0"/>    
+					    		
+					    	<ImageButton android:id="@+id/btn_books_more" 
+					    		android:layout_width="40dip"
+					    		android:layout_height="40dip"
+					    		android:layout_marginLeft="8dip"
+					    		android:src="@drawable/plus_disablable"/>	
+			    			
+			    		</LinearLayout>				    	
+		    		
+		    		</TableRow>
+		    		
+		    		
+		    		<TableRow>
+		    		
+		    			<TextView 
+				    		android:layout_width="wrap_content"
+				    		android:layout_height="wrap_content"
+				    		android:layout_gravity="right"
+				    		android:paddingTop="10dip"
+				    		android:textSize="16dip"
+				    		android:textColor="#777"
+				    		android:text="Повторные:"/> 
+				    		
+				    	<LinearLayout
+			    			android:layout_width="wrap_content"
+			    			android:layout_height="wrap_content"
+			    			android:gravity="center_vertical">
+			    			
+			    			<ImageButton android:id="@+id/btn_returns_less" 
+					    		android:layout_width="40dip"
+					    		android:layout_height="40dip"
+					    		android:layout_marginLeft="8dip"
+					    		android:src="@drawable/minus_disablable"/>					    		
+					    			
+				    		<TextView android:id="@+id/text_returns" 
+					    		android:layout_width="30dip"
+					    		android:layout_height="wrap_content"
+					    		android:gravity="center"
+					    		android:layout_marginLeft="8dip"
+					    		android:textStyle="bold"
+					    		android:textSize="20dip"
+					    		android:text="0"/>    
+					    		
+					    	<ImageButton android:id="@+id/btn_returns_more" 
+					    		android:layout_width="40dip"
+					    		android:layout_height="40dip"
+					    		android:layout_marginLeft="8dip"
+					    		android:src="@drawable/plus_disablable"/>	
+			    			
+			    		</LinearLayout>				    	
+		    		
+		    		</TableRow>
+		    	
+		    	</TableLayout>
+		    	
+		    </RelativeLayout>
+		    
+		</LinearLayout>
+    
+  </ScrollView>
+
+
+    
+</LinearLayout>
