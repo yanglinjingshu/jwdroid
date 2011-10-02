@@ -4,8 +4,8 @@
   	xmlns:app="http://schemas.android.com/apk/res/com.jwdroid">
 <LinearLayout
   android:orientation="vertical"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
   android:padding="10dip">
   
   <TextView
@@ -16,8 +16,8 @@
   	android:textColor="#ffffff"/>
   
   <TableLayout
-  	android:layout_width="match_parent"
-  	android:layout_height="match_parent">  
+  	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent">  
   
   	<TableRow android:id="@+id/dlg_color_row_1">
   	
@@ -109,8 +109,8 @@
   	android:textColor="#ffffff"/>
   	
   <TableLayout
-  	android:layout_width="match_parent"
-  	android:layout_height="match_parent">  
+  	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent">  
   
   	<TableRow android:id="@+id/dlg_color_row_3">
   	

@@ -63,9 +63,9 @@ public class ReportList extends Activity {
 	    Long firstDateSessions = Util.dbFetchLong(db, "SELECT MIN(strftime('%s',date)) FROM session", new String[] {});
 	    Time minDate = new Time();
 	    minDate.setToNow();
-	    if(firstDateVisits != null)
+	    if(firstDateVisits != null && firstDateVisits > 0)
 	    	minDate.set(firstDateVisits*1000);
-	    if(firstDateSessions != null && firstDateSessions*1000 < minDate.toMillis(true))
+	    if(firstDateSessions != null && firstDateSessions > 0 && firstDateSessions*1000 < minDate.toMillis(true))
 	    	minDate.set(firstDateSessions*1000);
 	    
 	    Time now = new Time();
@@ -125,6 +125,11 @@ public class ReportList extends Activity {
 			intent.putExtra(Intent.EXTRA_SUBJECT,"JW Droid");
 			startActivity(Intent.createChooser(intent, null));
 			break;
+			
+	    case R.id.menu_help:
+	    	intent = new Intent(this, Help.class);
+	    	startActivity(intent);
+	    	break;
 	    }
 	    
 	    return false;

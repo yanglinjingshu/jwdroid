@@ -40,6 +40,8 @@ public class Chrono extends Activity {
 	private Timer mTimer = null;
 	private boolean mShowColon = false;
 	
+	private Long mDialogItemId;
+	
 	private AppDbOpenHelper mDbOpenHelper = new AppDbOpenHelper(this);
 	
 	private ServiceConnection mConnection = new ServiceConnection() {
@@ -257,13 +259,18 @@ public class Chrono extends Activity {
 			intent.putExtra(Intent.EXTRA_SUBJECT,"JW Droid");
 			startActivity(Intent.createChooser(intent, null));
 			break;
+			
+		case R.id.menu_help:
+	    	intent = new Intent(this, Help.class);
+	    	startActivity(intent);
+	    	break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 	
 	
 	 @Override
-	    protected Dialog onCreateDialog(int id, Bundle args) {    	
+	    protected Dialog onCreateDialog(int id) {    	
 	    	Dialog dialog=null;
 	    	AlertDialog.Builder builder;
 			LayoutInflater factory = LayoutInflater.from(this);

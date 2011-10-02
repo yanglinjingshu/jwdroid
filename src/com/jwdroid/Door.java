@@ -85,6 +85,8 @@ public class Door extends FragmentActivity {
 	private Long mTerritoryId, mDoorId;
 	private Long mViewPersonId;
 	
+	private Long mDialogItemId;
+	
 	private HorizontalPanelsView mPanelsView;
 	
 	private HashMap<Long,Integer> mPersonIndexes;
@@ -231,6 +233,11 @@ public class Door extends FragmentActivity {
 			intent.putExtra(Intent.EXTRA_SUBJECT,"JW Droid");
 			startActivity(Intent.createChooser(intent, null));
 			break;
+			
+	    case R.id.menu_help:
+	    	intent = new Intent(this, Help.class);
+	    	startActivity(intent);
+	    	break;
 	    }
 	    
 	    return false;
@@ -238,7 +245,7 @@ public class Door extends FragmentActivity {
     
     
     @Override
-    protected Dialog onCreateDialog(int id, Bundle args) {    	
+    protected Dialog onCreateDialog(int id) {    	
     	Dialog dialog=null;
     	AlertDialog.Builder builder;
 		LayoutInflater factory = LayoutInflater.from(this);
@@ -335,8 +342,8 @@ public class Door extends FragmentActivity {
     }
     
     @Override
-    protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {    
-    	super.onPrepareDialog(id, dialog, args);
+    protected void onPrepareDialog(int id, Dialog dialog) {    
+    	super.onPrepareDialog(id, dialog);
     	
     	switch(id) {
     	case DIALOG_EDIT_PERSON:
@@ -349,14 +356,12 @@ public class Door extends FragmentActivity {
     		}
     		break;
     		
-    	case DIALOG_DELETE:    	
-	    	final long visitId = args.getLong("visitId");
-	    	
+    	case DIALOG_DELETE:    		    	
 	    	AlertDialog alertDialog = (AlertDialog)dialog;
 	    	alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {					
 					public void onClick(DialogInterface dialog, int which) {
 						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
-				  		db.execSQL("DELETE FROM `visit` WHERE rowid=?", new Long[] { visitId });
+				  		db.execSQL("DELETE FROM `visit` WHERE rowid=?", new Long[] { mDialogItemId });
 				  		updateVisits(Door.this, mDoorId);
 				  		Toast.makeText(Door.this, "Посещение удалено", Toast.LENGTH_SHORT).show();			  		
 				  		updateContent();
@@ -408,9 +413,8 @@ public class Door extends FragmentActivity {
 		switch(item.getItemId()) {
 		  	
 	  	case MENU_DELETE:
-	  		Bundle args = new Bundle();
-	  		args.putLong("visitId", info.id);
-	  		showDialog(DIALOG_DELETE, args);
+	  		mDialogItemId = info.id;
+	  		showDialog(DIALOG_DELETE);
 	  		break;	
 		}
 		
@@ -461,7 +465,7 @@ public class Door extends FragmentActivity {
 	    	mPanelsView.addViewGroup(curPerson); 
 	    	
 	    	LinearLayout personNameLayout = new LinearLayout(this);
-	    	personNameLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));	    	
+	    	personNameLayout.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));	    	
 	    	personNameLayout.setPadding((int)(10*density), (int)(5*density), (int)(10*density), (int)(5*density));
 	    	personNameLayout.setBackgroundDrawable( new GradientDrawable(Orientation.TOP_BOTTOM, new int[] {0xFFFFFFFF, 0xFFDDDDDD}));
 	    	personNameLayout.setGravity(Gravity.CENTER);
@@ -544,7 +548,7 @@ public class Door extends FragmentActivity {
     		personNameLayout.addView(arrowRight);    	
 	    	
 	    	View v = new View(this);
-	    	v.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 1));	    	
+	    	v.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, 1));	    	
 	    	v.setBackgroundColor(0xFF999999);
 	    	curPerson.addView(v);
 	    	
@@ -576,9 +580,8 @@ public class Door extends FragmentActivity {
 				public void onItemClick(int pos) {
 					switch(pos) {
 					case 0:	// Удалить						
-						Bundle args = new Bundle();
-				  		args.putLong("visitId", listActions.getId());
-				  		showDialog(DIALOG_DELETE, args);
+						mDialogItemId = listActions.getId();
+				  		showDialog(DIALOG_DELETE);
 						break;						
 					}					
 				}
@@ -604,7 +607,7 @@ public class Door extends FragmentActivity {
 			});
 	    	
 	    	v = new View(this);
-	    	v.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, (int)(10*density)));	    	
+	    	v.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, (int)(10*density)));	    	
 	    	v.setBackgroundDrawable( new GradientDrawable(Orientation.TOP_BOTTOM, new int[] {0xFFCCCCCC, 0xFFEEEEEE}) );
 	    	curPerson.addView(v);
 	    	

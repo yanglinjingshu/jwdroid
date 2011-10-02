@@ -3,7 +3,7 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
 	<com.jwdroid.HistogramView android:id="@+id/territory_list_item_histogram"
-		android:layout_width="match_parent"
+		android:layout_width="fill_parent"
 		android:layout_height="50dip"
 		android:layout_x="0dip"
 		android:layout_y="0dip"/>
