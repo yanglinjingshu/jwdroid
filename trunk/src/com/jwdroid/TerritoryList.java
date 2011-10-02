@@ -66,6 +66,8 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
 	private long mTerritoryForDelete;
 	private ListView mListView;
 	
+	private Long mDialogItemId;
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,9 +114,8 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
 				Cursor rs;
 				switch(pos) {
 				case 0:	// Название						
-					args = new Bundle();
-			  		args.putLong("territory", listActions.getId());
-			  		showDialog(DIALOG_CHANGE_NAME, args);
+					mDialogItemId = listActions.getId();
+			  		showDialog(DIALOG_CHANGE_NAME);
 					break;
 				case 1: // Информация
 					Intent intent = new Intent(TerritoryList.this, TerritoryInfo.class);
@@ -173,6 +174,11 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
 			intent.putExtra(Intent.EXTRA_SUBJECT,"JW Droid");
 			startActivity(Intent.createChooser(intent, null));
 			break;
+			
+	    case R.id.menu_help:
+	    	intent = new Intent(this, Help.class);
+	    	startActivity(intent);
+	    	break;
 	    }
 	    
 	    return false;
@@ -201,7 +207,7 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
     }
     
     @Override
-    protected Dialog onCreateDialog(int id, Bundle args) {    	
+    protected Dialog onCreateDialog(int id) {    	
     	Dialog dialog=null;
     	LayoutInflater factory = LayoutInflater.from(this);
     	SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
@@ -272,13 +278,11 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
     		break;
     		
     	case DIALOG_CHANGE_NAME:
-    		
-    		final Long territoryId = args.getLong("territory");
-    		
+    		    		
     		((TextView)dlgEditLayout.findViewById(R.id.lbl_dlgedit_note)).setText(R.string.dlg_territory_add_note);
             ((TextView)dlgEditLayout.findViewById(R.id.lbl_dlgedit_note)).setVisibility(View.VISIBLE);
             
-            String name = Util.dbFetchString(db, "SELECT name FROM territory WHERE ROWID=?", new String[] {territoryId.toString()});
+            String name = Util.dbFetchString(db, "SELECT name FROM territory WHERE ROWID=?", new String[] {mDialogItemId.toString()});
             ((EditText)dlgEditLayout.findViewById(R.id.edit_dlgedit_text)).setText(name);
     		dialog = new AlertDialog.Builder(this)
     					.setTitle("Название:")
@@ -302,9 +306,9 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
 								
 								
 								SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
-								db.execSQL("UPDATE territory SET name=? WHERE ROWID=?", new Object[] { editable.toString(), territoryId });
+								db.execSQL("UPDATE territory SET name=? WHERE ROWID=?", new Object[] { editable.toString(), mDialogItemId });
 								
-								mListAdapter.getItemById(territoryId).name = editable.toString();
+								mListAdapter.getItemById(mDialogItemId).name = editable.toString();
 								mListAdapter.notifyDataSetChanged();
 														
 						}

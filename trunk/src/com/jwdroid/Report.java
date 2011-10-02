@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
@@ -46,6 +47,8 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 	
 	private String mMonth;
 	
+	private Long mDialogItemId;
+	
 	public static final String[] MONTHS = {"Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"}; 
 	
     @Override
@@ -53,12 +56,14 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report);
         
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 	    prefs.registerOnSharedPreferenceChangeListener(this);
         
         mMonth = getIntent().getExtras().getString("month");
+        
+        final String monthName = MONTHS[Integer.parseInt(mMonth.substring(4,6))-1] + " " + mMonth.substring(0,4);
 
-        ((TextView)findViewById(R.id.title)).setText("Отчет за " + MONTHS[Integer.parseInt(mMonth.substring(4,6))-1] + " " + mMonth.substring(0,4));
+        ((TextView)findViewById(R.id.title)).setText("Отчет за " + monthName);
         
               
         // Set up territory list
@@ -113,13 +118,99 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 				Cursor rs;
 				switch(pos) {
 				case 0:	// Название						
-					args = new Bundle();
-			  		args.putLong("session", listActions.getId());
-			  		showDialog(DIALOG_DELETE, args);
+					mDialogItemId = listActions.getId();
+			  		showDialog(DIALOG_DELETE);
 				}
 			}
 		});
+		
+		
+		final QuickAction sendTypeActions 	= new QuickAction(this);
+		sendTypeActions.addActionItem(new ActionItem("SMS", getResources().getDrawable(R.drawable.ac_spechbubble_sq_line)));
+		sendTypeActions.addActionItem(new ActionItem("E-mail", getResources().getDrawable(R.drawable.ac_mail)));
+		sendTypeActions.animateTrack(false);		    	
+	
+		sendTypeActions.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {				
+			@Override
+			public void onItemClick(int pos) {
+				Bundle args;
+				SQLiteDatabase db;
+				Cursor rs;
+				SummaryInfo data = getSummaryInfo();
+				String text = monthName+"\n\n"+
+								"Книги: "+data.books+"\n" +
+								"Брошюры: "+data.brochures+"\n" +
+								"Часы: "+(data.minutes/60)+"\n" +
+								"Журналы: "+data.magazines+"\n" +
+								"Повторные: "+data.returns+"\n" +
+								"Изучения: "+data.studies;								
+								
+				switch(pos) {
+				case 0:	// SMS						
+					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("tel"));
+					intent.setType("vnd.android-dir/mms-sms");
+					intent.putExtra("sms_body", "Отчет\n\n"+text);
+					startActivity(intent);
+					break;
+				case 1: // E-mail
+					intent = new Intent(Intent.ACTION_SEND);
+					intent.setType("message/rfc822");
+					intent.putExtra(Intent.EXTRA_SUBJECT,"Отчет о проповедническом служении");
+					intent.putExtra(Intent.EXTRA_TEXT, text);
+					startActivity(Intent.createChooser(intent, null));
+					break;
+				}
+			}
+		});
+		
 	    
+		
+		findViewById(R.id.title_btn_send).setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				sendTypeActions.show(v);
+				
+			}
+		});
+		
+		
+		
+		
+		
+		
+		final QuickAction summaryTypeActions 	= new QuickAction(this);
+		summaryTypeActions.addActionItem(new ActionItem("По списку служений", getResources().getDrawable(R.drawable.ac_list_bullets)));
+		summaryTypeActions.addActionItem(new ActionItem("По посещениям", getResources().getDrawable(R.drawable.ac_users)));
+		summaryTypeActions.animateTrack(false);		    	
+	
+		summaryTypeActions.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {				
+			@Override
+			public void onItemClick(int pos) {
+				Bundle args;
+				SQLiteDatabase db;
+				Cursor rs;
+				SharedPreferences.Editor editor;
+				switch(pos) {
+				case 0:	// По списку служений						
+					editor = prefs.edit();
+					editor.putString("report_calc_type", "1");
+					editor.commit();
+					break;
+				case 1:
+					editor = prefs.edit();
+					editor.putString("report_calc_type", "2");
+					editor.commit();
+					break;
+				}
+			}
+		});
+		
+		findViewById(R.id.btn_summary_type).setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				summaryTypeActions.show(v);
+			}
+		});
 	    
 	    calcSummary();
 	    
@@ -146,6 +237,11 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 			intent.putExtra(Intent.EXTRA_SUBJECT,"JW Droid");
 			startActivity(Intent.createChooser(intent, null));
 			break;
+			
+	    case R.id.menu_help:
+	    	intent = new Intent(this, Help.class);
+	    	startActivity(intent);
+	    	break;
 	    }
 	    
 	    return false;
@@ -187,60 +283,74 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 		getSupportLoaderManager().getLoader(0).forceLoad();
 	}
 	
-	private void calcSummary() {
+	private class SummaryInfo {
+		int magazines,brochures,books,returns,studies,minutes;
+	}
+	
+	private SummaryInfo getSummaryInfo() {
+		
+		SummaryInfo data = new SummaryInfo();
+		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 	    int calcType = Integer.parseInt(prefs.getString("report_calc_type", "1"));
 	    
 	    SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
-	    int returns,magazines,brochures,books;
+	    
 	    if(calcType == 1) { // По хронометру
 	    	Cursor rs = db.rawQuery("SELECT SUM(magazines),SUM(brochures),SUM(books),SUM(returns) FROM session WHERE strftime('%Y%m',date)=?", new String[]{mMonth});
 	    	rs.moveToFirst();
-	    	magazines = rs.getInt(0);
-	    	brochures = rs.getInt(1);
-	    	books = rs.getInt(2);
-	    	returns = rs.getInt(3);
+	    	data.magazines = rs.getInt(0);
+	    	data.brochures = rs.getInt(1);
+	    	data.books = rs.getInt(2);
+	    	data.returns = rs.getInt(3);
 	    	rs.close();
     	}
 	    else {			  // По посещениям
 	    	Cursor rs = db.rawQuery("SELECT SUM(magazines),SUM(brochures),SUM(books) FROM visit WHERE strftime('%Y%m',date)=?", new String[]{mMonth});
 	    	rs.moveToFirst();
-	    	magazines = rs.getInt(0);
-	    	brochures = rs.getInt(1);
-	    	books = rs.getInt(2);
+	    	data.magazines = rs.getInt(0);
+	    	data.brochures = rs.getInt(1);
+	    	data.books = rs.getInt(2);
 	    	rs.close();
-	    	returns = Util.dbFetchInt(db, "SELECT COUNT(*) FROM visit WHERE type>0 AND strftime('%Y%m',date)=?", new String[]{mMonth});
+	    	data.returns = Util.dbFetchInt(db, "SELECT COUNT(*) FROM visit WHERE type>0 AND strftime('%Y%m',date)=?", new String[]{mMonth});
 	    }
-	    int studies = Util.dbFetchInt(db, "SELECT COUNT(DISTINCT person_id) FROM visit WHERE type=2 AND strftime('%Y%m',date)=?", new String[]{mMonth});
-	    int minutes = Util.dbFetchInt(db, "SELECT SUM(minutes) FROM session WHERE strftime('%Y%m',date)=?", new String[]{mMonth});
-	    
+	    data.studies = Util.dbFetchInt(db, "SELECT COUNT(DISTINCT person_id) FROM visit WHERE type=2 AND strftime('%Y%m',date)=?", new String[]{mMonth});
+	    data.minutes = Util.dbFetchInt(db, "SELECT SUM(minutes) FROM session WHERE strftime('%Y%m',date)=?", new String[]{mMonth});
+	   
+	    return data;
+	}
+	
+	private void calcSummary() {
+		SummaryInfo data = getSummaryInfo();
+		
 	    String info = "";
-        if(magazines>0)
-        	info += magazines+" "+Util.pluralForm(magazines, "журнал", "журнала", "журналов");
-        if(brochures>0) {
+        if(data.magazines>0)
+        	info += data.magazines+" "+Util.pluralForm(data.magazines, "журнал", "журнала", "журналов");
+        if(data.brochures>0) {
         	if(info.length()>0)
         		info += ", ";
-        	info += brochures+" "+Util.pluralForm(brochures, "брошюра", "брошюры", "брошюр");
+        	info += data.brochures+" "+Util.pluralForm(data.brochures, "брошюра", "брошюры", "брошюр");
         }
-        if(books>0) {
+        if(data.books>0) {
         	if(info.length()>0)
         		info += ", ";
-        	info += books+" "+Util.pluralForm(books, "книга", "книги", "книг");
+        	info += data.books+" "+Util.pluralForm(data.books, "книга", "книги", "книг");
         }
-        if(returns>0) {
+        if(data.returns>0) {
         	if(info.length()>0)
         		info += ", ";
-        	info += returns+" "+Util.pluralForm(returns, "повторное", "повторных", "повторных");
+        	info += data.returns+" "+Util.pluralForm(data.returns, "повторное", "повторных", "повторных");
         }
-        if(studies>0) {
+        if(data.studies>0) {
         	if(info.length()>0)
         		info += ", ";
-        	info += studies+" "+Util.pluralForm(studies, "изучение", "изучения", "изучений");
+        	info += data.studies+" "+Util.pluralForm(data.studies, "изучение", "изучения", "изучений");
         }
-        
+        if(info.length() == 0)
+        	info = "Нет данных";
         ((TextView)findViewById(R.id.summary_info)).setText(info);
         
-        ((TextView)findViewById(R.id.summary_minutes)).setText(String.format("%d:%02d", minutes/60, minutes%60));
+        ((TextView)findViewById(R.id.summary_minutes)).setText(String.format("%d:%02d", data.minutes/60, data.minutes%60));
 	}
 	
 	@Override
@@ -252,7 +362,7 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 	
 	
     @Override
-    protected Dialog onCreateDialog(int id, final Bundle args) {    	
+    protected Dialog onCreateDialog(int id) {    	
     	Dialog dialog=null;
     	LayoutInflater factory = LayoutInflater.from(this);
     	final View dlgEditLayout = factory.inflate(R.layout.dlg_edit, null);
@@ -273,18 +383,16 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
     }
     
     @Override
-    protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {    	
-    	super.onPrepareDialog(id, dialog, args);
+    protected void onPrepareDialog(int id, Dialog dialog) {    	
+    	super.onPrepareDialog(id, dialog);
     	
     	switch(id) {	    	
-	    	case DIALOG_DELETE: {
-	    		final long sessionId = args.getLong("session");
-		    	
+	    	case DIALOG_DELETE: {		    	
 		    	AlertDialog alertDialog = (AlertDialog)dialog;
 		    	alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {					
 						public void onClick(DialogInterface dialog, int which) {
 							SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
-							db.execSQL("DELETE FROM `session` WHERE rowid=?", new Long[] { sessionId });					  		
+							db.execSQL("DELETE FROM `session` WHERE rowid=?", new Long[] { mDialogItemId });					  		
 					  		Toast.makeText(Report.this, "Удалено", Toast.LENGTH_SHORT).show();			  		
 					  		getSupportLoaderManager().getLoader(0).forceLoad();
 					  		calcSummary();

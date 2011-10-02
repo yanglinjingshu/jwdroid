@@ -74,13 +74,13 @@
   <PreferenceCategory 
   	android:title="Подсчет литературы">
   	
-  		<ListPreference
+  		<!--  <ListPreference
 	  		android:key="report_calc_type"
 	  		android:title="Способ подсчета статистики"
 	  		android:summary="Способ подсчета суммарного количества литературы при составлении отчета: по данным хронометра или непосредственно по посещениям за период"
 	  		android:defaultValue="1"
 	  		android:entries="@array/entries_report_calc_type_preference"
-	  		android:entryValues="@array/entryvalues_report_calc_type_preference" />
+	  		android:entryValues="@array/entryvalues_report_calc_type_preference" /> -->
   	
   		<PreferenceScreen
 	  		android:title="Назначить шаблоны"

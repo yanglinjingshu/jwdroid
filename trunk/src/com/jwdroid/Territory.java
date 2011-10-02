@@ -96,8 +96,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	private static final int ARRANGE_DIR_UP = 1;
 	private static final int ARRANGE_DIR_DOWN = 2;
 	private static final int ARRANGE_DIR_RIGHT = 3;
-	private static final int ARRANGE_DIR_LEFT = 4;
-	
+	private static final int ARRANGE_DIR_LEFT = 4;	
 	
 	private Cursor mListCursor;	
 	private AppDbOpenHelper mDbOpenHelper = new AppDbOpenHelper(this);
@@ -109,6 +108,8 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	private int mDisplayMode = DISPLAY_LIST;
 	
 	private ColorPicker mColorPicker;
+	
+	private Long mDialogItemId;
 	
 		/** Called when the activity is first created. */
 	@Override
@@ -266,6 +267,11 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 			intent.putExtra(Intent.EXTRA_SUBJECT,"JW Droid");
 			startActivity(Intent.createChooser(intent, null));
 			break;
+			
+	    case R.id.menu_help:
+	    	intent = new Intent(this, Help.class);
+	    	startActivity(intent);
+	    	break;
 	    }
 	    
 	    return false;
@@ -273,7 +279,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
     
     
     @Override
-    protected Dialog onCreateDialog(int id, final Bundle args) {    	
+    protected Dialog onCreateDialog(int id) {    	
     	Dialog dialog=null;
     	LayoutInflater factory = LayoutInflater.from(this);
     	final View dlgEditLayout = factory.inflate(R.layout.dlg_edit, null);
@@ -381,8 +387,8 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
     
     
     @Override
-    protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {    	
-    	super.onPrepareDialog(id, dialog, args);
+    protected void onPrepareDialog(int id, Dialog dialog) {    	
+    	super.onPrepareDialog(id, dialog);
     	
     	switch(id) {
 	    	case DIALOG_ADD_SINGLE: {
@@ -487,16 +493,14 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	    	}
 	    	
 	    	
-	    	case DIALOG_DELETE: {
-	    		final long doorId = args.getLong("door");
-		    	
+	    	case DIALOG_DELETE: {		    	
 		    	AlertDialog alertDialog = (AlertDialog)dialog;
 		    	alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {					
 						public void onClick(DialogInterface dialog, int which) {
 							SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
-							db.execSQL("DELETE FROM `door` WHERE rowid=?", new Long[] { doorId });
-					  		db.execSQL("DELETE FROM `person` WHERE door_id=?", new Long[] { doorId });
-					  		db.execSQL("DELETE FROM `visit` WHERE door_id=?", new Long[] { doorId });					  		
+							db.execSQL("DELETE FROM `door` WHERE rowid=?", new Long[] { mDialogItemId });
+					  		db.execSQL("DELETE FROM `person` WHERE door_id=?", new Long[] { mDialogItemId });
+					  		db.execSQL("DELETE FROM `visit` WHERE door_id=?", new Long[] { mDialogItemId });					  		
 					  		Toast.makeText(Territory.this, "Объект удален", Toast.LENGTH_SHORT).show();			  		
 					  		getSupportLoaderManager().getLoader(0).forceLoad();
 						}
@@ -505,9 +509,8 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	    	}
 	    	case DIALOG_CHANGE_NAME: {
 	    		final AlertDialog editDialog = (AlertDialog)dialog;
-	    		final Long doorId = args.getLong("door");
 	    		SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();	
-	    		Cursor rs = db.rawQuery("SELECT name FROM door WHERE ROWID=?", new String[] {doorId.toString()});
+	    		Cursor rs = db.rawQuery("SELECT name FROM door WHERE ROWID=?", new String[] {mDialogItemId.toString()});
 	    		rs.moveToNext();
 	    		((EditText)editDialog.findViewById(R.id.edit_dlgedit_text)).setText(rs.getString(0));
 	    		editDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {
@@ -516,17 +519,17 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 					public void onClick(DialogInterface dialog, int which) {
 						String newName = ((EditText)editDialog.findViewById(R.id.edit_dlgedit_text)).getText().toString();
 						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
-						db.execSQL("UPDATE `door` SET name=? WHERE ROWID=?", new Object[] { newName, doorId });
+						db.execSQL("UPDATE `door` SET name=? WHERE ROWID=?", new Object[] { newName, mDialogItemId });
 						
 						if(mDisplayMode == DISPLAY_LIST) {
 							ListView list = (ListView)mPanelsView.getActiveViewGroup().findViewById(ID_PANEL_LISTVIEW);
 							TerritoryAdapter adapter = (TerritoryAdapter)list.getAdapter();
-							((DoorItem)adapter.getItem(adapter.getPositionById(doorId))).name = newName;
+							((DoorItem)adapter.getItem(adapter.getPositionById(mDialogItemId))).name = newName;
 							adapter.notifyDataSetChanged();					
 						}
 						if(mDisplayMode == DISPLAY_TABLE) {
 							TableLayout table = (TableLayout)mPanelsView.getActiveViewGroup().findViewById(ID_PANEL_TABLE);
-							TriangleButton btn = (TriangleButton)table.findViewWithTag(doorId);							
+							TriangleButton btn = (TriangleButton)table.findViewWithTag(mDialogItemId);							
 							btn.setText(newName);							
 						}
 						
@@ -536,11 +539,9 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	    		break;
 	    	}
     		
-	    	case DIALOG_COLOR: {
-	    		final Long doorId = args.getLong("door");
-	    		
+	    	case DIALOG_COLOR: {	    		
 	    		SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();	
-	    		Cursor rs = db.rawQuery("SELECT name,color1,color2 FROM door WHERE ROWID=?", new String[] {doorId.toString()});
+	    		Cursor rs = db.rawQuery("SELECT name,color1,color2 FROM door WHERE ROWID=?", new String[] {mDialogItemId.toString()});
 	    	    rs.moveToFirst();
 	    	    String name = rs.getString(0);
 	    	    Integer color1 = rs.getInt(1);
@@ -553,19 +554,19 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	    			@Override
 	    			public void onOk(int newColor1, int newColor2) {
 	    				SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
-						db.execSQL("UPDATE `door` SET color1=?,color2=?,manual_color=1 WHERE ROWID=?", new Object[] { new Integer(newColor1), new Integer(newColor2), doorId });
+						db.execSQL("UPDATE `door` SET color1=?,color2=?,manual_color=1 WHERE ROWID=?", new Object[] { new Integer(newColor1), new Integer(newColor2), mDialogItemId });
 						
 						if(mDisplayMode == DISPLAY_LIST) {
 							ListView list = (ListView)mPanelsView.getActiveViewGroup().findViewById(ID_PANEL_LISTVIEW);
 							TerritoryAdapter adapter = (TerritoryAdapter)list.getAdapter();
-							int pos = adapter.getPositionById(doorId);
+							int pos = adapter.getPositionById(mDialogItemId);
 							((DoorItem)adapter.getItem(pos)).color1 = newColor1;
 							((DoorItem)adapter.getItem(pos)).color2 = newColor2;
 							adapter.notifyDataSetChanged();						
 						}
 						if(mDisplayMode == DISPLAY_TABLE) {
 							TableLayout table = (TableLayout)mPanelsView.getActiveViewGroup().findViewById(ID_PANEL_TABLE);
-							TriangleButton btn = (TriangleButton)table.findViewWithTag(doorId);							
+							TriangleButton btn = (TriangleButton)table.findViewWithTag(mDialogItemId);							
 							btn.setBackgroundResource(Door.DRAWABLES[newColor1]);
 							if(newColor1 == newColor2)
 								btn.setColor(0);
@@ -641,10 +642,9 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	    	
 	    	case DIALOG_SET_POSITION: {
 	    		final AlertDialog alertDialog = (AlertDialog)dialog;
-	    		final Long doorId = args.getLong("door");
 	    		
 	    		final SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();						
-				Cursor rs = db.rawQuery("SELECT row,col FROM door WHERE ROWID=?", new String[] {doorId.toString()});
+				Cursor rs = db.rawQuery("SELECT row,col FROM door WHERE ROWID=?", new String[] {mDialogItemId.toString()});
 				rs.moveToFirst();
 				final int row = rs.getInt(0);
 				final int col = rs.getInt(1);
@@ -667,7 +667,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 							if(rs.moveToFirst())
 								db.execSQL("UPDATE door SET row=?,col=? WHERE ROWID=?", new Object[] {row,col,rs.getLong(0)});				
 							rs.close();
-							db.execSQL("UPDATE door SET row=?,col=? WHERE ROWID=?", new Object[] {newRow,newCol,doorId});
+							db.execSQL("UPDATE door SET row=?,col=? WHERE ROWID=?", new Object[] {newRow,newCol,mDialogItemId});
 							
 							getSupportLoaderManager().getLoader(0).forceLoad();
 						}
@@ -755,9 +755,8 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 				break;
 				
 			case R.id.menu_set_position:
-				Bundle args = new Bundle();
-				args.putLong("door", id);
-				showDialog(DIALOG_SET_POSITION, args);
+				mDialogItemId = id;
+				showDialog(DIALOG_SET_POSITION);
 				break;
 			}			
 			
@@ -860,14 +859,12 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 							Cursor rs;
 							switch(pos) {
 							case 0:	// Заголовок						
-								args = new Bundle();
-						  		args.putLong("door", listActions.getId());
-						  		showDialog(DIALOG_CHANGE_NAME, args);
+								mDialogItemId = listActions.getId();
+						  		showDialog(DIALOG_CHANGE_NAME);
 								break;		
 							case 1:	// Цвет						
-								args = new Bundle();
-						  		args.putLong("door", listActions.getId());
-						  		showDialog(DIALOG_COLOR, args);
+								mDialogItemId = listActions.getId();
+						  		showDialog(DIALOG_COLOR);
 								break;	
 							case 2: // Выше			
 								long id = listActions.getId();
@@ -905,16 +902,15 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 								rs.close();
 								break;
 							case 4:	// Удалить						
-								args = new Bundle();
-						  		args.putLong("door", listActions.getId());
-						  		showDialog(DIALOG_DELETE, args);
+								mDialogItemId = listActions.getId();
+						  		showDialog(DIALOG_DELETE);
 								break;	
 							}
 						}
 					});
 			    	
 			    	View v = new View(this);
-			    	v.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 1));	    	
+			    	v.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, 1));	    	
 			    	v.setBackgroundColor(0xFFCCCCCC);
 			    	curGroup.addView(v);
 			    	
@@ -936,10 +932,10 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 		    	
 		    	else if(mDisplayMode == DISPLAY_TABLE) {
 		    		ScrollView scroll = new ScrollView(this);
-		    		curGroup.addView(scroll, new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		    		curGroup.addView(scroll, new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		    		
 		    		LinearLayout cont = new LinearLayout(this);
-		    		scroll.addView(cont, new ScrollView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		    		scroll.addView(cont, new ScrollView.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		    		cont.setGravity(Gravity.CENTER_HORIZONTAL);
 		    		
 		    		TableLayout table = new TableLayout(this);
@@ -992,7 +988,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 				
 				for(int row = rowsFrom; row<=rowsTo; row++) {
 					TableRow rowView = new TableRow(this);
-					rowView.setLayoutParams(new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+					rowView.setLayoutParams(new TableLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 					table.addView(rowView);
 										
 					for(int col = colsFrom; col<=colsTo; col++) {
@@ -1053,14 +1049,12 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 								Bundle args;
 								switch(pos) {
 								case 0:	// Заголовок						
-									args = new Bundle();
-							  		args.putLong("door", listActions.getId());
-							  		showDialog(DIALOG_CHANGE_NAME, args);
+									mDialogItemId = listActions.getId();
+							  		showDialog(DIALOG_CHANGE_NAME);
 									break;		
 								case 1:	// Цвет						
-									args = new Bundle();
-							  		args.putLong("door", listActions.getId());
-							  		showDialog(DIALOG_COLOR, args);
+									mDialogItemId = listActions.getId();
+							  		showDialog(DIALOG_COLOR);
 									break;	
 								case 2:	// Переместить
 									registerForContextMenu(listActions.getView());
@@ -1068,9 +1062,8 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 									unregisterForContextMenu(listActions.getView());
 									break;
 								case 3:	// Удалить						
-									args = new Bundle();
-							  		args.putLong("door", listActions.getId());
-							  		showDialog(DIALOG_DELETE, args);
+									mDialogItemId = listActions.getId();
+							  		showDialog(DIALOG_DELETE);
 									break;	
 								}
 							}
