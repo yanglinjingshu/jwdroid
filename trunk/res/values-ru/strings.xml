@@ -150,7 +150,7 @@
 
 <string name="title_report">Отчет за %s</string>
 <string name="action_calc_type_sessions">По списку служений</string>
-<string name="action_calc_type_visits"></string>
+<string name="action_calc_type_visits">По посещениям</string>
 <string name="lbl_report_no_data">Нет данных</string>
 <string name="msg_delete_session">Вы действительно хотите удалить это служение?</string>
 <string name="msg_session_deleted">Служение удалено</string>
