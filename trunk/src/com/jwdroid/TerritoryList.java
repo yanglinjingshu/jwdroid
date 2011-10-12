@@ -7,7 +7,9 @@ import java.io.FilePermission;
 import java.io.OutputStream;
 import java.security.PermissionCollection;
 import java.security.acl.Permission;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import net.londatiga.android.ActionItem;
@@ -91,9 +93,9 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
 	    mListView.setAdapter(mListAdapter);   
 	    
 	    final QuickAction listActions 	= new QuickAction(this);
-		listActions.addActionItem(new ActionItem("Название", getResources().getDrawable(R.drawable.ac_pencil)));		
-		listActions.addActionItem(new ActionItem("Информация", getResources().getDrawable(R.drawable.ac_info)));
-		listActions.addActionItem(new ActionItem("Удалить", getResources().getDrawable(R.drawable.ac_trash)));
+		listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_territory_change_name), getResources().getDrawable(R.drawable.ac_pencil)));		
+		listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_territory_info), getResources().getDrawable(R.drawable.ac_info)));
+		listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_territory_delete), getResources().getDrawable(R.drawable.ac_trash)));
 		listActions.animateTrack(false);
 		listActions.setAnimStyle(QuickAction.ANIM_MOVE_FROM_RIGHT);			
     	
@@ -156,7 +158,7 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
     
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.territory_list, menu);
+		getMenuInflater().inflate(R.menu.main_menu, menu);
 		return true;
 	}
     
@@ -245,7 +247,7 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
     		dialog = new AlertDialog.Builder(this)
     					.setTitle(R.string.dlg_territory_add_label)
     					.setView(dlgEditLayout)
-    					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    					.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
 							
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
@@ -273,7 +275,7 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
 														
 						}
 					})
-					.setNegativeButton("Отмена", null).create();
+					.setNegativeButton(R.string.btn_cancel, null).create();
 					
     		break;
     		
@@ -281,13 +283,11 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
     		    		
     		((TextView)dlgEditLayout.findViewById(R.id.lbl_dlgedit_note)).setText(R.string.dlg_territory_add_note);
             ((TextView)dlgEditLayout.findViewById(R.id.lbl_dlgedit_note)).setVisibility(View.VISIBLE);
-            
-            String name = Util.dbFetchString(db, "SELECT name FROM territory WHERE ROWID=?", new String[] {mDialogItemId.toString()});
-            ((EditText)dlgEditLayout.findViewById(R.id.edit_dlgedit_text)).setText(name);
+                        
     		dialog = new AlertDialog.Builder(this)
-    					.setTitle("Название:")
+    					.setTitle(R.string.dlg_territory_add_label)
     					.setView(dlgEditLayout)
-    					.setPositiveButton("OK", new DialogInterface.OnClickListener() {							
+    					.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {							
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
 
@@ -313,12 +313,26 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
 														
 						}
 					})
-					.setNegativeButton("Отмена", null).create();
+					.setNegativeButton(R.string.btn_cancel, null).create();
 					
     		break;
     	}
     	
     	return dialog;
+    }
+    
+    @Override
+    protected void onPrepareDialog(int id, Dialog dialog) {
+    	super.onPrepareDialog(id, dialog);
+    	
+    	SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+    	
+    	switch(id) {
+    	case DIALOG_CHANGE_NAME:
+    		String name = Util.dbFetchString(db, "SELECT name FROM territory WHERE ROWID=?", new String[] {mDialogItemId.toString()});
+            ((EditText)dialog.findViewById(R.id.edit_dlgedit_text)).setText(name);
+            break;
+    	}
     }
 
 	@Override
@@ -456,12 +470,12 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
             }
             
             holder.name.setText(item.name);
-            holder.started.setText(item.started.format("%d.%m.%y"));
+            holder.started.setText( DateFormat.getDateInstance(DateFormat.SHORT).format( new Date(item.started.toMillis(true)) ) );
             if(item.finished == null)
             	holder.finished.setVisibility(View.GONE);
             else {
             	holder.finished.setVisibility(View.VISIBLE);
-            	holder.finished.setText(item.finished.format("%d.%m.%y"));
+            	holder.finished.setText(DateFormat.getDateInstance(DateFormat.SHORT).format( new Date(item.finished.toMillis(true)) ));
             }
         	holder.histogram.setColors(item.doorColors);
         	        	

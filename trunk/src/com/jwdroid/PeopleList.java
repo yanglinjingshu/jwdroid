@@ -1,6 +1,8 @@
 package com.jwdroid;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import net.londatiga.android.R;
 
@@ -75,7 +77,7 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
     
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.territory_list, menu);
+		getMenuInflater().inflate(R.menu.main_menu, menu);
 		return true;
 	}
     
@@ -178,10 +180,10 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
 									"		(SELECT COUNT(*) FROM visit WHERE person_id=person.ROWID AND door_id=person.door_id) " +
 									"FROM person " +
 									"LEFT JOIN door ON person.door_id=door.ROWID " +
-									"LEFT JOIN visit ON visit.ROWID IN (SELECT ROWID FROM visit WHERE person_id=person.ROWID AND door_id=person.door_id ORDER BY date DESC LIMIT 1) " +
+									"LEFT JOIN visit ON visit.ROWID IN (SELECT ROWID FROM visit WHERE person_id=person.ROWID AND door_id=person.door_id AND type!=? ORDER BY date DESC LIMIT 1) " +
 									"LEFT JOIN territory ON door.territory_id=territory.ROWID " +
 									"WHERE reject=0 AND visit.ROWID IS NOT NULL " +
-									"ORDER BY visit.date ASC", new String[] {});
+									"ORDER BY visit.date ASC", new String[] {String.valueOf(Visit.TYPE_NA)});
 			return rs;
 		}
 	}
@@ -221,12 +223,12 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
             
             holder.name.setText(item.personName);
             
-    		String snippet = "<s><b>"+item.visitDate.format("%d.%m.%y") + "</b></s>: "+item.visitDesc;    		
+    		String snippet = "<s><b>"+DateFormat.getDateInstance(DateFormat.SHORT).format(new Date(item.visitDate.toMillis(true))) + "</b></s>: "+item.visitDesc;    		
     		holder.desc.setText( Html.fromHtml(snippet) );  
     		
     		holder.visit_type.setImageResource(Visit.TYPE_ICONS[item.visitType]);
     		
-    		holder.door_name.setText(Html.fromHtml(item.visitsNum+" "+Util.pluralForm(item.visitsNum, "посещение", "посещения", "посещений") + " &bull; "+item.territoryName+", "+item.doorName));
+    		holder.door_name.setText(Html.fromHtml(item.visitsNum+" "+Util.pluralForm(mContext, item.visitsNum, mContext.getResources().getStringArray(R.array.plural_visits)) + " &bull; "+item.territoryName+", "+item.doorName));
     		
     		holder.color1.setBackgroundColor( mContext.getResources().getColor(Door.COLORS[item.doorColor1]) );
         	holder.color2.setBackgroundColor( mContext.getResources().getColor(Door.COLORS[item.doorColor2]) );

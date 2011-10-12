@@ -1,5 +1,8 @@
 package com.jwdroid;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 import net.londatiga.android.R;
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -51,12 +54,12 @@ public class TerritoryInfo extends Activity {
 		
 		((TextView)findViewById(R.id.territory_name)).setText(name);
 		((EditText)findViewById(R.id.edit_notes)).setText(notes);
-		((Button)findViewById(R.id.btn_started)).setText(mStarted.format("%d.%m.%y"));
+		((Button)findViewById(R.id.btn_started)).setText( DateFormat.getDateInstance(DateFormat.SHORT).format( new Date(mStarted.toMillis(true)) ));
 		
 		if(!rs.isNull(3))
-			((Button)findViewById(R.id.btn_finished)).setText(mFinished.format("%d.%m.%y"));
+			((Button)findViewById(R.id.btn_finished)).setText( DateFormat.getDateInstance(DateFormat.SHORT).format( new Date(mFinished.toMillis(true)) ) );
 		if(!rs.isNull(4))
-			((TextView)findViewById(R.id.lbl_modified)).setText(modified.format("%d.%m.%y"));
+			((TextView)findViewById(R.id.lbl_modified)).setText( DateFormat.getDateInstance(DateFormat.SHORT).format( new Date(modified.toMillis(true)) ) );
 		
 		
 		((Button)findViewById(R.id.btn_started)).setOnClickListener(new View.OnClickListener() {			
@@ -98,7 +101,8 @@ public class TerritoryInfo extends Activity {
 								@Override
 								public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 									mStarted.set(0,0,0, dayOfMonth, monthOfYear, year);
-									((Button)findViewById(R.id.btn_started)).setText(mStarted.format("%d.%m.%y"));
+									mStarted.normalize(true);
+									((Button)findViewById(R.id.btn_started)).setText( DateFormat.getDateInstance(DateFormat.SHORT).format( new Date(mStarted.toMillis(true)) ));
 								}
 							},
 							2000,1,1);	               
@@ -110,7 +114,8 @@ public class TerritoryInfo extends Activity {
 									if(mFinished == null)
 										mFinished = new Time();
 									mFinished.set(0,0,0, dayOfMonth, monthOfYear, year);
-									((Button)findViewById(R.id.btn_finished)).setText(mFinished.format("%d.%m.%y"));
+									mFinished.normalize(true);
+									((Button)findViewById(R.id.btn_finished)).setText( DateFormat.getDateInstance(DateFormat.SHORT).format( new Date(mFinished.toMillis(true)) ) );
 								}
 							},
 							2000,1,1);    

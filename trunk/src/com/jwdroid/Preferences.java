@@ -9,7 +9,7 @@ public class Preferences extends PreferenceActivity {
 	protected void onCreate(Bundle savedInstanceState) {	
 		super.onCreate(savedInstanceState);
 		
-		setTitle("Настройки");
+		setTitle(R.string.title_preferences);
 		
 		addPreferencesFromResource(R.xml.preferences);
 	}

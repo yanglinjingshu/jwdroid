@@ -58,7 +58,7 @@
 	    	android:orientation="vertical"
 	    	android:background="#bbbbbb">
     
-		    <LinearLayout
+		    <LinearLayout android:id="@+id/visit_desc_block"
 		    	android:layout_width="fill_parent"
 		    	android:layout_height="wrap_content"
 		    	android:background="#ffffff"
@@ -79,7 +79,7 @@
 		    	android:layout_height="1px"
 		    	android:background="#bbbbbb"/>
 		    
-		    <RelativeLayout
+		    <RelativeLayout 
 		    	android:layout_width="fill_parent"
 		    	android:layout_height="fill_parent"
 		    	android:background="#eeeeee"
@@ -98,7 +98,7 @@
 				    		android:paddingTop="10dip"
 				    		android:textSize="16dip"
 				    		android:textColor="#777"
-				    		android:text="Посещение:"/>
+				    		android:text="@string/lbl_visit_type"/>
 				    		
 				    		<LinearLayout
 			    			android:layout_width="wrap_content"
@@ -124,7 +124,7 @@
 				    		android:paddingTop="10dip"
 				    		android:textSize="16dip"
 				    		android:textColor="#777"
-				    		android:text="Дата:"/>
+				    		android:text="@string/lbl_visit_date"/>
 				    		
 				    		<LinearLayout
 				    			android:layout_width="wrap_content"
@@ -159,146 +159,150 @@
 		    		android:layout_alignParentLeft="true"
 		    		android:layout_marginTop="10dip"
 			    	android:background="#bbbbbb"/>
-		    	
-		    	
-		    	<CheckBox android:id="@+id/chk_visit_calc_auto" 
-					android:layout_width="wrap_content"
+			    	
+			    <LinearLayout android:id="@+id/literature_block"
+			   		android:layout_width="wrap_content"
 			    	android:layout_height="wrap_content"
 			    	android:layout_below="@id/tbl_basic_options"
+			    	android:layout_marginTop="13dip" 
 		    		android:layout_centerHorizontal="true"
-		    		android:layout_marginTop="13dip"
-		    		android:text="Подсчитывать из текста" />
-		    		
-				<TableLayout 
-		    		android:layout_width="wrap_content"
-		    		android:layout_height="wrap_content"
-		    		android:layout_below="@id/chk_visit_calc_auto"
-		    		android:layout_centerHorizontal="true"
-		    		android:layout_marginTop="2dip">
-		    		
-		    		<TableRow>
-		    		
-		    			<TextView  
-				    		android:layout_width="wrap_content"
-				    		android:layout_height="wrap_content"
-				    		android:layout_gravity="right"
-				    		android:paddingTop="10dip"
-				    		android:textSize="16dip"
-				    		android:textColor="#777"
-				    		android:text="Журналы:"/> 
-				    		
-				    	<LinearLayout
-			    			android:layout_width="wrap_content"
-			    			android:layout_height="wrap_content"
-			    			android:gravity="center_vertical">
-			    			
-			    			<ImageButton android:id="@+id/btn_visit_magazines_less" 
-					    		android:layout_width="40dip"
-					    		android:layout_height="40dip"
-					    		android:layout_marginLeft="8dip"
-					    		android:src="@drawable/minus_disablable"/>					    		
-					    			
-				    		<TextView android:id="@+id/text_visit_magazines" 
-					    		android:layout_width="30dip"
-					    		android:layout_height="wrap_content"
-					    		android:gravity="center"
-					    		android:layout_marginLeft="8dip"
-					    		android:textStyle="bold"
-					    		android:textSize="20dip"
-					    		android:text="0"/>    
-					    		
-					    	<ImageButton android:id="@+id/btn_visit_magazines_more" 
-					    		android:layout_width="40dip"
-					    		android:layout_height="40dip"
-					    		android:layout_marginLeft="8dip"
-					    		android:src="@drawable/plus_disablable"/>	
-			    			
-			    		</LinearLayout>				    	
-		    		
-		    		</TableRow>
-		    		
-		    		<TableRow>
-		    		
-		    			<TextView 
-				    		android:layout_height="wrap_content"
-				    		android:layout_gravity="right"
-				    		android:paddingTop="10dip"
-				    		android:textSize="16dip"
-				    		android:textColor="#777"
-				    		android:text="Брошюры:"/> 
-				    		
-				    	<LinearLayout
-			    			android:layout_width="wrap_content"
-			    			android:layout_height="wrap_content"
-			    			android:gravity="center_vertical">
-			    			
-			    			<ImageButton android:id="@+id/btn_visit_brochures_less" 
-					    		android:layout_width="40dip"
-					    		android:layout_height="40dip"
-					    		android:layout_marginLeft="8dip"
-					    		android:src="@drawable/minus_disablable"/>					    		
-					    			
-				    		<TextView android:id="@+id/text_visit_brochures" 
-					    		android:layout_width="30dip"
-					    		android:layout_height="wrap_content"
-					    		android:gravity="center"
-					    		android:layout_marginLeft="8dip"
-					    		android:textStyle="bold"
-					    		android:textSize="20dip"
-					    		android:text="0"/>    
-					    		
-					    	<ImageButton android:id="@+id/btn_visit_brochures_more" 
-					    		android:layout_width="40dip"
-					    		android:layout_height="40dip"
-					    		android:layout_marginLeft="8dip"
-					    		android:src="@drawable/plus_disablable"/>	
-			    			
-			    		</LinearLayout>				    	
-		    		
-		    		</TableRow>
-		    		
-		    		<TableRow>
-		    		
-		    			<TextView 
-				    		android:layout_width="wrap_content"
-				    		android:layout_height="wrap_content"
-				    		android:layout_gravity="right"
-				    		android:paddingTop="10dip"
-				    		android:textSize="16dip"
-				    		android:textColor="#777"
-				    		android:text="Книги:"/> 
-				    		
-				    	<LinearLayout
-			    			android:layout_width="wrap_content"
-			    			android:layout_height="wrap_content"
-			    			android:gravity="center_vertical">
-			    			
-			    			<ImageButton android:id="@+id/btn_visit_books_less" 
-					    		android:layout_width="40dip"
-					    		android:layout_height="40dip"
-					    		android:layout_marginLeft="8dip"
-					    		android:src="@drawable/minus_disablable"/>					    		
-					    			
-				    		<TextView android:id="@+id/text_visit_books" 
-					    		android:layout_width="30dip"
-					    		android:layout_height="wrap_content"
-					    		android:gravity="center"
-					    		android:layout_marginLeft="8dip"
-					    		android:textStyle="bold"
-					    		android:textSize="20dip"
-					    		android:text="0"/>    
-					    		
-					    	<ImageButton android:id="@+id/btn_visit_books_more" 
-					    		android:layout_width="40dip"
-					    		android:layout_height="40dip"
-					    		android:layout_marginLeft="8dip"
-					    		android:src="@drawable/plus_disablable"/>	
-			    			
-			    		</LinearLayout>				    	
-		    		
-		    		</TableRow>
+		    		android:orientation="vertical"
+		    		android:gravity="center_horizontal">
 		    	
-		    	</TableLayout>
+			    	<CheckBox android:id="@+id/chk_visit_calc_auto"		
+			    		android:layout_width="wrap_content"
+			    		android:layout_height="wrap_content"	    							
+			    		android:text="@string/chk_visit_calc_auto" />
+			    		
+					<TableLayout 
+			    		android:layout_width="wrap_content"
+			    		android:layout_height="wrap_content"
+			    		android:layout_marginTop="2dip">
+			    		
+			    		<TableRow>
+			    		
+			    			<TextView  
+					    		android:layout_width="wrap_content"
+					    		android:layout_height="wrap_content"
+					    		android:layout_gravity="right"
+					    		android:paddingTop="10dip"
+					    		android:textSize="16dip"
+					    		android:textColor="#777"
+					    		android:text="@string/lbl_magazines"/> 
+					    		
+					    	<LinearLayout
+				    			android:layout_width="wrap_content"
+				    			android:layout_height="wrap_content"
+				    			android:gravity="center_vertical">
+				    			
+				    			<ImageButton android:id="@+id/btn_visit_magazines_less" 
+						    		android:layout_width="40dip"
+						    		android:layout_height="40dip"
+						    		android:layout_marginLeft="8dip"
+						    		android:src="@drawable/minus_disablable"/>					    		
+						    			
+					    		<TextView android:id="@+id/text_visit_magazines" 
+						    		android:layout_width="30dip"
+						    		android:layout_height="wrap_content"
+						    		android:gravity="center"
+						    		android:layout_marginLeft="8dip"
+						    		android:textStyle="bold"
+						    		android:textSize="20dip"
+						    		android:text="0"/>    
+						    		
+						    	<ImageButton android:id="@+id/btn_visit_magazines_more" 
+						    		android:layout_width="40dip"
+						    		android:layout_height="40dip"
+						    		android:layout_marginLeft="8dip"
+						    		android:src="@drawable/plus_disablable"/>	
+				    			
+				    		</LinearLayout>				    	
+			    		
+			    		</TableRow>
+			    		
+			    		<TableRow>
+			    		
+			    			<TextView 
+					    		android:layout_height="wrap_content"
+					    		android:layout_gravity="right"
+					    		android:paddingTop="10dip"
+					    		android:textSize="16dip"
+					    		android:textColor="#777"
+					    		android:text="@string/lbl_brochures"/> 
+					    		
+					    	<LinearLayout
+				    			android:layout_width="wrap_content"
+				    			android:layout_height="wrap_content"
+				    			android:gravity="center_vertical">
+				    			
+				    			<ImageButton android:id="@+id/btn_visit_brochures_less" 
+						    		android:layout_width="40dip"
+						    		android:layout_height="40dip"
+						    		android:layout_marginLeft="8dip"
+						    		android:src="@drawable/minus_disablable"/>					    		
+						    			
+					    		<TextView android:id="@+id/text_visit_brochures" 
+						    		android:layout_width="30dip"
+						    		android:layout_height="wrap_content"
+						    		android:gravity="center"
+						    		android:layout_marginLeft="8dip"
+						    		android:textStyle="bold"
+						    		android:textSize="20dip"
+						    		android:text="0"/>    
+						    		
+						    	<ImageButton android:id="@+id/btn_visit_brochures_more" 
+						    		android:layout_width="40dip"
+						    		android:layout_height="40dip"
+						    		android:layout_marginLeft="8dip"
+						    		android:src="@drawable/plus_disablable"/>	
+				    			
+				    		</LinearLayout>				    	
+			    		
+			    		</TableRow>
+			    		
+			    		<TableRow>
+			    		
+			    			<TextView 
+					    		android:layout_width="wrap_content"
+					    		android:layout_height="wrap_content"
+					    		android:layout_gravity="right"
+					    		android:paddingTop="10dip"
+					    		android:textSize="16dip"
+					    		android:textColor="#777"
+					    		android:text="@string/lbl_books"/> 
+					    		
+					    	<LinearLayout
+				    			android:layout_width="wrap_content"
+				    			android:layout_height="wrap_content"
+				    			android:gravity="center_vertical">
+				    			
+				    			<ImageButton android:id="@+id/btn_visit_books_less" 
+						    		android:layout_width="40dip"
+						    		android:layout_height="40dip"
+						    		android:layout_marginLeft="8dip"
+						    		android:src="@drawable/minus_disablable"/>					    		
+						    			
+					    		<TextView android:id="@+id/text_visit_books" 
+						    		android:layout_width="30dip"
+						    		android:layout_height="wrap_content"
+						    		android:gravity="center"
+						    		android:layout_marginLeft="8dip"
+						    		android:textStyle="bold"
+						    		android:textSize="20dip"
+						    		android:text="0"/>    
+						    		
+						    	<ImageButton android:id="@+id/btn_visit_books_more" 
+						    		android:layout_width="40dip"
+						    		android:layout_height="40dip"
+						    		android:layout_marginLeft="8dip"
+						    		android:src="@drawable/plus_disablable"/>	
+				    			
+				    		</LinearLayout>				    	
+			    		
+			    		</TableRow>
+			    	
+			    	</TableLayout>
+			    </LinearLayout>
 		    	
 		    </RelativeLayout>
 		    

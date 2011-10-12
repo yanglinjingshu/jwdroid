@@ -3,20 +3,20 @@
   xmlns:android="http://schemas.android.com/apk/res/android">
   
   <PreferenceCategory
-  	android:title="Внешний вид">
+  	android:title="@string/pref_title_appearance">
   	
   	<ListPreference
   		android:key="list_text_rows"
-  		android:title="Количество строк"
-  		android:summary="Строки текста последней записи, отображаемые при просмотре участка в режиме списка"  		
+  		android:title="@string/pref_list_text_rows"
+  		android:summary="@string/pref_list_text_rows_note"  		
   		android:defaultValue="2"
   		android:entries="@array/entries_list_text_rows_preference"
   		android:entryValues="@array/entries_list_text_rows_preference" />
   		
    	<ListPreference
   		android:key="table_button_size"
-  		android:title="Размер кнопок"
-  		android:summary="Размер кнопок жилых объектов при просмотре участка в режиме сетки"  		
+  		android:title="@string/pref_table_button_size"
+  		android:summary="@string/pref_table_button_size_note"  		
   		android:defaultValue="2"
   		android:entries="@array/entries_table_button_size_preference"
   		android:entryValues="@array/entryvalues_table_button_size_preference" />   
@@ -24,43 +24,43 @@
   </PreferenceCategory>
   
   <PreferenceCategory
-  	android:title="Цвета">
+  	android:title="@string/pref_title_colors">
   	
   	<CheckBoxPreference 
   		android:key="autoset_color"
-  		android:title="Автоустановка цвета"
-  		android:summary="Автоматически назначать цвет в зависимости от условий" 
+  		android:title="@string/pref_autocolor"
+  		android:summary="@string/pref_autocolor_note" 
   		android:defaultValue="true"/>
   		
   	<PreferenceScreen
-  		android:title="Назначить цвета"
+  		android:title="@string/pref_assign_colors"
   		android:dependency="autoset_color"
   		android:layout="?android:attr/preferenceLayoutChild">
   		
 	  	<ListPreference
 	  		android:key="color_reject"
-	  		android:title="При отказе"
+	  		android:title="@string/pref_color_reject"
 	  		android:defaultValue="4"
 	  		android:entries="@array/entries_color_preference"
 	  		android:entryValues="@array/entryvalues_color_preference" />
 	  		
 	  	<ListPreference
 	  		android:key="color_visit"
-	  		android:title="При посещении"
+	  		android:title="@string/pref_color_visit"
 	  		android:defaultValue="3"
 	  		android:entries="@array/entries_color_preference"
 	  		android:entryValues="@array/entryvalues_color_preference" />
 	  		
 	  	<ListPreference
 	  		android:key="color_return_visit"
-	  		android:title="При повторном посещении"
+	  		android:title="@string/pref_color_return"
 	  		android:defaultValue="2"
 	  		android:entries="@array/entries_color_preference"
 	  		android:entryValues="@array/entryvalues_color_preference" />
 	  		
 	  	<ListPreference
 	  		android:key="color_study"
-	  		android:title="При изучении"
+	  		android:title="@string/pref_color_study"
 	  		android:dependency="autoset_color"
 	  		android:layout="?android:attr/preferenceLayoutChild"
 	  		android:defaultValue="1"
@@ -72,34 +72,26 @@
   </PreferenceCategory>
   
   <PreferenceCategory 
-  	android:title="Подсчет литературы">
-  	
-  		<!--  <ListPreference
-	  		android:key="report_calc_type"
-	  		android:title="Способ подсчета статистики"
-	  		android:summary="Способ подсчета суммарного количества литературы при составлении отчета: по данным хронометра или непосредственно по посещениям за период"
-	  		android:defaultValue="1"
-	  		android:entries="@array/entries_report_calc_type_preference"
-	  		android:entryValues="@array/entryvalues_report_calc_type_preference" /> -->
-  	
+  	android:title="@string/pref_title_literature">
+  	  	
   		<PreferenceScreen
-	  		android:title="Назначить шаблоны"
-	  		android:summary="Определить текстовые шаблоны, которые будут учитываться в тексте посещения при автоматическом подсчете литературы">
+	  		android:title="@string/pref_assign_templates"
+	  		android:summary="@string/pref_assign_templates_note">
 	  		
 	  		<EditTextPreference
 	  			android:key="literature_template_magazine"
-	  			android:title="Журнал"
-	  			android:defaultValue="--ж" />
+	  			android:title="@string/pref_template_magazine"
+	  			android:defaultValue="@string/pref_template_magazine_default" />
 	  		
 	  		<EditTextPreference
 	  			android:key="literature_template_brochure"
-	  			android:title="Брошюра"
-	  			android:defaultValue="--б" />
+	  			android:title="@string/pref_template_brochure"
+	  			android:defaultValue="@string/pref_template_brochure_default" />
 	  			
 	  		<EditTextPreference
 	  			android:key="literature_template_book"
-	  			android:title="Книга"
-	  			android:defaultValue="--к" />
+	  			android:title="@string/pref_template_book"
+	  			android:defaultValue="@string/pref_template_book_default" />
 	  		
 	  	</PreferenceScreen>
   	

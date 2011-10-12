@@ -15,6 +15,6 @@
   	android:textColor="#999999"
   	android:textSize="16dip"
   	android:gravity="center"
-  	android:text="Здесь может быть новый жилец.\n\nДобавьте посещение с помощью кнопки выше." />
+  	android:text="@string/lbl_door_empty" />
   
 </LinearLayout>

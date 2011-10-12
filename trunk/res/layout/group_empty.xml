@@ -15,6 +15,6 @@
   	android:gravity="center_horizontal"
   	android:textColor="#999999"
   	android:textSize="16dip"
-  	android:text="Этот экран пуст.\n\nВы можете добавить новые элементы с помощью кнопки выше." />
+  	android:text="@string/lbl_group_empty" />
   
 </LinearLayout>

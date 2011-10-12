@@ -20,7 +20,7 @@
     		android:textColor="#ffffff"
     		android:textSize="18dip"
     		android:textStyle="bold"
-    		android:text="Люди" />
+    		android:text="@string/title_people" />
     	<Button android:id="@+id/title_btn_add"
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
   		android:paddingRight="10dip"
   		android:textColor="#999999"
   		android:textSize="16dip"	
-    	android:text="Список людей пуст.\n\nДобавить людей можно в разделе &quot;Участки&quot;."
+    	android:text="@string/lbl_people_list_empty"
     	android:visibility="gone"/>
 	
 	<ListView android:id="@+id/people_list"

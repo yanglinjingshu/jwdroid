@@ -21,7 +21,7 @@
     		android:textSize="18dip"
     		android:lines="1"
     		android:textStyle="bold" 
-    		android:text="Хронометр"/>
+    		android:text="@string/title_chrono"/>
     	<Button android:id="@+id/title_btn_ok"
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
 			    	android:gravity="center"
 			    	android:textColor="#999999"
 			    	android:textSize="15dip"
-			    	android:text="Начало в 21:20" />
+			    	android:text="@string/lbl_chrono_started_time" />
 		    	
 		    	<LinearLayout
 			    	android:layout_width="fill_parent"
@@ -103,25 +103,25 @@
 			    		android:layout_width="120dip"
 			    		android:layout_height="wrap_content"
 			    		android:textStyle="bold"
-			    		android:text="Пауза" 
+			    		android:text="@string/btn_chrono_pause" 
 			    		android:visibility="gone"/>
 			    	<Button android:id="@+id/btn_resume"
 			    		android:layout_width="120dip"
 			    		android:layout_height="wrap_content"
 			    		android:textStyle="bold"
-			    		android:text="Возобновить" 
+			    		android:text="@string/btn_chrono_resume" 
 			    		android:visibility="gone"/>
 			    	<Button android:id="@+id/btn_finish"
 			    		android:layout_width="120dip"
 			    		android:layout_height="wrap_content"
 			    		android:textStyle="bold"
-			    		android:text="Завершить"
+			    		android:text="@string/btn_chrono_finish"
 			    		android:visibility="gone" />
 			    	<Button android:id="@+id/btn_start"
 			    		android:layout_width="120dip"
 			    		android:layout_height="wrap_content"
 			    		android:textStyle="bold"
-			    		android:text="Начать" />
+			    		android:text="@string/btn_chrono_start" />
 			    		
 			    		
 			    </LinearLayout>
@@ -148,7 +148,7 @@
 		    		android:layout_centerHorizontal="true"
 		    		android:layout_marginTop="4dip"
 		    		android:checked="true"
-		    		android:text=" Подсчитывать из посещений" />
+		    		android:text="@string/chk_chrono_calc_auto" />
 		    		
 				<TableLayout 
 		    		android:layout_width="wrap_content"
@@ -166,7 +166,7 @@
 				    		android:paddingTop="10dip"
 				    		android:textSize="16dip"
 				    		android:textColor="#777"
-				    		android:text="Журналы:"/> 
+				    		android:text="@string/lbl_magazines"/> 
 				    		
 				    	<LinearLayout
 			    			android:layout_width="wrap_content"
@@ -207,7 +207,7 @@
 				    		android:paddingTop="10dip"
 				    		android:textSize="16dip"
 				    		android:textColor="#777"
-				    		android:text="Брошюры:"/> 
+				    		android:text="@string/lbl_brochures"/> 
 				    		
 				    	<LinearLayout
 			    			android:layout_width="wrap_content"
@@ -248,7 +248,7 @@
 				    		android:paddingTop="10dip"
 				    		android:textSize="16dip"
 				    		android:textColor="#777"
-				    		android:text="Книги:"/> 
+				    		android:text="@string/lbl_books"/> 
 				    		
 				    	<LinearLayout
 			    			android:layout_width="wrap_content"
@@ -290,7 +290,7 @@
 				    		android:paddingTop="10dip"
 				    		android:textSize="16dip"
 				    		android:textColor="#777"
-				    		android:text="Повторные:"/> 
+				    		android:text="@string/lbl_returns"/> 
 				    		
 				    	<LinearLayout
 			    			android:layout_width="wrap_content"

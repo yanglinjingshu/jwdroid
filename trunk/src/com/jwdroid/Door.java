@@ -1,6 +1,8 @@
 package com.jwdroid;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import net.londatiga.android.ActionItem;
@@ -215,7 +217,7 @@ public class Door extends FragmentActivity {
 	
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.door, menu);
+		getMenuInflater().inflate(R.menu.main_menu, menu);
 		return true;
 	}	
     
@@ -256,7 +258,7 @@ public class Door extends FragmentActivity {
             ((TextView)view.findViewById(R.id.lbl_dlgedit_note)).setVisibility(View.GONE);
             
     		dialog = new AlertDialog.Builder(this)
-    					.setTitle("Введите описание жильца:")
+    					.setTitle(R.string.msg_person_desc)
     					.setView(view)
     					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 							
@@ -291,13 +293,13 @@ public class Door extends FragmentActivity {
 														
 						}
 					})
-					.setNegativeButton("Отмена", null).create();    		
+					.setNegativeButton(R.string.btn_cancel, null).create();    		
     		break;
     		
     	case DIALOG_DELETE:
     		builder = new AlertDialog.Builder(this);    	
     		builder.setCancelable(true)
-    			   .setMessage("Вы действительно хотите удалить это посещение?")
+    			   .setMessage(R.string.msg_delete_visit)
     			   .setPositiveButton(R.string.btn_ok, null)
     			   .setNegativeButton(R.string.btn_cancel, null);
     		dialog = builder.create();
@@ -306,7 +308,7 @@ public class Door extends FragmentActivity {
     	case DIALOG_DELETE_PERSON:
     		builder = new AlertDialog.Builder(this);    	
     		builder.setCancelable(true)
-    			   .setMessage("Вы действительно хотите удалить жильца и все его посещения?")
+    			   .setMessage(R.string.msg_delete_person)
     			   .setPositiveButton(R.string.btn_ok, null)
     			   .setNegativeButton(R.string.btn_cancel, null);
     		dialog = builder.create();
@@ -363,7 +365,7 @@ public class Door extends FragmentActivity {
 						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
 				  		db.execSQL("DELETE FROM `visit` WHERE rowid=?", new Long[] { mDialogItemId });
 				  		updateVisits(Door.this, mDoorId);
-				  		Toast.makeText(Door.this, "Посещение удалено", Toast.LENGTH_SHORT).show();			  		
+				  		Toast.makeText(Door.this, R.string.msg_visit_deleted, Toast.LENGTH_SHORT).show();			  		
 				  		updateContent();
 					}
 				});
@@ -385,7 +387,7 @@ public class Door extends FragmentActivity {
 					  		db.execSQL("DELETE FROM `visit` WHERE person_id=?", new Long[] { personId });
 					  		db.execSQL("DELETE FROM `person` WHERE ROWID=?", new Long[] { personId });
 					  		updateVisits(Door.this, mDoorId);
-					  		Toast.makeText(Door.this, "Жилец удален", Toast.LENGTH_SHORT).show();			  		
+					  		Toast.makeText(Door.this, R.string.msg_person_deleted, Toast.LENGTH_SHORT).show();			  		
 					  		updateContent();
 						}
 					});
@@ -400,7 +402,7 @@ public class Door extends FragmentActivity {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		switch(v.getId()) {
 			case ID_PANEL_LISTVIEW:
-				menu.setHeaderTitle("Посещение");
+				menu.setHeaderTitle(R.string.title_visit);
 				menu.add(Menu.NONE, MENU_DELETE, Menu.NONE, R.string.menu_delete);				
 				break;
 		}
@@ -485,6 +487,7 @@ public class Door extends FragmentActivity {
 	    	personNameView.setLayoutParams( llp );	    	
 	    	personNameView.setText(name);
 	    	personNameView.setShadowLayer(1, 1, 1, Color.WHITE);
+	    	personNameView.setMinWidth((int)(50*density));
 	    	if(reject == 1) {
 	    		//personNameView.setPaintFlags(personNameView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 	    		personNameView.setTextColor(0xFFAAAAAA);
@@ -495,9 +498,9 @@ public class Door extends FragmentActivity {
 	    	personNameView.setGravity(Gravity.CENTER);
 	    					
 			final QuickAction personActions 	= new QuickAction(this);
-			personActions.addActionItem(new ActionItem("Изменить", getResources().getDrawable(R.drawable.ac_pencil)));
-			personActions.addActionItem(new ActionItem("Удалить", getResources().getDrawable(R.drawable.ac_trash)));
-			personActions.addActionItem(new ActionItem(reject == 0 ? "Отказ" : "Не отказ", getResources().getDrawable(R.drawable.ac_cancel)));			
+			personActions.addActionItem(new ActionItem(getResources().getString(R.string.action_person_change), getResources().getDrawable(R.drawable.ac_pencil)));
+			personActions.addActionItem(new ActionItem(getResources().getString(R.string.action_person_delete), getResources().getDrawable(R.drawable.ac_trash)));
+			personActions.addActionItem(new ActionItem(reject == 0 ? getResources().getString(R.string.action_person_reject) : getResources().getString(R.string.action_person_nreject), getResources().getDrawable(R.drawable.ac_cancel)));			
 			personActions.animateTrack(false);
 			personActions.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {				
 				@Override
@@ -513,16 +516,7 @@ public class Door extends FragmentActivity {
 						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
 						db.execSQL("UPDATE person SET reject=? WHERE ROWID=?", new Object[] { Integer.toString(reject == 0 ? 1 : 0), mPersonIds.get(mPanelsView.getActivePos()) });
 						
-						if(reject == 0) {
-							SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Door.this);
-							Integer color = Integer.parseInt(prefs.getString("color_reject", "4"));
-							int manualColor = Util.dbFetchInt(db, "SELECT manual_color FROM door WHERE ROWID=?", new String[] {mDoorId.toString()});
-							if(prefs.getBoolean("autoset_color", true) && color != -1 && manualColor == 0) {
-								db.execSQL("UPDATE door SET color1=?,color2=? WHERE ROWID=?", new Object[] {color, color, mDoorId});
-								((TriangleView)findViewById(R.id.title_color1)).setColor( getResources().getColor(COLORS[color]) );
-							    ((TriangleView)findViewById(R.id.title_color2)).setColor( getResources().getColor(COLORS[color]) );							
-							}
-						}
+						updateColor(Door.this, mDoorId);
 
 						
 						updateContent();
@@ -562,7 +556,7 @@ public class Door extends FragmentActivity {
 	    	curPerson.addView(listView);
 	    	
 	    	final QuickAction listActions 	= new QuickAction(this);
-			listActions.addActionItem(new ActionItem("Удалить", getResources().getDrawable(R.drawable.ac_trash)));		
+			listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_visit_delete), getResources().getDrawable(R.drawable.ac_trash)));		
 			listActions.animateTrack(false);
 			listActions.setAnimStyle(QuickAction.ANIM_MOVE_FROM_RIGHT);			
 	    	
@@ -681,7 +675,7 @@ public class Door extends FragmentActivity {
 		AppDbOpenHelper dbOpenHelper = new AppDbOpenHelper(context);
 		
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
-		Cursor rs = db.rawQuery("SELECT date,desc,person.name,person.reject FROM visit LEFT JOIN person ON person.ROWID=visit.person_id WHERE visit.door_id=? ORDER BY date DESC LIMIT 1", new String[] {doorId.toString()});
+		Cursor rs = db.rawQuery("SELECT date,desc,person.name,person.reject FROM visit LEFT JOIN person ON person.ROWID=visit.person_id WHERE visit.door_id=? AND visit.type!=? ORDER BY date DESC LIMIT 1", new String[] {doorId.toString(),String.valueOf(Visit.TYPE_NA)});
 		if(rs.getCount() == 0) {
 			db.execSQL("UPDATE door SET last_date=NULL,last_desc=NULL,last_person_name=NULL,last_person_reject=NULL WHERE ROWID=?", new Object[] {doorId});
 		}
@@ -694,8 +688,69 @@ public class Door extends FragmentActivity {
 		Long territoryId = Util.dbFetchLong(db, "SELECT territory_id FROM door WHERE ROWID=?", new String[] {doorId.toString()});
 		
 		
-		db.execSQL("UPDATE door SET visits_num=(SELECT COUNT(*) FROM visit WHERE door_id=?) WHERE ROWID=?", new Object[] {doorId,doorId});
+		db.execSQL("UPDATE door SET visits_num=(SELECT COUNT(*) FROM visit WHERE door_id=? AND type!=?) WHERE ROWID=?", new Object[] {doorId,String.valueOf(Visit.TYPE_NA),doorId});
 		db.execSQL("UPDATE territory SET modified=(SELECT date FROM visit WHERE territory_id=territory.ROWID ORDER BY date DESC LIMIT 1) WHERE ROWID=?", new Object[] {territoryId});
+		
+		updateColor(context, doorId);
+	}
+	
+	public static void updateColor(Context context, Long doorId) {
+				
+		AppDbOpenHelper dbOpenHelper = new AppDbOpenHelper(context);		
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+				
+		int manualColor = Util.dbFetchInt(db, "SELECT manual_color FROM door WHERE ROWID=?", new String[] {doorId.toString()});
+		
+		if(!prefs.getBoolean("autoset_color", true) || manualColor != 0) {
+			return;
+		}		
+				
+		Integer prefColorReject = Integer.parseInt(prefs.getString("color_reject", "4"));
+		
+		int personsCnt = Util.dbFetchInt(db, "SELECT COUNT(*) FROM person WHERE door_id=?", new String[] {doorId.toString()});
+		
+		if(personsCnt == 0) {
+			db.execSQL("UPDATE door SET color1=0,color2=0 WHERE ROWID=?", new Object[] {doorId});
+			return;
+		}
+		
+		if(prefColorReject != -1) {
+			int nonRejectsCnt = Util.dbFetchInt(db, "SELECT COUNT(*) FROM person WHERE door_id=? AND reject=0", new String[] {doorId.toString()});
+			if(nonRejectsCnt == 0) {
+				db.execSQL("UPDATE door SET color1=?,color2=? WHERE ROWID=?", new Object[] {prefColorReject, prefColorReject, doorId});
+				if(context instanceof Door) {
+					((TriangleView) ((Door)context).findViewById(R.id.title_color1)).setColor( context.getResources().getColor(COLORS[prefColorReject]) );
+					((TriangleView) ((Door)context).findViewById(R.id.title_color2)).setColor( context.getResources().getColor(COLORS[prefColorReject]) );
+				}
+				return;
+			} 
+		}
+		
+		String prefKey = "";
+		Integer maxType = Util.dbFetchInt(db, "SELECT MAX(visit.type) FROM visit LEFT JOIN person ON person.ROWID=visit.person_id WHERE person.reject=0 AND visit.door_id=?", new String[]{doorId.toString()});		
+		switch(maxType) {
+		case Visit.TYPE_FIRST_VISIT:	prefKey="color_visit"; break;
+		case Visit.TYPE_RETURN_VISIT:	prefKey="color_return_visit"; break;
+		case Visit.TYPE_STUDY:			prefKey="color_study"; break;
+		}
+		if(prefKey != "") {
+			Integer prefColor = Integer.parseInt(prefs.getString(prefKey, "0"));
+			if(prefColor != -1) {
+				db.execSQL("UPDATE door SET color1=?,color2=? WHERE ROWID=?", new Object[] {prefColor, prefColor, doorId});
+				if(context instanceof Door) {
+					((TriangleView) ((Door)context).findViewById(R.id.title_color1)).setColor( context.getResources().getColor(COLORS[prefColor]) );
+					((TriangleView) ((Door)context).findViewById(R.id.title_color2)).setColor( context.getResources().getColor(COLORS[prefColor]) );
+				}
+				return;
+			}
+		}
+		
+		db.execSQL("UPDATE door SET color1=0,color2=0 WHERE ROWID=?", new Object[] {doorId});
+		if(context instanceof Door) {
+			((TriangleView) ((Door)context).findViewById(R.id.title_color1)).setColor( context.getResources().getColor(COLORS[0]) );
+			((TriangleView) ((Door)context).findViewById(R.id.title_color2)).setColor( context.getResources().getColor(COLORS[0]) );
+		}
 	}
 
 	
@@ -715,10 +770,12 @@ public class Door extends FragmentActivity {
 		
         private LayoutInflater mInflater;
         ArrayList<VisitItem> mItems;
+        Context mContext;
        
         public DoorAdapter(Context context, ArrayList<VisitItem> items) {
             mInflater = LayoutInflater.from(context);
             mItems = items;
+            mContext = context;
         }
 
         public int getCount() {
@@ -755,20 +812,29 @@ public class Door extends FragmentActivity {
             }
             
             holder.typeIcon.setImageResource(Visit.TYPE_ICONS[item.type]);
+            
+            
             holder.desc.setText(item.desc);
-            holder.date.setText(item.date.format("%d.%m.%y в %H:%M"));
+            if(item.desc.length() == 0)
+            	holder.desc.setVisibility(View.GONE);
+            else 
+            	holder.desc.setVisibility(View.VISIBLE);
+            
+            Date date = new Date(item.date.toMillis(true));
+            holder.date.setText( DateFormat.getDateInstance(DateFormat.SHORT).format(date)+", "+DateFormat.getTimeInstance(DateFormat.SHORT).format(date));
             
             
             StringBuilder info = new StringBuilder();
+            
             if(item.brochures > 0)
-            	info.append(item.brochures+" "+Util.pluralForm(item.brochures, "брошюра", "брошюры", "брошюр"));
+            	info.append(item.brochures+" "+Util.pluralForm(mContext, item.brochures, mContext.getResources().getStringArray(R.array.plural_brochures)));
             if(item.magazines > 0) {
             	if(info.length()>0) info.append(", ");
-            	info.append(item.magazines+" "+Util.pluralForm(item.magazines, "журнал", "журнала", "журналов"));
+            	info.append(item.magazines+" "+Util.pluralForm(mContext, item.magazines, mContext.getResources().getStringArray(R.array.plural_magazines)));
             }
             if(item.books > 0) {
             	if(info.length()>0) info.append(", ");
-            	info.append(item.books+" "+Util.pluralForm(item.books, "книга", "книги", "книг"));
+            	info.append(item.books+" "+Util.pluralForm(mContext, item.books, mContext.getResources().getStringArray(R.array.plural_books)));
             }
             
             if(info.length() > 0) {
@@ -777,6 +843,14 @@ public class Door extends FragmentActivity {
             }
             else
             	holder.info.setVisibility(View.GONE);
+            
+            if(item.type == Visit.TYPE_NA)
+            	holder.date.setTextColor(0xffbbbbbb);
+            else
+            	holder.date.setTextColor(Color.BLACK);
+            
+            
+            	
         	
             return convertView;
         }

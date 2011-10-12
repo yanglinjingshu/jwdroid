@@ -12,7 +12,7 @@
   	android:layout_width="wrap_content"
   	android:layout_height="wrap_content"
   	android:layout_marginBottom="5dip"
-  	android:text="  Сплошной цвет"
+  	android:text="@string/lbl_one_color"
   	android:textColor="#ffffff"/>
   
   <TableLayout
@@ -105,7 +105,7 @@
   	android:layout_height="wrap_content"
   	android:layout_marginTop="10dip"
   	android:layout_marginBottom="5dip"
-  	android:text="  Два цвета"
+  	android:text="@string/lbl_two_colors"
   	android:textColor="#ffffff"/>
   	
   <TableLayout

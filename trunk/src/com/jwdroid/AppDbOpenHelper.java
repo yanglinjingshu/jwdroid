@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class AppDbOpenHelper extends SQLiteOpenHelper {	
-	private static final int DATABASE_VERSION = 41;
+	private static final int DATABASE_VERSION = 42;
 	private static final String DATABASE_NAME = "jwdroid";
 	private static final String TAG = "JWTerritoryDbOpenHelper";
 
@@ -95,6 +95,10 @@ public class AppDbOpenHelper extends SQLiteOpenHelper {
 		if(oldVersion < 41) {
 			db.execSQL("CREATE TABLE `session` (date INTEGER NOT NULL, desc TEXT, minutes INTEGER NOT NULL, books INTEGER NOT NULL, brochures INTEGER NOT NULL, returns TEXT NOT NULL, magazines INTEGER NOT NULL)");
 			db.execSQL("CREATE INDEX session_date ON session (date)");
+		}
+		
+		if(oldVersion < 42) {
+			db.execSQL("UPDATE visit SET type=type+1");
 		}
 	}
 	

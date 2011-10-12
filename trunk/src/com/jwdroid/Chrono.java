@@ -1,5 +1,7 @@
 package com.jwdroid;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -277,8 +279,8 @@ public class Chrono extends Activity {
 	    	switch(id) {
 	    	case DIALOG_FINISH:	            
 	    		dialog = new AlertDialog.Builder(this)
-	    					.setMessage("Завершить служение?")
-	    					.setPositiveButton("Да", new DialogInterface.OnClickListener() {								
+	    					.setMessage(R.string.msg_chrono_finish)
+	    					.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {								
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
 									if(mService != null) {
@@ -296,13 +298,13 @@ public class Chrono extends Activity {
 									}
 							}
 						})
-						.setNegativeButton("Нет", null).create();    		
+						.setNegativeButton(R.string.btn_no, null).create();    		
 	    		break;	    	
 	    		
 	    	case DIALOG_START:	            
 	    		dialog = new AlertDialog.Builder(this)
-	    					.setMessage("Начать служение?")
-	    					.setPositiveButton("Да", new DialogInterface.OnClickListener() {								
+	    					.setMessage(R.string.msg_chrono_start)
+	    					.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {								
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
 									Intent intent = new Intent(Chrono.this, ChronoService.class);
@@ -310,7 +312,7 @@ public class Chrono extends Activity {
 									bindService(new Intent(Chrono.this, ChronoService.class), mConnection, 0);
 							}
 						})
-						.setNegativeButton("Нет", null).create();    		
+						.setNegativeButton(R.string.btn_no, null).create();    		
 	    		break;	   
 	    	}
 	    	
@@ -371,7 +373,10 @@ public class Chrono extends Activity {
 		findViewById(R.id.btn_finish).setVisibility(mService == null ? View.GONE : View.VISIBLE);
 		
 		//findViewById(R.id.lbl_started_time).setVisibility(mService == null ? View.INVISIBLE : View.VISIBLE);
-		((TextView)findViewById(R.id.lbl_started_time)).setText(mService == null ? "Хронометр остановлен" : "Начало в "+mService.startTime.format("%H:%M"));
+		if(mService == null)
+			((TextView)findViewById(R.id.lbl_started_time)).setText( R.string.lbl_chrono_stopped );
+		else
+			((TextView)findViewById(R.id.lbl_started_time)).setText( String.format(getResources().getString(R.string.lbl_chrono_started_time), DateFormat.getTimeInstance(DateFormat.SHORT).format( new Date(mService.startTime.toMillis(true)) )));
 		
 		boolean calcAuto = (mService == null || mService.calcAuto ? true : false);
 		

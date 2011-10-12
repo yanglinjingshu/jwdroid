@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:icon="@android:drawable/ic_menu_preferences" android:title="Настройки" android:id="@+id/menu_preferences"></item>
-<item android:icon="@android:drawable/ic_menu_send" android:title="Отправить отзыв" android:id="@+id/menu_feedback"></item>
-<item android:icon="@android:drawable/ic_menu_help" android:title="Справка" android:id="@+id/menu_help"></item>
-</menu>

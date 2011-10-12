@@ -40,7 +40,7 @@
 			<TextView
 			  	android:layout_width="wrap_content"
 			  	android:layout_height="wrap_content"
-			  	android:text="Участки"
+			  	android:text="@string/title_territory_list"
 			  	android:textStyle="bold"
 			  	android:textSize="18dip"/>  
 		</LinearLayout>
@@ -62,7 +62,7 @@
 			<TextView
 			  	android:layout_width="wrap_content"
 			  	android:layout_height="wrap_content"
-			  	android:text="Люди"
+			  	android:text="@string/title_people"
 			  	android:textStyle="bold"
 			  	android:textSize="18dip"/>  
 		</LinearLayout>
@@ -88,7 +88,7 @@
 			<TextView
 			  	android:layout_width="wrap_content"
 			  	android:layout_height="wrap_content"
-			  	android:text="Отчеты"
+			  	android:text="@string/title_reports"
 			  	android:textStyle="bold"
 			  	android:textSize="18dip"/>  
 		</LinearLayout>  	
@@ -110,7 +110,7 @@
 			<TextView
 			  	android:layout_width="wrap_content"
 			  	android:layout_height="wrap_content"
-			  	android:text="Хронометр"
+			  	android:text="@string/title_chrono"
 			  	android:textStyle="bold"
 			  	android:textSize="18dip"/>  
 		</LinearLayout>  	

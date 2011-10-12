@@ -20,7 +20,7 @@
     		android:textColor="#ffffff"
     		android:textSize="18dip"
     		android:textStyle="bold"
-    		android:text="Отчеты" />
+    		android:text="@string/title_reports" />
     	<Button android:id="@+id/title_btn_add"
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
 	  		android:paddingRight="10dip"
 	  		android:textColor="#999999"
 	  		android:textSize="16dip"	
-	    	android:text="Список отчетов пуст."
+	    	android:text="@string/lbl_report_list_empty"
 	    	android:visibility="gone"/>
 		
 		<ListView android:id="@+id/report_list"

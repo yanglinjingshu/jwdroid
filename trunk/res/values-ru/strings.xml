@@ -3,41 +3,41 @@
     
 <string name="app_name">JW Droid</string>
 
-<string name="lbl_territory_name">Territory name:</string>
-<string name="title_territory_add">Add territory</string>
-<string name="menu_territory_add">Add territory</string>
+<string name="lbl_territory_name">Название участка:</string>
+<string name="title_territory_add">Добавление участка</string>
+<string name="menu_territory_add">Добавить участок</string>
 <string name="lbl_territory_desc">Краткое описание:</string>
 
-<string name="btn_add">Add</string>
+<string name="btn_add">Добавить</string>
 <string name="err_empty_name">Введите название!</string>
-<string name="msg_territory_added">Territory added</string>
-<string name="menu_delete">Remove</string>
-<string name="msg_territory_deleted">Territory removed</string>
+<string name="msg_territory_added">Участок добавлен</string>
+<string name="menu_delete">Удалить</string>
+<string name="msg_territory_deleted">Участок удален</string>
 <string name="territory_list_empty">Список участков пуст. Вы можете добавить новый участок, нажав кнопку \&quot;Меню\&quot;.</string>
 <string name="dlg_territory_delete_msg">Операция удаления участка не может быть отменена. Вы уверены?</string>
-<string name="dlg_territory_delete_title">Delete territory</string>
-<string name="dlg_territory_add_label">Territory name:</string>
-<string name="dlg_territory_add_note">Например, название улицы</string>
+<string name="dlg_territory_delete_title">Удаление участка</string>
+<string name="dlg_territory_add_label">Название участка:</string>
+<string name="dlg_territory_add_note">Например: ул. Сосновая, 2</string>
 
 <string name="btn_ok">OK</string>
-<string name="btn_yes">Yes</string>
-<string name="btn_no">No</string>
-<string name="btn_cancel">Cancel</string>
+<string name="btn_yes">Да</string>
+<string name="btn_no">Нет</string>
+<string name="btn_cancel">Отмена</string>
 
-<string name="lbl_magazines">Magazines:</string>
-<string name="lbl_brochures">Brochures:</string>
-<string name="lbl_books">Books:</string>
-<string name="lbl_returns">Return visits:</string>
-<string name="lbl_hours">Hours:</string>
-<string name="lbl_studies">B. studies:</string>
+<string name="lbl_magazines">Журналы:</string>
+<string name="lbl_brochures">Брошюры:</string>
+<string name="lbl_books">Книги:</string>
+<string name="lbl_returns">Повторные:</string>
+<string name="lbl_hours">Часы:</string>
+<string name="lbl_studies">Изучения:</string>
 
-<string name="title_chrono">Chronometer</string>
+<string name="title_chrono">Хронометр</string>
 <string name="lbl_chrono_started_time">Начало в %s</string>
-<string name="lbl_chrono_stopped">Chronometer is stopped</string>
-<string name="btn_chrono_pause">Pause</string>
-<string name="btn_chrono_resume">Resume</string>
-<string name="btn_chrono_finish">Finish</string>
-<string name="btn_chrono_start">Start</string>
+<string name="lbl_chrono_stopped">Хронометр остановлен</string>
+<string name="btn_chrono_pause">Пауза</string>
+<string name="btn_chrono_resume">Возобновить</string>
+<string name="btn_chrono_finish">Завершить</string>
+<string name="btn_chrono_start">Начать</string>
 <string name="chk_chrono_calc_auto"> Подсчитывать из посещений</string>
 
 <string name="lbl_from">От:</string>
@@ -54,11 +54,11 @@
 <string name="lbl_door_empty">Здесь может быть новый жилец.\n\nДобавьте посещение с помощью кнопки выше.</string>
 <string name="lbl_group_empty">Этот экран пуст.\n\nВы можете добавить новые элементы с помощью кнопки выше.</string>
 
-<string name="title_help">Help</string>
-<string name="title_territory_list">Territories</string>
-<string name="title_people">People</string>
-<string name="title_reports">Reports</string>
-<string name="title_chrono">Chronometer</string>
+<string name="title_help">Справка</string>
+<string name="title_territory_list">Участки</string>
+<string name="title_people">Люди</string>
+<string name="title_reports">Отчеты</string>
+<string name="title_chrono">Хронометр</string>
 
 <string name="lbl_people_list_empty">Список людей пуст.\n\nДобавить людей можно либо с помощью кнопки выше, либо в разделе &amp;quot;Участки&amp;quot;.</string>
 
@@ -183,3 +183,4 @@
 
 
 </resources>
+

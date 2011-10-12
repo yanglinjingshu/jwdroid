@@ -3,6 +3,7 @@ package com.jwdroid;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
@@ -23,14 +24,26 @@ public class Util {
 	}
 	
 	
-	static public String pluralForm(int n, String form1, String form2, String form5)
+	static public String pluralForm(Context context, int n, String form1, String form2, String form5)
 	{
-	    n = Math.abs(n) % 100;
-	    int n1 = n % 10;
-	    if (n > 10 && n < 20) return form5;
-	    if (n1 > 1 && n1 < 5) return form2;
-	    if (n1 == 1) return form1;
-	    return form5;
+		String locale = context.getResources().getConfiguration().locale.getLanguage();
+		if(locale.equals("ru")) {
+		    n = Math.abs(n) % 100;
+		    int n1 = n % 10;
+		    if (n > 10 && n < 20) return form5;
+		    if (n1 > 1 && n1 < 5) return form2;
+		    if (n1 == 1) return form1;
+		    return form5;
+		}
+		else {
+			if(n == 1)
+				return form1;
+			return form2;
+		}
+	}
+	
+	static public String pluralForm(Context context, int n, String[] forms) {
+		return pluralForm(context, n, forms[0], forms[1], forms[2]);
 	}
 	
     private static String pad(int c) {

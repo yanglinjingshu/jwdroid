@@ -26,6 +26,9 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -35,6 +38,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -42,21 +46,22 @@ import android.widget.TimePicker;
 
 public class Visit extends FragmentActivity {
 	
-	private static final int TYPE_FIRST_VISIT = 0;
-	private static final int TYPE_RETURN_VISIT = 1;
-	private static final int TYPE_STUDY = 2;
+	public static final int TYPE_NA = 0;
+	public static final int TYPE_FIRST_VISIT = 1;
+	public static final int TYPE_RETURN_VISIT = 2;
+	public static final int TYPE_STUDY = 3;
 	
     static final int TIME_DIALOG_ID = 0;
     static final int DATE_DIALOG_ID = 1;	
     
-    public static final int[] TYPE_ICONS = {R.drawable.first_visit, R.drawable.revisit, R.drawable.study};
+    public static final int[] TYPE_ICONS = {R.drawable.visit_na, R.drawable.first_visit, R.drawable.revisit, R.drawable.study};
 	
 	private AppDbOpenHelper mDbOpenHelper = new AppDbOpenHelper(this);
 	private Long mTerritoryId, mDoorId, mPersonId, mVisitId;
 	
 	private String mDesc = "";
 	private Integer mCalcAuto = 1;
-	private Integer mType = 0;
+	private Integer mType = TYPE_FIRST_VISIT;
 	private Time mDate = new Time();
 	
 	private Integer mBooks=0, mBrochures=0, mMagazines=0;
@@ -109,9 +114,9 @@ public class Visit extends FragmentActivity {
 	    	rs.close();
 	    }
 	    else {
-	    	int visitsCnt = Util.dbFetchInt(db, "SELECT COUNT(*) FROM visit WHERE door_id=?", new String[]{mDoorId.toString()});	    	
+	    	int visitsCnt = Util.dbFetchInt(db, "SELECT COUNT(*) FROM visit WHERE door_id=? AND person_id=? AND type!=?", new String[]{mDoorId.toString(), mPersonId.toString(), String.valueOf(TYPE_NA)});	    	
 	    	if(visitsCnt > 0) {
-	    		int studiesCnt = Util.dbFetchInt(db, "SELECT COUNT(*) FROM visit WHERE door_id=? AND type=?", new String[]{mDoorId.toString(), String.valueOf(TYPE_STUDY)});
+	    		int studiesCnt = Util.dbFetchInt(db, "SELECT COUNT(*) FROM visit WHERE door_id=? AND person_id=? AND type=?", new String[]{mDoorId.toString(), mPersonId.toString(), String.valueOf(TYPE_STUDY)});
 	    		if(studiesCnt > 0)
 	    			mType = TYPE_STUDY;
 	    		else
@@ -168,9 +173,16 @@ public class Visit extends FragmentActivity {
 	    ((Spinner)findViewById(R.id.list_visit_type)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
 			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
+			public void onItemSelected(AdapterView<?> adapterView, View arg1,
 					int position, long arg3) {
-				mType = position;
+				mType = (Integer)adapterView.getItemAtPosition(position);
+				findViewById(R.id.visit_desc_block).setVisibility(mType == TYPE_NA ? View.GONE : View.VISIBLE);
+				findViewById(R.id.literature_block).setVisibility(mType == TYPE_NA ? View.GONE : View.VISIBLE);
+				if(mType == TYPE_NA) { 
+					((EditText)findViewById(R.id.edit_visit_desc)).setText("");
+					mBooks = mBrochures = mMagazines = 0;
+				}
+
 			}
 
 			@Override
@@ -264,26 +276,7 @@ public class Visit extends FragmentActivity {
 	    			db.execSQL(	"INSERT INTO visit (territory_id,door_id,person_id,desc,calc_auto,type,date,magazines,brochures,books)" +
 	    		    		"VALUES(?,?,?,?,?,?,?,?,?,?)", 
 	    		    		new Object[] {mTerritoryId, mDoorId, mPersonId, mDesc, mCalcAuto, mType, mDate.format3339(false), mMagazines, mBrochures, mBooks});
-	    			
-	    			
-	    			int reject = Util.dbFetchInt(db, "SELECT reject FROM person WHERE ROWID=?", new String[]{mPersonId.toString()});
-		    		
-		    		if(reject == 0) {
-			    		String prefKey = "";
-			    		int maxType = Util.dbFetchInt(db, "SELECT MAX(type) FROM visit WHERE person_id=?", new String[]{mPersonId.toString()});
-			    		switch(maxType) {
-			    		case TYPE_FIRST_VISIT:	prefKey="color_visit"; break;
-			    		case TYPE_RETURN_VISIT:	prefKey="color_return_visit"; break;
-			    		case TYPE_STUDY:	prefKey="color_study"; break;
-			    		}
-			    		
-			    		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Visit.this);
-						Integer color = Integer.parseInt(prefs.getString(prefKey, "0"));
-						int manualColor = Util.dbFetchInt(db, "SELECT manual_color FROM door WHERE ROWID=?", new String[] {mDoorId.toString()});
-						if(prefs.getBoolean("autoset_color", true) && color != -1 && manualColor == 0) {
-							db.execSQL("UPDATE door SET color1=?,color2=? WHERE ROWID=?", new Object[] {color, color, mDoorId});												
-						}
-		    		}
+	    				    			
 	    		}
 	    		else {		    		
 	    			db.execSQL("UPDATE visit SET desc=?,calc_auto=?,type=?,`date`=?,magazines=?,brochures=?,books=? WHERE ROWID=?", new Object[] {mDesc, mCalcAuto, mType, mDate.format3339(false), mMagazines, mBrochures, mBooks, mVisitId});    			
@@ -308,6 +301,7 @@ public class Visit extends FragmentActivity {
 							@Override
 							public void onTimeSet(TimePicker view, int hourOfDay, int minute) {								
 								mDate.set(0, minute, hourOfDay, mDate.monthDay, mDate.month, mDate.year);
+								mDate.normalize(true);
 								((Button)findViewById(R.id.btn_visit_time)).setText(mDate.format("%H:%M"));	
 							}
 						}, 
@@ -319,6 +313,7 @@ public class Visit extends FragmentActivity {
 							@Override
 							public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 								mDate.set(0, mDate.minute, mDate.hour, dayOfMonth, monthOfYear, year);
+								mDate.normalize(true);
 								((Button)findViewById(R.id.btn_visit_date)).setText(mDate.format("%d.%m.%y"));
 							}
 						},
@@ -346,19 +341,19 @@ public class Visit extends FragmentActivity {
     	
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
     	
-    	int brochures = cntDescTemplates(prefs.getString("literature_template_brochure", "--б"));
+    	int brochures = cntDescTemplates(prefs.getString("literature_template_brochure", getResources().getString(R.string.pref_template_brochure_default)));
     	if(mBrochures != brochures) {
     		mBrochures = brochures;
     		((TextView)findViewById(R.id.text_visit_brochures)).setText(mBrochures.toString());
     	}
     	
-    	int books = cntDescTemplates(prefs.getString("literature_template_book", "--к"));
+    	int books = cntDescTemplates(prefs.getString("literature_template_book", getResources().getString(R.string.pref_template_book_default)));
     	if(mBooks != books) {
     		mBooks = books;
     		((TextView)findViewById(R.id.text_visit_books)).setText(mBooks.toString());
     	}
     	
-    	int magazines = cntDescTemplates(prefs.getString("literature_template_magazine", "--ж"));
+    	int magazines = cntDescTemplates(prefs.getString("literature_template_magazine", getResources().getString(R.string.pref_template_magazine_default)));
     	if(mMagazines != magazines) {
     		mMagazines = magazines;
     		((TextView)findViewById(R.id.text_visit_magazines)).setText(mMagazines.toString());
@@ -380,26 +375,26 @@ public class Visit extends FragmentActivity {
 	
 	
 	private class VisitTypeAdapter extends BaseAdapter implements SpinnerAdapter {
-		
-		private String[] texts = {"Обычное","Повторное","Изучение"};
-		private int[] icons = {R.drawable.first_visit, R.drawable.revisit, R.drawable.study};
-		
+				
+		private int[] icons = {R.drawable.visit_na, R.drawable.first_visit, R.drawable.revisit, R.drawable.study};
+			
 		
         private LayoutInflater mInflater;
+        private Context mContext;
        
         public VisitTypeAdapter(Context context) {
             mInflater = LayoutInflater.from(context);
+            mContext = context;
         }		
 
 		@Override
 		public int getCount() {			
-			return 3;
+			return 4;
 		}
 
 		@Override
-		public Object getItem(int position) {
-			// TODO Auto-generated method stub
-			return null;
+		public Object getItem(int position) {			
+			return position;
 		}
 
 		@Override
@@ -414,7 +409,7 @@ public class Visit extends FragmentActivity {
 				convertView = mInflater.inflate(R.layout.spinner_visit_type, null);				
 			}
 			((ImageView)convertView.findViewById(R.id.spinner_visit_type_icon)).setImageResource(icons[position]);
-			((TextView)convertView.findViewById(R.id.spinner_visit_type_text)).setText(texts[position]);
+			((TextView)convertView.findViewById(R.id.spinner_visit_type_text)).setText(mContext.getResources().getStringArray(R.array.visit_types)[position]);
 			convertView.setPadding(0, 0, 0, 0);
 			return convertView;
 		}
@@ -425,7 +420,7 @@ public class Visit extends FragmentActivity {
 				convertView = mInflater.inflate(R.layout.spinner_visit_type, null);				
 			}
 			((ImageView)convertView.findViewById(R.id.spinner_visit_type_icon)).setImageResource(icons[position]);
-			((TextView)convertView.findViewById(R.id.spinner_visit_type_text)).setText(texts[position]);			
+			((TextView)convertView.findViewById(R.id.spinner_visit_type_text)).setText(mContext.getResources().getStringArray(R.array.visit_types)[position]);			
 			return convertView;
 		}
 		

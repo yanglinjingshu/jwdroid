@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
-	<item android:icon="@android:drawable/ic_menu_info_details" android:title="Информация" android:id="@+id/menu_info"></item>
+	<item android:icon="@android:drawable/ic_menu_info_details" android:title="@string/menu_territory_info" android:id="@+id/menu_info"></item>
 	<group android:id="@+id/menu_group_table">		
-		<item android:icon="@drawable/ic_menu_arrange" android:title="Раскладка">
+		<item android:icon="@drawable/ic_menu_arrange" android:title="@string/menu_territory_layout">
 			<menu>
-				<item android:title="Упорядочить" android:id="@+id/menu_arrange" />
-				<item android:title="Сдвинуть всё вверх" android:id="@+id/menu_shift_up" />
-				<item android:title="Сдвинуть всё вниз" android:id="@+id/menu_shift_down" />
-				<item android:title="Сдвинуть всё влево" android:id="@+id/menu_shift_left" />
-				<item android:title="Сдвинуть всё вправо" android:id="@+id/menu_shift_right" />
+				<item android:title="@string/menu_territory_arrange" android:id="@+id/menu_arrange" />
+				<item android:title="@string/menu_territory_shift_up" android:id="@+id/menu_shift_up" />
+				<item android:title="@string/menu_territory_shift_down" android:id="@+id/menu_shift_down" />
+				<item android:title="@string/menu_territory_shift_left" android:id="@+id/menu_shift_left" />
+				<item android:title="@string/menu_territory_shift_right" android:id="@+id/menu_shift_right" />
 			</menu>
 		</item>
 	</group>  
-	<item android:icon="@android:drawable/ic_menu_preferences" android:title="Настройки" android:id="@+id/menu_preferences"></item>
-	<item android:icon="@android:drawable/ic_menu_send" android:title="Отправить отзыв" android:id="@+id/menu_feedback"></item>
-	<item android:icon="@android:drawable/ic_menu_help" android:title="Справка" android:id="@+id/menu_help"></item>
+	<item android:icon="@android:drawable/ic_menu_preferences" android:title="@string/menu_preferences" android:id="@+id/menu_preferences"></item>
+	<item android:icon="@android:drawable/ic_menu_send" android:title="@string/menu_feedback" android:id="@+id/menu_feedback"></item>
+	<item android:icon="@android:drawable/ic_menu_help" android:title="@string/menu_help" android:id="@+id/menu_help"></item>
 </menu>
