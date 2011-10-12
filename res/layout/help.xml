@@ -20,7 +20,7 @@
     		android:textColor="#ffffff"
     		android:textSize="18dip"
     		android:textStyle="bold"
-    		android:text="Справка" />
+    		android:text="@string/title_help" />
     	<Button android:id="@+id/title_btn_add"
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"

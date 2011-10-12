@@ -18,7 +18,7 @@
 		android:layout_alignParentTop="true"
 		android:layout_alignParentLeft="true"
 		android:textColor="#ffffff"		
-		android:text="Строки:" />
+		android:text="@string/lbl_rows" />
 	<EditText android:id="@+id/edit_arrange_rows"
 		android:layout_width="100dip"
 		android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
 		android:layout_alignLeft="@id/edit_arrange_cols"
 		android:layout_marginBottom="3dip"
 		android:textColor="#ffffff"
-		android:text="Столбцы:" />
+		android:text="@string/lbl_cols" />
 		
 	<Spinner android:id="@+id/spinner_arrange_direction_vertical"
 		android:layout_width="215dip"

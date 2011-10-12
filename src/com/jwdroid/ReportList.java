@@ -74,7 +74,7 @@ public class ReportList extends Activity {
 	    minDate.monthDay = 1;
 	    while(now.toMillis(true) >= minDate.toMillis(true)) {
 	    	
-	    	mListAdapter.add(new SimpleArrayItem(now.year*100 + now.month+1, Report.MONTHS[now.month]+" "+now.year));
+	    	mListAdapter.add(new SimpleArrayItem(now.year*100 + now.month+1, getResources().getStringArray(R.array.months)[now.month]+" "+now.year));
 	    	now.month--;	    	
 	    	now.normalize(true);
 	    }
@@ -135,7 +135,10 @@ public class ReportList extends Activity {
 	    return false;
 	}
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	super.onActivityResult(requestCode, resultCode, data);
+    }
 	
 	
 

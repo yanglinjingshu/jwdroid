@@ -70,39 +70,39 @@
 	</string-array>
 
 	<string-array name="plural_magazines">
-	    <item>magazine</item>
-	    <item>magazines</item>
-	    <item>magazines</item>
+	    <item>журнал</item>
+	    <item>журнала</item>
+	    <item>журналов</item>
 	</string-array>
 	
 	<string-array name="plural_brochures">
-	    <item>brochure</item>
-	    <item>brochures</item>
-	    <item>brochures</item>
+	    <item>брошюра</item>
+	    <item>брошюры</item>
+	    <item>брошюр</item>
 	</string-array>	
 	
 	<string-array name="plural_books">
-	    <item>book</item>
-	    <item>books</item>
-	    <item>books</item>
+	    <item>книга</item>
+	    <item>книги</item>
+	    <item>книг</item>
 	</string-array>
 	
 	<string-array name="plural_returns">
-	    <item>return visit</item>
-	    <item>return visits</item>
-	    <item>return visits</item>
+	    <item>повторное</item>
+	    <item>повторных</item>
+	    <item>повторных</item>
 	</string-array>
 	
 	<string-array name="plural_visits">
-	    <item>visit</item>
-	    <item>visits</item>
-	    <item>visits</item>
+	    <item>посещение</item>
+	    <item>посещения</item>
+	    <item>посещений</item>
 	</string-array>
 	
 	<string-array name="plural_studies">
-	    <item>bible study</item>
-	    <item>bible studies</item>
-	    <item>bible studies</item>
+	    <item>изучение</item>
+	    <item>изучения</item>
+	    <item>изучений</item>
 	</string-array>
         
 </resources>

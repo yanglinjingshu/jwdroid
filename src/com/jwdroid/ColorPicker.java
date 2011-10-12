@@ -69,7 +69,7 @@ public class ColorPicker {
 		
 		builder.setCancelable(true)
 		   .setView(mDlgColorLayout)
-		   .setTitle("Выберите цвет:")
+		   .setTitle(R.string.msg_choose_color)
 		   .setPositiveButton(R.string.btn_ok, null)
 		   .setNegativeButton(R.string.btn_cancel, null);
 		mDialog = builder.create();

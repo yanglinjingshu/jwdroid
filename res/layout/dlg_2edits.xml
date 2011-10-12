@@ -14,7 +14,7 @@
 		android:layout_alignParentTop="true"
 		android:layout_alignParentLeft="true"
 		android:textColor="#ffffff"		
-		android:text="От:" />
+		android:text="@string/lbl_from" />
 	<EditText android:id="@+id/edit_left"
 		android:layout_width="100dip"
 		android:layout_height="wrap_content"
@@ -36,6 +36,6 @@
 		android:layout_alignLeft="@id/edit_right"
 		android:layout_marginBottom="3dip"
 		android:textColor="#ffffff"
-		android:text="До:" />
+		android:text="@string/lbl_to" />
 
 </RelativeLayout>

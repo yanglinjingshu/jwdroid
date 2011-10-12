@@ -1,6 +1,8 @@
 package com.jwdroid;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import net.londatiga.android.ActionItem;
 import net.londatiga.android.QuickAction;
@@ -49,9 +51,7 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 	
 	private Long mDialogItemId;
 	
-	public static final String[] MONTHS = {"Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"}; 
-	
-    @Override
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report);
@@ -61,9 +61,9 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
         
         mMonth = getIntent().getExtras().getString("month");
         
-        final String monthName = MONTHS[Integer.parseInt(mMonth.substring(4,6))-1] + " " + mMonth.substring(0,4);
+        final String monthName = getResources().getStringArray(R.array.months)[Integer.parseInt(mMonth.substring(4,6))-1] + " " + mMonth.substring(0,4);
 
-        ((TextView)findViewById(R.id.title)).setText("Отчет за " + monthName);
+        ((TextView)findViewById(R.id.title)).setText(String.format(getResources().getString(R.string.title_report), monthName));
         
               
         // Set up territory list
@@ -97,7 +97,7 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 		});
 	    
 	    final QuickAction listActions 	= new QuickAction(this);
-		listActions.addActionItem(new ActionItem("Удалить", getResources().getDrawable(R.drawable.ac_trash)));
+		listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_session_delete), getResources().getDrawable(R.drawable.ac_trash)));
 		listActions.animateTrack(false);
 		listActions.setAnimStyle(QuickAction.ANIM_MOVE_FROM_RIGHT);			
     	
@@ -137,25 +137,24 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 				SQLiteDatabase db;
 				Cursor rs;
 				SummaryInfo data = getSummaryInfo();
-				String text = monthName+"\n\n"+
-								"Книги: "+data.books+"\n" +
-								"Брошюры: "+data.brochures+"\n" +
-								"Часы: "+(data.minutes/60)+"\n" +
-								"Журналы: "+data.magazines+"\n" +
-								"Повторные: "+data.returns+"\n" +
-								"Изучения: "+data.studies;								
+				String text =   getResources().getString(R.string.lbl_books)+" "+data.books+"\n" +
+								getResources().getString(R.string.lbl_brochures)+" "+data.brochures+"\n" +
+								getResources().getString(R.string.lbl_hours)+" "+(data.minutes/60)+"\n" +
+								getResources().getString(R.string.lbl_magazines)+" "+data.magazines+"\n" +
+								getResources().getString(R.string.lbl_returns)+" "+data.returns+"\n" +
+								getResources().getString(R.string.lbl_studies)+" "+data.studies;								
 								
 				switch(pos) {
 				case 0:	// SMS						
 					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("tel"));
 					intent.setType("vnd.android-dir/mms-sms");
-					intent.putExtra("sms_body", "Отчет\n\n"+text);
+					intent.putExtra("sms_body", String.format(getResources().getString(R.string.title_report), monthName)+"\n\n"+text);
 					startActivity(intent);
 					break;
 				case 1: // E-mail
 					intent = new Intent(Intent.ACTION_SEND);
 					intent.setType("message/rfc822");
-					intent.putExtra(Intent.EXTRA_SUBJECT,"Отчет о проповедническом служении");
+					intent.putExtra(Intent.EXTRA_SUBJECT, String.format(getResources().getString(R.string.title_report), monthName));
 					intent.putExtra(Intent.EXTRA_TEXT, text);
 					startActivity(Intent.createChooser(intent, null));
 					break;
@@ -179,8 +178,8 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 		
 		
 		final QuickAction summaryTypeActions 	= new QuickAction(this);
-		summaryTypeActions.addActionItem(new ActionItem("По списку служений", getResources().getDrawable(R.drawable.ac_list_bullets)));
-		summaryTypeActions.addActionItem(new ActionItem("По посещениям", getResources().getDrawable(R.drawable.ac_users)));
+		summaryTypeActions.addActionItem(new ActionItem(getResources().getString(R.string.action_calc_type_sessions), getResources().getDrawable(R.drawable.ac_list_bullets)));
+		summaryTypeActions.addActionItem(new ActionItem(getResources().getString(R.string.action_calc_type_visits), getResources().getDrawable(R.drawable.ac_users)));
 		summaryTypeActions.animateTrack(false);		    	
 	
 		summaryTypeActions.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {				
@@ -325,29 +324,29 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 		
 	    String info = "";
         if(data.magazines>0)
-        	info += data.magazines+" "+Util.pluralForm(data.magazines, "журнал", "журнала", "журналов");
+        	info += data.magazines+" "+Util.pluralForm(this, data.magazines, getResources().getStringArray(R.array.plural_magazines));
         if(data.brochures>0) {
         	if(info.length()>0)
         		info += ", ";
-        	info += data.brochures+" "+Util.pluralForm(data.brochures, "брошюра", "брошюры", "брошюр");
+        	info += data.brochures+" "+Util.pluralForm(this, data.brochures, getResources().getStringArray(R.array.plural_brochures));
         }
         if(data.books>0) {
         	if(info.length()>0)
         		info += ", ";
-        	info += data.books+" "+Util.pluralForm(data.books, "книга", "книги", "книг");
+        	info += data.books+" "+Util.pluralForm(this, data.books, getResources().getStringArray(R.array.plural_books));
         }
         if(data.returns>0) {
         	if(info.length()>0)
         		info += ", ";
-        	info += data.returns+" "+Util.pluralForm(data.returns, "повторное", "повторных", "повторных");
+        	info += data.returns+" "+Util.pluralForm(this, data.returns, getResources().getStringArray(R.array.plural_returns));
         }
         if(data.studies>0) {
         	if(info.length()>0)
         		info += ", ";
-        	info += data.studies+" "+Util.pluralForm(data.studies, "изучение", "изучения", "изучений");
+        	info += data.studies+" "+Util.pluralForm(this, data.studies, getResources().getStringArray(R.array.plural_studies));
         }
         if(info.length() == 0)
-        	info = "Нет данных";
+        	info = getResources().getString(R.string.lbl_report_no_data);
         ((TextView)findViewById(R.id.summary_info)).setText(info);
         
         ((TextView)findViewById(R.id.summary_minutes)).setText(String.format("%d:%02d", data.minutes/60, data.minutes%60));
@@ -372,7 +371,7 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
     	case DIALOG_DELETE:
     		dialog = new AlertDialog.Builder(this) 	
     				.setCancelable(true)
-    				.setMessage("Вы действительно хотите удалить это служение?")
+    				.setMessage(R.string.msg_delete_session)
     				.setPositiveButton(R.string.btn_ok, null)
     				.setNegativeButton(R.string.btn_cancel, null)
     				.create();
@@ -393,7 +392,7 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 						public void onClick(DialogInterface dialog, int which) {
 							SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
 							db.execSQL("DELETE FROM `session` WHERE rowid=?", new Long[] { mDialogItemId });					  		
-					  		Toast.makeText(Report.this, "Удалено", Toast.LENGTH_SHORT).show();			  		
+					  		Toast.makeText(Report.this, R.string.msg_session_deleted, Toast.LENGTH_SHORT).show();			  		
 					  		getSupportLoaderManager().getLoader(0).forceLoad();
 					  		calcSummary();
 						}
@@ -461,8 +460,8 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 
                 holder = (ViewHolder) convertView.getTag();
             }
-            
-            holder.date.setText(item.date.format("%d.%m.%y в %H:%M"));
+            Date date = new Date(item.date.toMillis(true));
+            holder.date.setText( Html.fromHtml(DateFormat.getDateInstance(DateFormat.SHORT).format(date)+", "+DateFormat.getTimeInstance(DateFormat.SHORT).format(date)) );
             if(item.desc != null && item.desc.length()>0) {
             	holder.desc.setVisibility(View.VISIBLE);
             	holder.desc.setText(item.desc);
@@ -474,21 +473,21 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
             
             String info = "";
             if(item.magazines>0)
-            	info += item.magazines+" "+Util.pluralForm(item.magazines, "журнал", "журнала", "журналов");
+            	info += item.magazines+" "+Util.pluralForm(mContext, item.magazines, mContext.getResources().getStringArray(R.array.plural_magazines));
             if(item.brochures>0) {
             	if(info.length()>0)
             		info += ", ";
-            	info += item.brochures+" "+Util.pluralForm(item.brochures, "брошюра", "брошюры", "брошюр");
+            	info += item.brochures+" "+Util.pluralForm(mContext, item.brochures, mContext.getResources().getStringArray(R.array.plural_brochures));
             }
             if(item.books>0) {
             	if(info.length()>0)
             		info += ", ";
-            	info += item.books+" "+Util.pluralForm(item.books, "книга", "книги", "книг");
+            	info += item.books+" "+Util.pluralForm(mContext, item.books, mContext.getResources().getStringArray(R.array.plural_books));
             }
             if(item.returns>0) {
             	if(info.length()>0)
             		info += ", ";
-            	info += item.returns+" "+Util.pluralForm(item.returns, "повторное", "повторных", "повторных");
+            	info += item.returns+" "+Util.pluralForm(mContext, item.returns, mContext.getResources().getStringArray(R.array.plural_returns));
             }
             if(info.length()>0) {
             	holder.info.setVisibility(View.VISIBLE);

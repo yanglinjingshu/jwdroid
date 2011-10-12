@@ -96,11 +96,11 @@ public class ChronoService extends Service {
 	 }
 	 
 	 private Notification updateNotify(boolean showTicker) {
-		Notification notification = new Notification(R.drawable.ic_stat_notify_template, showTicker ? "Хронометр служения запущен" : null, 0);
+		Notification notification = new Notification(R.drawable.ic_stat_notify_template, showTicker ? getResources().getString(R.string.msg_chrono_service_started) : null, 0);
 		Intent notificationIntent = new Intent(ChronoService.this, Chrono.class);
 		PendingIntent pendingIntent = PendingIntent.getActivity(ChronoService.this, 0, notificationIntent, 0);
-		String title = "Время в служении: "+String.format("%d:%02d", minutes/60, minutes%60);
-		notification.setLatestEventInfo(ChronoService.this, title, "Нажмите, чтобы перейти к хронометру", pendingIntent);
+		String title = getResources().getString(R.string.lbl_chrono_current_time)+" "+String.format("%d:%02d", minutes/60, minutes%60);
+		notification.setLatestEventInfo(ChronoService.this, title, getResources().getString(R.string.lbl_chrono_service_note), pendingIntent);
 		return notification;
 	 }
 

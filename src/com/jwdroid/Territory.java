@@ -1,6 +1,8 @@
 package com.jwdroid;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -158,8 +160,8 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	    
 	    
 	    final QuickAction addActions 	= new QuickAction(this);
-		addActions.addActionItem(new ActionItem("Добавить один", getResources().getDrawable(R.drawable.ac_single)));		
-		addActions.addActionItem(new ActionItem("Добавить несколько", getResources().getDrawable(R.drawable.ac_grid)));
+		addActions.addActionItem(new ActionItem(getResources().getString(R.string.action_add_single_object), getResources().getDrawable(R.drawable.ac_single)));		
+		addActions.addActionItem(new ActionItem(getResources().getString(R.string.action_add_many_objects), getResources().getDrawable(R.drawable.ac_grid)));
 		addActions.animateTrack(false);	
     	
 		
@@ -286,30 +288,30 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
     	
     	switch(id) {
     	case DIALOG_ADD_SINGLE:   
-    		 ((TextView)dlgEditLayout.findViewById(R.id.lbl_dlgedit_note)).setText("Например, номер квартиры или частного дома");            
+    		 ((TextView)dlgEditLayout.findViewById(R.id.lbl_dlgedit_note)).setText(R.string.dlg_add_single_object_note);            
      		dialog = new AlertDialog.Builder(this)
-     					.setTitle("Введите заголовок:")
+     					.setTitle(R.string.msg_object_name)
      					.setView(dlgEditLayout)
-     					.setPositiveButton("OK", null)
-     					.setNegativeButton("Отмена", null).create(); 
+     					.setPositiveButton(R.string.btn_ok, null)
+     					.setNegativeButton(R.string.btn_cancel, null).create(); 
     		break;
     		
     	case DIALOG_DELETE:
     		dialog = new AlertDialog.Builder(this) 	
     				.setCancelable(true)
-    				.setMessage("Вы действительно хотите удалить этот объект?")
+    				.setMessage(R.string.msg_delete_object)
     				.setPositiveButton(R.string.btn_ok, null)
     				.setNegativeButton(R.string.btn_cancel, null)
     				.create();
     		break;    		
     		
     	case DIALOG_CHANGE_NAME:
-            ((TextView)dlgEditLayout.findViewById(R.id.lbl_dlgedit_note)).setText("Например, номер квартиры или частного дома");            
+            ((TextView)dlgEditLayout.findViewById(R.id.lbl_dlgedit_note)).setText(R.string.dlg_add_single_object_note);            
     		dialog = new AlertDialog.Builder(this)
-    					.setTitle("Введите заголовок:")
+    					.setTitle(R.string.msg_object_name)
     					.setView(dlgEditLayout)
-    					.setPositiveButton("OK", null)
-    					.setNegativeButton("Отмена", null).create();    		
+    					.setPositiveButton(R.string.btn_ok, null)
+    					.setNegativeButton(R.string.btn_cancel, null).create();    		
     		
     		break;
     		
@@ -323,60 +325,60 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
     		
     		ArrayAdapter adapter = new ArrayAdapter(this,    				
     			android.R.layout.simple_spinner_item, new SimpleArrayItem[] {
-    				new SimpleArrayItem(ARRANGE_DIR_DOWN, "Сверху вниз"),
-    				new SimpleArrayItem(ARRANGE_DIR_UP, "Снизу вверх")
+    				new SimpleArrayItem(ARRANGE_DIR_DOWN, getResources().getString(R.string.li_top_down)),
+    				new SimpleArrayItem(ARRANGE_DIR_UP, getResources().getString(R.string.li_bottom_up))
     		});
     		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     		((Spinner)dlgArrangeLayout.findViewById(R.id.spinner_arrange_direction_vertical)).setAdapter(adapter);
     		
     		adapter = new ArrayAdapter(this,    				
         			android.R.layout.simple_spinner_item, new SimpleArrayItem[] {
-        				new SimpleArrayItem(ARRANGE_DIR_RIGHT, "Слева направо"),
-        				new SimpleArrayItem(ARRANGE_DIR_LEFT, "Справа налево")
+        				new SimpleArrayItem(ARRANGE_DIR_RIGHT, getResources().getString(R.string.li_left_right)),
+        				new SimpleArrayItem(ARRANGE_DIR_LEFT, getResources().getString(R.string.li_right_left))
         		});
         	adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         	((Spinner)dlgArrangeLayout.findViewById(R.id.spinner_arrange_direction_horizontal)).setAdapter(adapter);
         		
     		dialog = new AlertDialog.Builder(this)
-				.setTitle("Упорядочить")
+				.setTitle(R.string.menu_territory_arrange)
 				.setView(dlgArrangeLayout)
-				.setPositiveButton("OK", null)
-				.setNegativeButton("Отмена", null).create(); 
+				.setPositiveButton(R.string.btn_ok, null)
+				.setNegativeButton(R.string.btn_cancel, null).create(); 
     		break;
     		
     	case DIALOG_SET_POSITION: 
     		final View dlgSetPositionLayout = factory.inflate(R.layout.dlg_2edits, null);
-    		((TextView)dlgSetPositionLayout.findViewById(R.id.lbl_left)).setText("Строка:");
-    		((TextView)dlgSetPositionLayout.findViewById(R.id.lbl_right)).setText("Столбец:");
+    		((TextView)dlgSetPositionLayout.findViewById(R.id.lbl_left)).setText(R.string.lbl_set_row);
+    		((TextView)dlgSetPositionLayout.findViewById(R.id.lbl_right)).setText(R.string.lbl_set_col);
     		dialog = new AlertDialog.Builder(this)
-				.setTitle("Задать положение")
+				.setTitle(R.string.menu_set_position)
 				.setView(dlgSetPositionLayout)
-				.setPositiveButton("OK", null)
-				.setNegativeButton("Отмена", null).create(); 
+				.setPositiveButton(R.string.btn_ok, null)
+				.setNegativeButton(R.string.btn_cancel, null).create(); 
     		break;
     		
     	case DIALOG_ADD_MULTIPLE: 
     		final View dlgAddMultipleLayout = factory.inflate(R.layout.dlg_2edits, null);
-    		((TextView)dlgAddMultipleLayout.findViewById(R.id.lbl_left)).setText("Номера от:");
-    		((TextView)dlgAddMultipleLayout.findViewById(R.id.lbl_right)).setText("до:");
+    		((TextView)dlgAddMultipleLayout.findViewById(R.id.lbl_left)).setText(R.string.lbl_numbers_from);
+    		((TextView)dlgAddMultipleLayout.findViewById(R.id.lbl_right)).setText(R.string.lbl_numbers_to);
     		dialog = new AlertDialog.Builder(this)
-				.setTitle("Добавить несколько")
+				.setTitle(R.string.action_add_many_objects)
 				.setView(dlgAddMultipleLayout)
-				.setPositiveButton("OK", null)
-				.setNegativeButton("Отмена", null).create(); 
+				.setPositiveButton(R.string.btn_ok, null)
+				.setNegativeButton(R.string.btn_cancel, null).create(); 
     		break;
     		
     	case DIALOG_OFFER_ARRANGE:
     		dialog = new AlertDialog.Builder(this) 	
     				.setCancelable(true)
-    				.setMessage("Жилые объекты добавлены. Для удобства (например, если вы добавляете подъезд многоквартирного дома) вы можете выполнить упорядочивание по строкам и столбцам с помощью меню \"Раскладка\". Сделать это сейчас?")
-    				.setPositiveButton("Да", new DialogInterface.OnClickListener() {					
+    				.setMessage(R.string.msg_arrange_after_add)
+    				.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {					
     					@Override
     					public void onClick(DialogInterface dialog, int which) {
     						showDialog(DIALOG_ARRANGE);
     					}
     				})
-    				.setNegativeButton("Нет", null)
+    				.setNegativeButton(R.string.btn_no, null)
     				.create();
     		break;   
     	
@@ -484,7 +486,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 				    		
 						}
 						catch(Exception e) {
-							Toast.makeText(Territory.this, "Ошибка!", Toast.LENGTH_SHORT);
+							Toast.makeText(Territory.this, R.string.msg_error, Toast.LENGTH_SHORT);
 							Log.e(TAG, e.getMessage());
 						}
 					}	    			
@@ -501,7 +503,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 							db.execSQL("DELETE FROM `door` WHERE rowid=?", new Long[] { mDialogItemId });
 					  		db.execSQL("DELETE FROM `person` WHERE door_id=?", new Long[] { mDialogItemId });
 					  		db.execSQL("DELETE FROM `visit` WHERE door_id=?", new Long[] { mDialogItemId });					  		
-					  		Toast.makeText(Territory.this, "Объект удален", Toast.LENGTH_SHORT).show();			  		
+					  		Toast.makeText(Territory.this, R.string.msg_object_deleted, Toast.LENGTH_SHORT).show();			  		
 					  		getSupportLoaderManager().getLoader(0).forceLoad();
 						}
 					});
@@ -592,11 +594,11 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 							cols = Integer.parseInt(((EditText)alertDialog.findViewById(R.id.edit_arrange_cols)).getText().toString());
 						}
 						catch(Exception e) {
-							Toast.makeText(Territory.this, "Неправильный ввод!", Toast.LENGTH_SHORT).show();
+							Toast.makeText(Territory.this, R.string.err_invalid_input, Toast.LENGTH_SHORT).show();
 							return;
 						}
 						if(cols == 0) {
-							Toast.makeText(Territory.this, "Введите количество столбцов!", Toast.LENGTH_SHORT).show();
+							Toast.makeText(Territory.this, R.string.err_no_cols_value, Toast.LENGTH_SHORT).show();
 							return;
 						}
 						
@@ -834,11 +836,11 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 			    	curGroup.addView(listView);
 			    	
 			    	final QuickAction listActions 	= new QuickAction(this);
-					listActions.addActionItem(new ActionItem("Заголовок", getResources().getDrawable(R.drawable.ac_pencil)));
-					listActions.addActionItem(new ActionItem("Цвет", getResources().getDrawable(R.drawable.ac_color)));
-					listActions.addActionItem(new ActionItem("Выше", getResources().getDrawable(R.drawable.ac_up)));
-					listActions.addActionItem(new ActionItem("Ниже", getResources().getDrawable(R.drawable.ac_down)));				
-					listActions.addActionItem(new ActionItem("Удалить", getResources().getDrawable(R.drawable.ac_trash)));
+					listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_change_name), getResources().getDrawable(R.drawable.ac_pencil)));
+					listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_change_color), getResources().getDrawable(R.drawable.ac_color)));
+					listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_move_up), getResources().getDrawable(R.drawable.ac_up)));
+					listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_move_down), getResources().getDrawable(R.drawable.ac_down)));				
+					listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_delete), getResources().getDrawable(R.drawable.ac_trash)));
 					listActions.animateTrack(false);
 					listActions.setAnimStyle(QuickAction.ANIM_MOVE_FROM_RIGHT);			
 			    	
@@ -1027,10 +1029,10 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 						}
 						
 						final QuickAction listActions 	= new QuickAction(this);
-						listActions.addActionItem(new ActionItem("Заголовок", getResources().getDrawable(R.drawable.ac_pencil)));
-						listActions.addActionItem(new ActionItem("Цвет", getResources().getDrawable(R.drawable.ac_color)));
-						listActions.addActionItem(new ActionItem("Переместить", getResources().getDrawable(R.drawable.ac_move)));			
-						listActions.addActionItem(new ActionItem("Удалить", getResources().getDrawable(R.drawable.ac_trash)));
+						listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_change_name), getResources().getDrawable(R.drawable.ac_pencil)));
+						listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_change_color), getResources().getDrawable(R.drawable.ac_color)));
+						listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_move), getResources().getDrawable(R.drawable.ac_move)));			
+						listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_delete), getResources().getDrawable(R.drawable.ac_trash)));
 						listActions.animateTrack(false);
 						listActions.setAnimStyle(QuickAction.ANIM_MOVE_FROM_RIGHT);			
 				    	
@@ -1181,8 +1183,8 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
             holder.name.setText(item.name);
         	
         	if(item.visitsNum > 0) {
-        		holder.num_visits.setText(item.visitsNum+" "+Util.pluralForm(item.visitsNum, "посещение", "посещения", "посещений"));
-        		String snippet = "<s><b>"+item.lastDate.format("%d.%m.%y");
+        		holder.num_visits.setText(item.visitsNum+" "+Util.pluralForm(mContext, item.visitsNum, mContext.getResources().getStringArray(R.array.plural_visits)));
+        		String snippet = "<s><b>"+DateFormat.getDateInstance(DateFormat.SHORT).format( new Date(item.lastDate.toMillis(true)) );
         		if(item.lastPersonName != null && item.lastPersonName.length() > 0)
         			snippet += ", "+item.lastPersonName;
         		snippet += "</b></s>: "+item.lastDesc;

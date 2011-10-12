@@ -19,8 +19,7 @@
     		android:layout_marginLeft="6dip"
     		android:textColor="#ffffff"
     		android:textSize="18dip"
-    		android:textStyle="bold"
-    		android:text="Отчет" />
+    		android:textStyle="bold" />
     	<Button android:id="@+id/title_btn_send"
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
@@ -39,7 +38,7 @@
 				android:layout_height="wrap_content"
 				android:textSize="15dip"
 		    	android:textStyle="bold"
-		    	android:text="Суммарно" />
+		    	android:text="@string/lbl_report_summary" />
 		    	
 		    <TextView android:id="@+id/summary_minutes"
 				android:layout_width="wrap_content"
@@ -49,28 +48,33 @@
 		    	android:textStyle="bold"
 		    	android:text="18:23" />
 		    	
-		    <LinearLayout
-		    	android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-		    	android:layout_alignParentLeft="true"
+		    <View 
+				android:layout_width="fill_parent"
+				android:layout_height="1px"
+				android:layout_alignParentLeft="true"
 				android:layout_below="@id/summary_title"
-				android:gravity="center_vertical"
-				android:layout_marginTop="3dip">
+				android:layout_marginTop="3dip"
+				android:background="#dddddd" />
 		    	
-			    <ImageButton android:id="@+id/btn_summary_type"
-			    	android:layout_width="40dip"
-					android:layout_height="40dip"				
-					android:src="@drawable/ac_cog" />
-			    	
-			    <TextView android:id="@+id/summary_info"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginLeft="5dip"
-					android:layout_marginRight="40dip"
-					android:textSize="15dip"
-			    	android:text="1 журнал, 4 брошюр, 8 повторных, 1 изучение" />
+		    <TextView android:id="@+id/summary_info"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentLeft="true"
+				android:layout_below="@id/summary_title"
+				android:layout_marginRight="45dip"
+				android:layout_marginTop="10dip"
+				android:textSize="15dip"
+		    	android:text="1 журнал, 4 брошюр, 8 повторных, 1 изучение" />
 		    	
-		    </LinearLayout>
+		    <ImageButton android:id="@+id/btn_summary_type"
+		    	android:layout_width="40dip"
+				android:layout_height="40dip"
+				android:layout_alignParentRight="true"
+				android:layout_below="@id/summary_minutes"
+				android:layout_marginTop="10dip"
+				android:layout_marginRight="-3dip"
+				android:src="@drawable/ac_cog" />
+		    	
 			
 		</RelativeLayout>	
 		
@@ -88,7 +92,7 @@
 	  		android:paddingRight="10dip"
 	  		android:textColor="#999999"
 	  		android:textSize="16dip"	
-	    	android:text="Отчет пуст."
+	    	android:text="@string/lbl_report_empty"
 	    	android:visibility="gone"/>
 		
 		<ListView android:id="@+id/session_list"

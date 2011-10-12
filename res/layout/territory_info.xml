@@ -43,7 +43,7 @@
 				android:layout_height="wrap_content"
 				android:textSize="16dip"
 				android:textStyle="bold"
-				android:text="Заметки"/>
+				android:text="@string/lbl_territory_notes"/>
 			<EditText android:id="@+id/edit_notes"
 	    		android:layout_width="fill_parent"
 	    		android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
 						android:layout_height="wrap_content"						
 						android:textSize="16dip"
 						android:textColor="#777"
-						android:text="Участок взят:"/>
+						android:text="@string/lbl_territory_got"/>
 					<Button android:id="@+id/btn_started"
 						android:layout_width="100dip"
 						android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
 						android:layout_height="wrap_content"
 						android:textSize="16dip"
 						android:textColor="#777"
-						android:text="Участок сдан:"/>
+						android:text="@string/lbl_territory_finished"/>
 					<Button android:id="@+id/btn_finished"
 						android:layout_width="100dip"
 						android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
 						android:layout_height="wrap_content"						
 						android:textSize="16dip"
 						android:textColor="#777"
-						android:text="Последнее посещение:"/>
+						android:text="@string/lbl_territory_last_visit"/>
 					<TextView  android:id="@+id/lbl_modified"
 						android:layout_width="fill_parent"
 						android:layout_height="wrap_content"
