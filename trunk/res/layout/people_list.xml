@@ -24,8 +24,7 @@
     	<Button android:id="@+id/title_btn_add"
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
-    		android:background="@drawable/title_btn_round_add" 
-    		android:visibility="invisible"/>
+    		android:background="@drawable/title_btn_round_add"/>
     </LinearLayout>
     
     

@@ -34,6 +34,9 @@
     	android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
     	android:padding="10dip"    	
+    	android:textColor="#999999"
+	  	android:textSize="16dip"
+	  	android:gravity="center"
     	android:text="@string/territory_list_empty"
     	android:visibility="gone"/>
 	
