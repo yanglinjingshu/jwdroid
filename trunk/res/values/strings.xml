@@ -188,9 +188,9 @@
 <string name="pref_template_magazine">Magazine</string>
 <string name="pref_template_brochure">Brochure</string>
 <string name="pref_template_book">Book</string>
-<string name="pref_template_magazine_default">--m</string>
-<string name="pref_template_brochure_default">--br</string>
-<string name="pref_template_book_default">--bk</string>
+<string name="pref_template_magazine_default">+m</string>
+<string name="pref_template_brochure_default">+br</string>
+<string name="pref_template_book_default">+bk</string>
    
 <string-array name="months">
     <item>January</item>
@@ -237,5 +237,9 @@
     <item>visit</item>
     <item>visits</item>
 </string-array>
+
+
+<string name="title_tip">Tip</string>
+<string name="msg_tip_literature_templates" formatted="false">Note that you can use these text templates for placed literature:\n%s, %s, %s\n\nFor example: \"Placed %s about children.\"</string>
 
 </resources>

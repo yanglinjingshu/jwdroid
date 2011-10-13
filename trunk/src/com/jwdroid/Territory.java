@@ -427,6 +427,8 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 			    		
 			    		db.execSQL(	"INSERT INTO door (territory_id, group_id, order_num, col, row, name, color1, color2, visits_num, last_person_name, last_date, last_desc)" +
 			    		"VALUES(?,?,?,?,?,?,0,0,0,null,null,null)", new Object[] {mTerritoryId, mPanelsView.getActivePos(), orderNum, col, row, name});
+			    		
+			    		mRememberedActiveViewGroupScroll = -1;
 			    		getSupportLoaderManager().getLoader(0).forceLoad();	
 					}
 	    		});
@@ -779,7 +781,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 		
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		
-		if(mPanelsView.getViewGroupsCount() > 0 && mPanelsView.getViewGroupAt( mPanelsView.getActivePos() ).findViewById(ID_PANEL_LISTVIEW) != null)
+		if(mRememberedActiveViewGroupScroll != -1 && mPanelsView.getViewGroupsCount() > 0 && mPanelsView.getViewGroupAt( mPanelsView.getActivePos() ).findViewById(ID_PANEL_LISTVIEW) != null)
 			mRememberedActiveViewGroupScroll = ((ListView)mPanelsView.getViewGroupAt( mPanelsView.getActivePos() ).findViewById(ID_PANEL_LISTVIEW)).getFirstVisiblePosition();
 		
 		Display display = getWindowManager().getDefaultDisplay();
@@ -1103,9 +1105,12 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 		mPanelsView.setActiveViewGroup(mRememberedActiveViewGroup);
 		mRememberedActiveViewGroup = mPanelsView.getActivePos();		
 		
-		if(mPanelsView.getViewGroupsCount() > 0 && mPanelsView.getViewGroupAt( mPanelsView.getActivePos() ).findViewById(ID_PANEL_LISTVIEW) != null)
+		if(mPanelsView.getViewGroupsCount() > 0 && mPanelsView.getViewGroupAt( mPanelsView.getActivePos() ).findViewById(ID_PANEL_LISTVIEW) != null) {
+			if(mRememberedActiveViewGroupScroll == -1)
+				((ListView)mPanelsView.getViewGroupAt(mRememberedActiveViewGroup).findViewById(ID_PANEL_LISTVIEW)).setSelection(9999);
+			else
 			((ListView)mPanelsView.getViewGroupAt(mRememberedActiveViewGroup).findViewById(ID_PANEL_LISTVIEW)).setSelection(mRememberedActiveViewGroupScroll);				
-		
+		}
 		
 	}
 

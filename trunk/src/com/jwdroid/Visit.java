@@ -9,12 +9,14 @@ import java.util.regex.Pattern;
 import net.londatiga.android.R;
 
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.LightingColorFilter;
@@ -54,7 +56,8 @@ public class Visit extends FragmentActivity {
 	public static final int TYPE_STUDY = 3;
 	
     static final int TIME_DIALOG_ID = 0;
-    static final int DATE_DIALOG_ID = 1;	
+    static final int DATE_DIALOG_ID = 1;
+    static final int DIALOG_TIP_TEMPLATES = 2;	
     
     public static final int[] TYPE_ICONS = {R.drawable.visit_na, R.drawable.first_visit, R.drawable.revisit, R.drawable.study};
 	
@@ -74,6 +77,15 @@ public class Visit extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.visit);
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		if(!prefs.getBoolean("tip_literature_templates", false)) {
+			Editor editor = prefs.edit();
+			editor.putBoolean("tip_literature_templates", true);
+			editor.commit();
+			
+			showDialog(DIALOG_TIP_TEMPLATES);
+		}
 		
 		 Cursor rs;
 	    SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
@@ -327,6 +339,21 @@ public class Visit extends FragmentActivity {
 							}
 						},
                         mDate.year, mDate.month, mDate.monthDay);
+                
+            case DIALOG_TIP_TEMPLATES:
+            	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            	
+            	String text = String.format(getResources().getString(R.string.msg_tip_literature_templates),
+            						prefs.getString("literature_template_magazine", getResources().getString(R.string.pref_template_magazine_default)),
+            						prefs.getString("literature_template_brochure", getResources().getString(R.string.pref_template_brochure_default)), 
+            						prefs.getString("literature_template_book", getResources().getString(R.string.pref_template_book_default)),
+            						prefs.getString("literature_template_magazine", getResources().getString(R.string.pref_template_magazine_default)));
+            	
+            	return new AlertDialog.Builder(this)
+            		   .setTitle(R.string.title_tip)
+        			   .setCancelable(true)
+        			   .setMessage(text)
+        			   .setPositiveButton(R.string.btn_ok, null).create();        		
         }
         return null;
     }	
