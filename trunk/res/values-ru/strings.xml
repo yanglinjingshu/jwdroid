@@ -5,15 +5,12 @@
 
 <string name="lbl_territory_name">Название участка:</string>
 <string name="title_territory_add">Добавление участка</string>
-<string name="menu_territory_add">Добавить участок</string>
 <string name="lbl_territory_desc">Краткое описание:</string>
-
 <string name="btn_add">Добавить</string>
 <string name="err_empty_name">Введите название!</string>
 <string name="msg_territory_added">Участок добавлен</string>
-<string name="menu_delete">Удалить</string>
 <string name="msg_territory_deleted">Участок удален</string>
-<string name="territory_list_empty">Список участков пуст. Вы можете добавить новый участок, нажав кнопку \&quot;Меню\&quot;.</string>
+<string name="territory_list_empty">Список участков пуст. Вы можете добавить новый участок с помощью кнопки выше.</string>
 <string name="dlg_territory_delete_msg">Операция удаления участка не может быть отменена. Вы уверены?</string>
 <string name="dlg_territory_delete_title">Удаление участка</string>
 <string name="dlg_territory_add_label">Название участка:</string>
@@ -76,19 +73,19 @@
 <string name="lbl_visit_date">Дата:</string>
 <string name="chk_visit_calc_auto">Подсчитывать из текста</string>
 
-<string name="menu_preferences">Preferences</string>
-<string name="menu_feedback">Send feedback</string>
-<string name="menu_help">Help</string>
-<string name="menu_session_date">Date and time</string>
-<string name="menu_change_session_date">Change date</string>
-<string name="menu_change_session_time">Change time</string>
+<string name="menu_preferences">Настройки</string>
+<string name="menu_feedback">Отправить отзыв</string>
+<string name="menu_help">Справка</string>
+<string name="menu_session_date">Дата и время</string>
+<string name="menu_change_session_date">Изменить дату</string>
+<string name="menu_change_session_time">Изменить время</string>
 <string name="menu_set_position">Задать положение</string>
 <string name="menu_move_up">Переместить вверх</string>
 <string name="menu_move_down">Переместить вниз</string>
 <string name="menu_move_left">Переместить влево</string>
 <string name="menu_move_right">Переместить вправо</string>
-<string name="menu_territory_info">Info</string>
-<string name="menu_territory_layout">Layout</string>
+<string name="menu_territory_info">Информация</string>
+<string name="menu_territory_layout">Раскладка</string>
 <string name="menu_territory_arrange">Упорядочить</string>
 <string name="menu_territory_shift_up">Сдвинуть всё вверх</string>
 <string name="menu_territory_shift_down">Сдвинуть всё вниз</string>
@@ -121,8 +118,8 @@
 <string name="pref_template_magazine_default">--ж</string>
 <string name="pref_template_brochure_default">--б</string>
 <string name="pref_template_book_default">--к</string>
-<string name="msg_chrono_finish">Завершить служение?</string>
 
+<string name="msg_chrono_finish">Завершить служение?</string>
 <string name="msg_chrono_start">Начать служение?</string>
 <string name="msg_chrono_service_started">Хронометр служения запущен</string>
 <string name="lbl_chrono_current_time">Время в служении:</string>
@@ -141,12 +138,7 @@
 <string name="action_visit_delete">Удалить</string>
 
 
-
-
-
-<string name="title_preferences">Preferences</string>
-
-
+<string name="title_preferences">Настройки</string>
 
 <string name="title_report">Отчет за %s</string>
 <string name="action_calc_type_sessions">По списку служений</string>
@@ -180,7 +172,83 @@
 <string name="action_territory_info">Информация</string>
 <string name="action_territory_delete">Удалить</string>
 
+<string name="lbl_person_add_from_people">Обратите внимание, что этот человек будет добавлен без привязки к участку.</string>
 
+<string-array name="entries_color_preference">
+	<item>Не устанавливать</item>
+    <item>Синий</item>
+    <item>Зеленый</item>
+    <item>Желтый</item>
+    <item>Красный</item>  
+    <item>Ярко-синий</item>
+    <item>Ярко-зеленый</item>
+    <item>Ярко-желтый</item>
+    <item>Ярко-красный</item>
+</string-array>
+
+   <string-array name="entries_table_button_size_preference">
+    <item>Маленький</item>
+    <item>Средний</item>
+    <item>Большой</item>
+</string-array>
+
+<string-array name="months">
+    <item>Январь</item>
+    <item>Февраль</item>
+    <item>Март</item>
+    <item>Апрель</item>
+    <item>Май</item>
+    <item>Июнь</item>
+    <item>Июль</item>
+    <item>Август</item>
+    <item>Сентябрь</item>
+    <item>Октябрь</item>
+    <item>Ноябрь</item>
+    <item>Декабрь</item>
+</string-array>
+
+<string-array name="visit_types">
+    <item>Нет</item>
+    <item>Обычное</item>
+    <item>Повторное</item>
+    <item>Изучение</item>
+</string-array>
+
+<string-array name="plural_magazines">
+    <item>журнал</item>
+    <item>журнала</item>
+    <item>журналов</item>
+</string-array>
+
+<string-array name="plural_brochures">
+    <item>брошюра</item>
+    <item>брошюры</item>
+    <item>брошюр</item>
+</string-array>	
+
+<string-array name="plural_books">
+    <item>книга</item>
+    <item>книги</item>
+    <item>книг</item>
+</string-array>
+
+<string-array name="plural_returns">
+    <item>повторное</item>
+    <item>повторных</item>
+    <item>повторных</item>
+</string-array>
+
+<string-array name="plural_studies">
+    <item>изучение</item>
+    <item>изучения</item>
+    <item>изучений</item>
+</string-array>
+
+<string-array name="plural_visits">
+    <item>посещение</item>
+    <item>посещения</item>
+    <item>посещений</item>
+</string-array>
 
 </resources>
 

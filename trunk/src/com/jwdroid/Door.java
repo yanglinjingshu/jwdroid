@@ -412,12 +412,7 @@ public class Door extends FragmentActivity {
     
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-		switch(v.getId()) {
-			case ID_PANEL_LISTVIEW:
-				menu.setHeaderTitle(R.string.title_visit);
-				menu.add(Menu.NONE, MENU_DELETE, Menu.NONE, R.string.menu_delete);				
-				break;
-		}
+
 	}
     
     
