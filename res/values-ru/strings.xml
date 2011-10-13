@@ -250,5 +250,9 @@
     <item>посещений</item>
 </string-array>
 
+<string name="title_tip">Подсказка</string>
+<string name="msg_tip_literature_templates" formatted="false">Вы можете использовать в тексте следующие шаблоны для распространенной литературы:\n%s, %s, %s\n\nНапример: \"Отдали %s о детях\".</string>
+
+
 </resources>
 

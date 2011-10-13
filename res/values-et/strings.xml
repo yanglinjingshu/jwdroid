@@ -238,4 +238,7 @@
     <item>visits</item>
 </string-array>
 
+<string name="title_tip">Tip</string>
+<string name="msg_tip_literature_templates" formatted="false">Note that you can use these text templates for placed literature:\n%s, %s, %s\n\nFor example: \"Placed %s about children.\"</string>
+
 </resources>

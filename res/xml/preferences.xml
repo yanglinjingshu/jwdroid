@@ -61,8 +61,6 @@
 	  	<ListPreference
 	  		android:key="color_study"
 	  		android:title="@string/pref_color_study"
-	  		android:dependency="autoset_color"
-	  		android:layout="?android:attr/preferenceLayoutChild"
 	  		android:defaultValue="1"
 	  		android:entries="@array/entries_color_preference"
 	  		android:entryValues="@array/entryvalues_color_preference" />
