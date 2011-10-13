@@ -33,6 +33,16 @@
 	    		android:lines="1"
 	    		android:textStyle="bold" />
 	    </LinearLayout>
+	    <TextView android:id="@+id/title_people"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_weight="1"
+    		android:layout_centerVertical="true"
+    		android:layout_marginLeft="6dip"
+    		android:textColor="#ffffff"
+    		android:textSize="18dip"
+    		android:textStyle="bold" 
+    		android:text="@string/title_people"/>	
     	<Button android:id="@+id/title_btn_color"
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"

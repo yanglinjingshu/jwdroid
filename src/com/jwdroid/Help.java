@@ -22,7 +22,11 @@ public class Help extends Activity {
         webSettings.setSupportZoom(false);
         webSettings.setDefaultTextEncodingName("utf-8");
 
-        mWebView.loadUrl("http://jwdroid.googlecode.com/svn/trunk/help.html");
+        String locale = getResources().getConfiguration().locale.getLanguage();
+		if(locale.equals("ru")) 
+			mWebView.loadUrl("http://jwdroid.googlecode.com/svn/trunk/help-ru.html");
+		else
+			mWebView.loadUrl("http://jwdroid.googlecode.com/svn/trunk/help-en.html");
 
 
 	}

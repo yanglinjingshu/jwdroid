@@ -34,6 +34,7 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.text.Editable;
 import android.text.Html;
+import android.text.InputType;
 import android.text.format.Time;
 import android.text.style.TypefaceSpan;
 import android.util.Log;
@@ -128,10 +129,16 @@ public class Door extends FragmentActivity {
 	    ((TriangleView)findViewById(R.id.title_color2)).setColor( getResources().getColor(COLORS[rs.getInt(3)]) );
 	    rs.close();
 	    
-	    rs = db.rawQuery("SELECT name FROM territory WHERE ROWID=?", new String[] {mTerritoryId.toString()});
-	    rs.moveToFirst();	    
-	    ((TextView)findViewById(R.id.territory_name)).setText(rs.getString(0));
-	    rs.close();
+	    if(mTerritoryId != 0) {
+		    rs = db.rawQuery("SELECT name FROM territory WHERE ROWID=?", new String[] {mTerritoryId.toString()});
+		    rs.moveToFirst();	    
+		    ((TextView)findViewById(R.id.territory_name)).setText(rs.getString(0));
+		    rs.close();
+		    
+		    findViewById(R.id.title_people).setVisibility(View.GONE);
+	    } else {
+	    	findViewById(R.id.title_btn_back).setVisibility(View.GONE);
+	    }
 	  
 	    mPanelsView = new HorizontalPanelsView(this);
 	    mPanelsView.setBackgroundColor(Color.parseColor("#eeeeee"));
@@ -256,7 +263,7 @@ public class Door extends FragmentActivity {
     		
             final View view = factory.inflate(R.layout.dlg_edit, null);
             ((TextView)view.findViewById(R.id.lbl_dlgedit_note)).setVisibility(View.GONE);
-            
+            ((EditText)view.findViewById(R.id.edit_dlgedit_text)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
     		dialog = new AlertDialog.Builder(this)
     					.setTitle(R.string.msg_person_desc)
     					.setView(view)
@@ -389,6 +396,11 @@ public class Door extends FragmentActivity {
 					  		updateVisits(Door.this, mDoorId);
 					  		Toast.makeText(Door.this, R.string.msg_person_deleted, Toast.LENGTH_SHORT).show();			  		
 					  		updateContent();
+					  		
+					  		if(mTerritoryId == 0) {
+					  			db.execSQL("DELETE FROM door WHERE ROWID=?", new Object[]{mDoorId});
+					  			finish();
+					  		}
 						}
 					});
     		}
@@ -500,7 +512,8 @@ public class Door extends FragmentActivity {
 			final QuickAction personActions 	= new QuickAction(this);
 			personActions.addActionItem(new ActionItem(getResources().getString(R.string.action_person_change), getResources().getDrawable(R.drawable.ac_pencil)));
 			personActions.addActionItem(new ActionItem(getResources().getString(R.string.action_person_delete), getResources().getDrawable(R.drawable.ac_trash)));
-			personActions.addActionItem(new ActionItem(reject == 0 ? getResources().getString(R.string.action_person_reject) : getResources().getString(R.string.action_person_nreject), getResources().getDrawable(R.drawable.ac_cancel)));			
+			if(mTerritoryId != 0)
+				personActions.addActionItem(new ActionItem(reject == 0 ? getResources().getString(R.string.action_person_reject) : getResources().getString(R.string.action_person_nreject), getResources().getDrawable(R.drawable.ac_cancel)));			
 			personActions.animateTrack(false);
 			personActions.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {				
 				@Override
@@ -636,11 +649,13 @@ public class Door extends FragmentActivity {
 			
 		// Последний экран заглушки
 	    
-		LinearLayout curPerson = new LinearLayout(this);
-    	curPerson.setLayoutParams(new LayoutParams(width, LayoutParams.WRAP_CONTENT));
-    	curPerson.setGravity(Gravity.CENTER);
-    	curPerson.addView(View.inflate(this, R.layout.door_empty, null));
-    	mPanelsView.addViewGroup(curPerson);
+		if(mTerritoryId != 0) {
+			LinearLayout curPerson = new LinearLayout(this);
+	    	curPerson.setLayoutParams(new LayoutParams(width, LayoutParams.WRAP_CONTENT));
+	    	curPerson.setGravity(Gravity.CENTER);
+	    	curPerson.addView(View.inflate(this, R.layout.door_empty, null));
+	    	mPanelsView.addViewGroup(curPerson);
+		}
 		
     	
     	

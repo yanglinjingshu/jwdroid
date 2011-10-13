@@ -1,6 +1,8 @@
 package com.jwdroid;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import net.londatiga.android.ActionItem;
 import net.londatiga.android.QuickAction;
@@ -42,7 +44,7 @@ public class ReportList extends Activity {
 
 	static private final int DIALOG_DELETE = 1;
 	
-	private ArrayAdapter mListAdapter;	
+	private ReportListAdapter mListAdapter;	
 	private AppDbOpenHelper mDbOpenHelper = new AppDbOpenHelper(this);
 	private ListView mListView;
 	 
@@ -56,28 +58,9 @@ public class ReportList extends Activity {
         mListView = (ListView)findViewById(R.id.report_list);
             	    
 	  
-	    mListAdapter = new ArrayAdapter(this, R.layout.report_list_item);
+	    mListAdapter = new ReportListAdapter(this,null);
 	    
-	    SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
-	    Long firstDateVisits = Util.dbFetchLong(db, "SELECT MIN(strftime('%s',date)) FROM visit", new String[] {});
-	    Long firstDateSessions = Util.dbFetchLong(db, "SELECT MIN(strftime('%s',date)) FROM session", new String[] {});
-	    Time minDate = new Time();
-	    minDate.setToNow();
-	    if(firstDateVisits != null && firstDateVisits > 0)
-	    	minDate.set(firstDateVisits*1000);
-	    if(firstDateSessions != null && firstDateSessions > 0 && firstDateSessions*1000 < minDate.toMillis(true))
-	    	minDate.set(firstDateSessions*1000);
-	    
-	    Time now = new Time();
-	    now.setToNow();
-	    
-	    minDate.monthDay = 1;
-	    while(now.toMillis(true) >= minDate.toMillis(true)) {
-	    	
-	    	mListAdapter.add(new SimpleArrayItem(now.year*100 + now.month+1, getResources().getStringArray(R.array.months)[now.month]+" "+now.year));
-	    	now.month--;	    	
-	    	now.normalize(true);
-	    }
+	    mListView.setAdapter(mListAdapter);   
 	    
 	    mListAdapter.registerDataSetObserver(new DataSetObserver() {
 	    	public void onChanged() {
@@ -85,24 +68,22 @@ public class ReportList extends Activity {
 	    	}
 		});
 	    
-	    mListView.setAdapter(mListAdapter);   
-	    
 	    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 	    	
     		@Override
     		public void onItemClick(AdapterView<?> parent, View view,
     				int position, long id) {
     			
-    			SimpleArrayItem item = (SimpleArrayItem)mListAdapter.getItem(position);
+    			ReportItem item = (ReportItem)mListAdapter.getItem(position);
     			
     			Intent intent = new Intent(ReportList.this, Report.class);
-	    		intent.putExtra("month", String.valueOf(item.id));
+	    		intent.putExtra("month", String.format("%04d%02d",item.year,item.month+1));
 	    		startActivityForResult(intent,1);	
 	    				    			
     		}
 		});
 	    
-	    
+	    updateContent();
     }
     
     @Override
@@ -128,7 +109,7 @@ public class ReportList extends Activity {
 			
 	    case R.id.menu_help:
 	    	intent = new Intent(this, Help.class);
-	    	startActivity(intent);
+	    	startActivityForResult(intent,1);
 	    	break;
 	    }
 	    
@@ -138,6 +119,84 @@ public class ReportList extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	super.onActivityResult(requestCode, resultCode, data);
+    	updateContent();
+    }
+    
+    private void updateContent() {
+    	SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
+	    Long firstDateVisits = Util.dbFetchLong(db, "SELECT MIN(strftime('%s',date)) FROM visit", new String[] {});
+	    Long firstDateSessions = Util.dbFetchLong(db, "SELECT MIN(strftime('%s',date)) FROM session", new String[] {});
+	    Time minDate = new Time();
+	    minDate.setToNow();
+	    if(firstDateVisits != null && firstDateVisits > 0)
+	    	minDate.set(firstDateVisits*1000);
+	    if(firstDateSessions != null && firstDateSessions > 0 && firstDateSessions*1000 < minDate.toMillis(true))
+	    	minDate.set(firstDateSessions*1000);
+	    
+	    Time now = new Time();
+	    now.setToNow();
+	    
+	    ArrayList<ReportItem> items = new ArrayList<ReportItem>();
+	    
+	    minDate.monthDay = 1;
+	    while(now.toMillis(true) >= minDate.toMillis(true)) {
+	    	ReportItem i = new ReportItem();
+	    	i.month = now.month;
+	    	i.year = now.year;
+	    	i.minutes = Util.dbFetchInt(db, "SELECT SUM(minutes) FROM session WHERE strftime('%Y%m',date)=?", new String[]{ String.format("%04d%02d", now.year, now.month+1) });
+	    	items.add(i);
+	    	now.month--;	    	
+	    	now.normalize(true);
+	    }
+	    
+	    mListAdapter.swapData(items);
+    }
+    
+    
+    private class ReportItem {		
+		Integer month,year,minutes;
+	}
+	
+	
+	
+	private static class ReportListAdapter extends SimpleArrayAdapter<ReportItem> {		
+	       
+        public ReportListAdapter(Context context, ArrayList<ReportItem> items) {
+           super(context, items);            
+        }
+
+        public long getItemId(int position) {
+        	return 0;
+        }    
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+        	ViewHolder holder;
+        	ReportItem item = mItems.get(position);
+
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.report_list_item, null);
+
+                holder = new ViewHolder();
+                holder.name = (TextView) convertView.findViewById(R.id.report_item_name);
+                holder.minutes = (TextView) convertView.findViewById(R.id.report_item_minutes);
+                                
+                convertView.setTag(holder);
+            } else {
+
+                holder = (ViewHolder) convertView.getTag();
+            }
+            
+            holder.name.setText(mContext.getResources().getStringArray(R.array.months)[item.month]+" "+item.year);
+            holder.minutes.setText( String.format("%d:%02d", item.minutes/60, item.minutes%60) );
+            	
+            return convertView;
+        }
+
+        static class ViewHolder {        	
+            TextView name,minutes;
+        }
+        
     }
 	
 	

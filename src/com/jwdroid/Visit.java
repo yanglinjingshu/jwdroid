@@ -1,6 +1,8 @@
 package com.jwdroid;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -86,14 +88,21 @@ public class Visit extends FragmentActivity {
 	    rs.close();
 	    
 	    rs = db.rawQuery("SELECT name FROM person WHERE ROWID=?", new String[] {mPersonId.toString()});
-	    rs.moveToFirst();	    
-	    ((TextView)findViewById(R.id.person_name)).setText("  •  "+rs.getString(0));
+	    rs.moveToFirst();
+	    if(mTerritoryId != 0)
+	    	((TextView)findViewById(R.id.person_name)).setText("  •  "+rs.getString(0));
+	    else
+	    	((TextView)findViewById(R.id.person_name)).setText(rs.getString(0));
 	    rs.close();
 	    
-	    rs = db.rawQuery("SELECT name FROM territory WHERE ROWID=?", new String[] {mTerritoryId.toString()});
-	    rs.moveToFirst();	    
-	    ((TextView)findViewById(R.id.territory_name)).setText(rs.getString(0));
-	    rs.close();
+	    if(mTerritoryId != 0) {
+		    rs = db.rawQuery("SELECT name FROM territory WHERE ROWID=?", new String[] {mTerritoryId.toString()});
+		    rs.moveToFirst();	    
+		    ((TextView)findViewById(R.id.territory_name)).setText(rs.getString(0));
+		    rs.close();
+	    }
+	    else
+	    	((TextView)findViewById(R.id.territory_name)).setText(R.string.title_people);
 	    
 	    mDate.setToNow();
 	    
@@ -245,8 +254,8 @@ public class Visit extends FragmentActivity {
 	    
 	    
 	    
-	    ((Button)findViewById(R.id.btn_visit_date)).setText(mDate.format("%d.%m.%y"));
-	    ((Button)findViewById(R.id.btn_visit_time)).setText(mDate.format("%H:%M"));
+	    ((Button)findViewById(R.id.btn_visit_date)).setText( DateFormat.getDateInstance(DateFormat.SHORT).format(new Date(mDate.toMillis(true))));
+	    ((Button)findViewById(R.id.btn_visit_time)).setText( DateFormat.getTimeInstance(DateFormat.SHORT).format(new Date(mDate.toMillis(true))));
 	    ((Button)findViewById(R.id.btn_visit_date)).setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
@@ -302,7 +311,7 @@ public class Visit extends FragmentActivity {
 							public void onTimeSet(TimePicker view, int hourOfDay, int minute) {								
 								mDate.set(0, minute, hourOfDay, mDate.monthDay, mDate.month, mDate.year);
 								mDate.normalize(true);
-								((Button)findViewById(R.id.btn_visit_time)).setText(mDate.format("%H:%M"));	
+								((Button)findViewById(R.id.btn_visit_time)).setText( DateFormat.getTimeInstance(DateFormat.SHORT).format(new Date(mDate.toMillis(true))));	
 							}
 						}, 
 						mDate.hour, mDate.minute, true);
@@ -314,7 +323,7 @@ public class Visit extends FragmentActivity {
 							public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 								mDate.set(0, mDate.minute, mDate.hour, dayOfMonth, monthOfYear, year);
 								mDate.normalize(true);
-								((Button)findViewById(R.id.btn_visit_date)).setText(mDate.format("%d.%m.%y"));
+								((Button)findViewById(R.id.btn_visit_date)).setText( DateFormat.getDateInstance(DateFormat.SHORT).format(new Date(mDate.toMillis(true))));
 							}
 						},
                         mDate.year, mDate.month, mDate.monthDay);

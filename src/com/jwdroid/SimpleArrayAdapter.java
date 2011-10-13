@@ -18,8 +18,9 @@ abstract public class SimpleArrayAdapter<T> extends BaseAdapter {
     public SimpleArrayAdapter(Context context, ArrayList<T> items) {
         mInflater = LayoutInflater.from(context);
         mItems = items;
-        mContext = context;
-        
+        if(items == null)
+        	mItems = new ArrayList<T>();
+        mContext = context;        
     }
 
     public int getCount() {

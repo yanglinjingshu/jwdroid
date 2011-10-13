@@ -4,10 +4,15 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import net.londatiga.android.ActionItem;
+import net.londatiga.android.QuickAction;
 import net.londatiga.android.R;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.DataSetObserver;
@@ -17,23 +22,38 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.text.Editable;
 import android.text.Html;
+import android.text.InputType;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PeopleList extends FragmentActivity implements LoaderCallbacks<Cursor> {
+	
+	private static final int DIALOG_EDIT_PERSON = 1;
+	private static final int DIALOG_DELETE_PERSON = 2;
+	private static final int DIALOG_COLOR = 3;
 	
 	private PeopleListAdapter mListAdapter;	
 	private AppDbOpenHelper mDbOpenHelper = new AppDbOpenHelper(this);
 	private ListView mListView;
+	
+	private Long mDialogItemId;
+	
+	private ColorPicker mColorPicker;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +63,8 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
         // Set up territory list
         
         mListView = (ListView)findViewById(R.id.people_list);
+        
+        mColorPicker = new ColorPicker(this, 0, 0);
             
 	    
 	  
@@ -71,6 +93,49 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
 	    				    			
     		}
 		});   
+	    
+	    final QuickAction personActions 	= new QuickAction(this);
+	    personActions.addActionItem(new ActionItem(getResources().getString(R.string.action_person_change), getResources().getDrawable(R.drawable.ac_pencil)));
+	    personActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_change_color), getResources().getDrawable(R.drawable.ac_color)));
+		personActions.addActionItem(new ActionItem(getResources().getString(R.string.action_person_delete), getResources().getDrawable(R.drawable.ac_trash)));			
+		personActions.animateTrack(false);
+		personActions.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {				
+			@Override
+			public void onItemClick(int pos) {				
+				switch(pos) {				
+				case 0:	// Изменить
+					mDialogItemId = personActions.getId();
+					showDialog(DIALOG_EDIT_PERSON);
+					break;	
+				case 1:	// Цвет
+					mDialogItemId = personActions.getId();
+					showDialog(DIALOG_COLOR);
+					break;
+				case 2: // Удалить
+					mDialogItemId = personActions.getId();
+					showDialog(DIALOG_DELETE_PERSON);
+					break;			
+				}
+			}
+		});
+    	
+    	mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View v,
+					int arg2, long id) {
+				personActions.show(v,id);
+				return false;
+			}			
+		});
+	    
+	    ((Button)findViewById(R.id.title_btn_add)).setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mDialogItemId = null;
+				showDialog(DIALOG_EDIT_PERSON);
+			}
+		});
 	    
 	    getSupportLoaderManager().restartLoader(0, null, this);
     }
@@ -104,6 +169,137 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
 	    
 	    return false;
 	}
+    
+    @Override
+    protected Dialog onCreateDialog(int id) {    	
+    	Dialog dialog=null;
+    	AlertDialog.Builder builder;
+		LayoutInflater factory = LayoutInflater.from(this);
+    	switch(id) {
+    	case DIALOG_COLOR:
+    		dialog = mColorPicker.getDialog();    		
+    		break;
+    		
+    	case DIALOG_EDIT_PERSON:
+    		
+            final View view = factory.inflate(R.layout.dlg_edit, null);
+            ((EditText)view.findViewById(R.id.edit_dlgedit_text)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+            
+    		dialog = new AlertDialog.Builder(this)
+    					.setTitle(R.string.msg_person_desc)
+    					.setView(view)
+    					.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								Editable editable = ((EditText)view.findViewById(R.id.edit_dlgedit_text)).getText();									
+								SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+								
+								if(mDialogItemId == null) {
+									db.execSQL("INSERT INTO door (territory_id,group_id,col,row,name,color1,color2,visits_num,order_num) VALUES(0,0,0,0,\"\",0,0,0,0)", new Object[]{});
+									Long doorId = Util.dbFetchLong(db, "SELECT last_insert_rowid()", new String[]{});
+									db.execSQL("INSERT INTO person (door_id,name) VALUES(?,?)", new Object[] {doorId.toString(),editable.toString()});
+								}
+								else {
+									db.execSQL("UPDATE person SET name=? WHERE ROWID=?", new Object[] {editable.toString(), mDialogItemId.toString()});
+								}
+								
+								getSupportLoaderManager().getLoader(0).forceLoad();
+								
+														
+						}
+					})
+					.setNegativeButton(R.string.btn_cancel, null).create();    		
+    		break;
+    		
+    	
+    	case DIALOG_DELETE_PERSON:
+    		builder = new AlertDialog.Builder(this);    	
+    		builder.setCancelable(true)
+    			   .setMessage(R.string.msg_delete_person)
+    			   .setPositiveButton(R.string.btn_ok, null)
+    			   .setNegativeButton(R.string.btn_cancel, null);
+    		dialog = builder.create();
+    		break;  	
+    	}
+    	
+    	return dialog;
+    }
+    
+    @Override
+    protected void onPrepareDialog(int id, Dialog dialog) {    
+    	super.onPrepareDialog(id, dialog);
+    	
+    	switch(id) {
+    	case DIALOG_COLOR: {	    		
+    		SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();	
+    		Cursor rs = db.rawQuery("SELECT door.ROWID,door.color1,door.color2 FROM person LEFT JOIN door ON door.ROWID=person.door_id WHERE person.ROWID=?", new String[] {mDialogItemId.toString()});
+    	    rs.moveToFirst();
+    	    Integer color1 = rs.getInt(1);
+    	    Integer color2 = rs.getInt(2);
+    	    final Long doorId = rs.getLong(0);
+    	    rs.close();
+    	    
+    	    mColorPicker.setColors(color1,color2);
+    		
+    		mColorPicker.setOkListener( new ColorPicker.OnOkListener() {
+    			@Override
+    			public void onOk(int newColor1, int newColor2) {
+    				SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+					db.execSQL("UPDATE `door` SET color1=?,color2=?,manual_color=1 WHERE ROWID=?", new Object[] { new Integer(newColor1), new Integer(newColor2), doorId });
+					
+					
+					int pos = mListAdapter.getPositionById(mDialogItemId);
+					((PeopleItem)mListAdapter.getItem(pos)).doorColor1 = newColor1;
+					((PeopleItem)mListAdapter.getItem(pos)).doorColor2 = newColor2;
+					mListAdapter.notifyDataSetChanged();						
+					
+					
+    			}
+    		});
+    		break;
+    	}
+    	
+    	case DIALOG_EDIT_PERSON:
+	
+    		if(mDialogItemId == null) {
+    			((TextView)dialog.findViewById(R.id.lbl_dlgedit_note)).setText(R.string.lbl_person_add_from_people);
+    			((TextView)dialog.findViewById(R.id.lbl_dlgedit_note)).setVisibility(View.VISIBLE);
+    			((EditText)dialog.findViewById(R.id.edit_dlgedit_text)).setText("");
+    		}
+    		else {
+    			((TextView)dialog.findViewById(R.id.lbl_dlgedit_note)).setVisibility(View.GONE);
+	    		SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+	    		Cursor rs = db.rawQuery("SELECT name FROM person WHERE ROWID=?", new String[] {mDialogItemId.toString()});
+	    		rs.moveToNext();
+	    		((EditText)dialog.findViewById(R.id.edit_dlgedit_text)).setText(rs.getString(0));
+	    		rs.close();
+    		}
+    		
+    		break;
+    		
+    	
+	    	
+    	case DIALOG_DELETE_PERSON:   
+    		
+			AlertDialog alertDialog = (AlertDialog)dialog;
+	    	alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {					
+					public void onClick(DialogInterface dialog, int which) {
+						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+						Long doorId = Util.dbFetchLong(db,"SELECT door_id FROM person WHERE ROWID=?", new String[] {mDialogItemId.toString()});
+				  		db.execSQL("DELETE FROM `visit` WHERE person_id=?", new Long[] { mDialogItemId });
+				  		db.execSQL("DELETE FROM `person` WHERE ROWID=?", new Long[] { mDialogItemId });
+				  		Door.updateVisits(PeopleList.this, doorId);
+				  		Toast.makeText(PeopleList.this, R.string.msg_person_deleted, Toast.LENGTH_SHORT).show();			  		
+				  		
+				  		getSupportLoaderManager().getLoader(0).forceLoad();
+					}
+				});
+    		
+	    	break;
+    	}
+    	
+    }
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
@@ -177,13 +373,13 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
 									"		visit.desc, " +
 									"		door.color1, " +
 									"		door.color2, " +
-									"		(SELECT COUNT(*) FROM visit WHERE person_id=person.ROWID AND door_id=person.door_id) " +
+									"		(SELECT COUNT(*) FROM visit WHERE person_id=person.ROWID AND door_id=person.door_id AND type != ?) " +
 									"FROM person " +
 									"LEFT JOIN door ON person.door_id=door.ROWID " +
 									"LEFT JOIN visit ON visit.ROWID IN (SELECT ROWID FROM visit WHERE person_id=person.ROWID AND door_id=person.door_id AND type!=? ORDER BY date DESC LIMIT 1) " +
 									"LEFT JOIN territory ON door.territory_id=territory.ROWID " +
-									"WHERE reject=0 AND visit.ROWID IS NOT NULL " +
-									"ORDER BY visit.date ASC", new String[] {String.valueOf(Visit.TYPE_NA)});
+									"WHERE (reject=0 AND visit.ROWID IS NOT NULL) OR door.territory_id=0 " +
+									"ORDER BY visit.date ASC", new String[] {String.valueOf(Visit.TYPE_NA), String.valueOf(Visit.TYPE_NA)});
 			return rs;
 		}
 	}
@@ -223,12 +419,25 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
             
             holder.name.setText(item.personName);
             
-    		String snippet = "<s><b>"+DateFormat.getDateInstance(DateFormat.SHORT).format(new Date(item.visitDate.toMillis(true))) + "</b></s>: "+item.visitDesc;    		
-    		holder.desc.setText( Html.fromHtml(snippet) );  
+            if(item.visitsNum>0) {
+	    		String snippet = "<s><b>"+DateFormat.getDateInstance(DateFormat.SHORT).format(new Date(item.visitDate.toMillis(true))) + "</b></s>: "+item.visitDesc;    		
+	    		holder.desc.setText( Html.fromHtml(snippet) );
+	    		holder.desc.setVisibility(View.VISIBLE);
+	    		
+	    		holder.visit_type.setImageResource(Visit.TYPE_ICONS[item.visitType]);
+	    		holder.visit_type.setVisibility(View.VISIBLE);
+            }
+            else {
+            	holder.desc.setVisibility(View.GONE);
+            	holder.visit_type.setVisibility(View.GONE);
+            }
     		
-    		holder.visit_type.setImageResource(Visit.TYPE_ICONS[item.visitType]);
     		
-    		holder.door_name.setText(Html.fromHtml(item.visitsNum+" "+Util.pluralForm(mContext, item.visitsNum, mContext.getResources().getStringArray(R.array.plural_visits)) + " &bull; "+item.territoryName+", "+item.doorName));
+    		
+    		String doorName = item.visitsNum+" "+Util.pluralForm(mContext, item.visitsNum, mContext.getResources().getStringArray(R.array.plural_visits));
+    		if(item.territoryId != 0)
+    			doorName += " &bull; "+item.territoryName+", "+item.doorName;
+    		holder.door_name.setText(Html.fromHtml(doorName));
     		
     		holder.color1.setBackgroundColor( mContext.getResources().getColor(Door.COLORS[item.doorColor1]) );
         	holder.color2.setBackgroundColor( mContext.getResources().getColor(Door.COLORS[item.doorColor2]) );
