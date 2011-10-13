@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<string-array name="entries_color_preference">
-		<item>Don't change</item>
-	    <item>Blue</item>
-	    <item>Green</item>
-	    <item>Yellow</item>
-	    <item>Red</item>  
-	    <item>Bright blue</item>
-	    <item>Bright green</item>
-	    <item>Bright yellow</item>
-	    <item>Bright red</item>
-	</string-array>
-
     <string-array name="entryvalues_color_preference">
     	<item>-1</item>
         <item>1</item>
@@ -34,75 +22,14 @@
         <item>5</item>
     </string-array>
     
-    <string-array name="entries_table_button_size_preference">
-	    <item>Small</item>
-	    <item>Medium</item>
-	    <item>Big</item>
-	</string-array>
-
-
     <string-array name="entryvalues_table_button_size_preference">
         <item>1</item>
         <item>2</item>
         <item>3</item>
     </string-array>
     
-	<string-array name="months">
-	    <item>January</item>
-	    <item>February</item>
-	    <item>March</item>
-	    <item>April</item>
-	    <item>May</item>
-	    <item>June</item>
-	    <item>July</item>
-	    <item>August</item>
-	    <item>September</item>
-	    <item>October</item>
-	    <item>November</item>
-	    <item>December</item>
-	</string-array>
-	
-	<string-array name="visit_types">
-	    <item>No tenant</item>
-	    <item>Normal visit</item>
-	    <item>Return visit</item>
-	    <item>Bible Study</item>
-	</string-array>
 
-	<string-array name="plural_magazines">
-	    <item>magazine</item>
-	    <item>magazines</item>
-	    <item>magazines</item>
-	</string-array>
-	
-	<string-array name="plural_brochures">
-	    <item>brochure</item>
-	    <item>brochures</item>
-	    <item>brochures</item>
-	</string-array>	
-	
-	<string-array name="plural_books">
-	    <item>book</item>
-	    <item>books</item>
-	    <item>books</item>
-	</string-array>
-	
-	<string-array name="plural_returns">
-	    <item>return visit</item>
-	    <item>return visits</item>
-	    <item>return visits</item>
-	</string-array>
-	
-	<string-array name="plural_visits">
-	    <item>visit</item>
-	    <item>visits</item>
-	    <item>visits</item>
-	</string-array>
-	
-	<string-array name="plural_studies">
-	    <item>bible study</item>
-	    <item>bible studies</item>
-	    <item>bible studies</item>
-	</string-array>
+
+
         
 </resources>

@@ -314,7 +314,7 @@ public class Visit extends FragmentActivity {
 								((Button)findViewById(R.id.btn_visit_time)).setText( DateFormat.getTimeInstance(DateFormat.SHORT).format(new Date(mDate.toMillis(true))));	
 							}
 						}, 
-						mDate.hour, mDate.minute, true);
+						mDate.hour, mDate.minute, android.text.format.DateFormat.is24HourFormat(this));
             case DATE_DIALOG_ID:
                 return new DatePickerDialog(this,
                         new DatePickerDialog.OnDateSetListener() {

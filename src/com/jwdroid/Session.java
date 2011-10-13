@@ -235,6 +235,7 @@ public class Session extends Activity {
     protected Dialog onCreateDialog(int id) {
         switch (id) {
             case DIALOG_TIME:
+            	
                 return new TimePickerDialog(this,
                         new TimePickerDialog.OnTimeSetListener() {
 							
@@ -246,7 +247,7 @@ public class Session extends Activity {
 								((TextView)findViewById(R.id.title)).setText( String.format(getResources().getString(R.string.title_session), DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT).format(date)));
 							}
 						}, 
-						mDate.hour, mDate.minute, true);
+						mDate.hour, mDate.minute, android.text.format.DateFormat.is24HourFormat(this));
             case DIALOG_DATE:
                 return new DatePickerDialog(this,
                         new DatePickerDialog.OnDateSetListener() {

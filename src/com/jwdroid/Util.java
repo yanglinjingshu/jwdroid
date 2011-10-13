@@ -24,26 +24,29 @@ public class Util {
 	}
 	
 	
-	static public String pluralForm(Context context, int n, String form1, String form2, String form5)
+	static public String pluralForm7(int n, String form1, String form2, String form5)
+	{	
+	    n = Math.abs(n) % 100;
+	    int n1 = n % 10;
+	    if (n1 == 1 && n != 11 ) return form1;
+	    if (n1 >= 2 && n1 <= 4 && (n < 12 || n > 14)) return form2;	    
+	    return form5;
+	}
+
+	static public String pluralForm1(int n, String form1, String form2)
 	{
-		String locale = context.getResources().getConfiguration().locale.getLanguage();
-		if(locale.equals("ru")) {
-		    n = Math.abs(n) % 100;
-		    int n1 = n % 10;
-		    if (n > 10 && n < 20) return form5;
-		    if (n1 > 1 && n1 < 5) return form2;
-		    if (n1 == 1) return form1;
-		    return form5;
-		}
-		else {
-			if(n == 1)
-				return form1;
-			return form2;
-		}
+		if(n == 1)
+			return form1;
+		return form2;
 	}
 	
 	static public String pluralForm(Context context, int n, String[] forms) {
-		return pluralForm(context, n, forms[0], forms[1], forms[2]);
+		String locale = context.getResources().getConfiguration().locale.getLanguage();
+		if(locale.equals("ru")) 
+			return pluralForm7(n, forms[0], forms[1], forms[2]);
+		else
+			return pluralForm1(n, forms[0], forms[1]);
+		
 	}
 	
     private static String pad(int c) {
