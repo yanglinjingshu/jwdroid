@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Android Market application description:
+<Android Market application description>
 
 Feature-packed service organizer for Jehovah's Witnesses that allows to take notes, conveniently view and arrange territories and interested persons, automatically track statistics and field service time.
 
@@ -16,7 +16,7 @@ Features:
 
 Open source project: http://code.google.com/p/jwdroid/
 
-Tags: Jehovah's Witnesses, Bible, ministry <add the same translated tags here>.
+Tags: Jehovah's Witnesses, Bible, ministry, preaching <add the same translated tags here>.
  -->
 <resources>
     
@@ -207,9 +207,9 @@ Tags: Jehovah's Witnesses, Bible, ministry <add the same translated tags here>.
 <string name="pref_template_magazine">Magazine</string>
 <string name="pref_template_brochure">Brochure</string>
 <string name="pref_template_book">Book</string>
-<string name="pref_template_magazine_default">--m</string>
-<string name="pref_template_brochure_default">--br</string>
-<string name="pref_template_book_default">--bk</string>
+<string name="pref_template_magazine_default">+m</string>
+<string name="pref_template_brochure_default">+br</string>
+<string name="pref_template_book_default">+bk</string>
    
 <string-array name="months">
     <item>January</item>
