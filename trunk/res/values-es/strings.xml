@@ -1,69 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Android Market application description:
+Descripcion de la aplicacion en el market:
 
-Feature-packed service organizer for Jehovah's Witnesses that allows to take notes, conveniently view and arrange territories and interested persons, automatically track statistics and field service time.
+Organizador para el servicio de predicacion para los testigos de Jehova permite tomar notas, ver y arreglar los teritorios y personas interesadas, guarda automaticamente los estadisticos y las horas de la predicacion.
 
-Features:
- * Note taking in field service equally convenient for  private houses and condominiums.
- * Viewing territories by screens, households, tenants, visits.
- * Saving of date and time of all visits.
- * Custom colors for households in automatic or manual mode.
- * Tracking of placed literature (including via text templates in notes), return visits, Bible studies.
- * Detailed tracking of all service sessions with time and relevant statistics.
- * Composing total monthly reports and sending via e-mail or SMS.
- * Absolutely free app, no ads.
+Utilidades:
+ * Tomar notas predicando en casas privadas y urbanizaciones.
+ * Ver territorios por pantallas, familias, amos de casa y visitas.
+ * Guardando fecha y hora de todos las visitas.
+ * Colores personalizables para familias en modo automatico o manual.
+ * Detalles de literatura dejado(hasta por plantillas de texto in apuntes, revisitas, Estudios Biblicos.
+ * Guarda Detalles del servicio por tiempo y estadisticos relevantes.
+ * Compone informes mensuales y los manda via e-mail o SMS.
+ * App totalmente gratis, no ads.
 
 Open source project: http://code.google.com/p/jwdroid/
 
-Tags: Jehovah's Witnesses, Bible, ministry <add the same translated tags here>.
+Tags: Jehovah's Witnesses, Bible, ministry, Testigos de JehovГЎ, Biblia, Ministerio, Predicacion.
  -->
 <resources>
     
 <string name="app_name">JW Droid</string>
 
-<string name="lbl_territory_name">Territory name:</string>
-<string name="title_territory_add">Add territory</string>
-<string name="lbl_territory_desc">Short description:</string>
-<string name="err_empty_name">Enter the name!</string>
-<string name="msg_territory_added">Territory added</string>
-<string name="msg_territory_deleted">Territory removed</string>
-<string name="territory_list_empty">Territory list is empty. You may add a new territory by the button above.</string>
-<string name="dlg_territory_delete_msg">Territory deletion cannot be undone. Are you sure?</string>
-<string name="dlg_territory_delete_title">Delete territory</string>
-<string name="dlg_territory_add_label">Territory name:</string>
-<string name="dlg_territory_add_note">For example, street name</string>
+<string name="lbl_territory_name">Nombre delTerritorio:</string>
+<string name="title_territory_add">AГ±ade territorio</string>
+<string name="lbl_territory_desc">Descripcion Breve:</string>
+<string name="err_empty_name">Pon un Nombre!</string>
+<string name="msg_territory_added">Territorio aГ±adido</string>
+<string name="msg_territory_deleted">Territorio suprimido</string>
+<string name="territory_list_empty">Lista de Territorios vacio . Puedes aГ±adir Territorio con el boton de arriba.</string>
+<string name="dlg_territory_delete_msg">Borrar Territorio no se puede deshacer. ВїEstas seguro?</string>
+<string name="dlg_territory_delete_title">Borrar Territorio</string>
+<string name="dlg_territory_add_label">Nombre de Territorio:</string>
+<string name="dlg_territory_add_note">Por ejemplo : nombre de calle</string>
 
-<string name="btn_add">Add</string>
+<string name="btn_add">AГ±ade</string>
 <string name="btn_ok">OK</string>
-<string name="btn_yes">Yes</string>
+<string name="btn_yes">Si</string>
 <string name="btn_no">No</string>
-<string name="btn_cancel">Cancel</string>
+<string name="btn_cancel">Cancelar</string>
 
-<string name="lbl_magazines">Magazines:</string>
-<string name="lbl_brochures">Brochures:</string>
-<string name="lbl_books">Books:</string>
-<string name="lbl_returns">Return visits:</string>
-<string name="lbl_hours">Hours:</string>
-<string name="lbl_studies">B. studies:</string>
+<string name="lbl_magazines">Revistas:</string>
+<string name="lbl_brochures">Folletos:</string>
+<string name="lbl_books">Libros:</string>
+<string name="lbl_returns">Revisitas:</string>
+<string name="lbl_hours">Horas:</string>
+<string name="lbl_studies">Estudios:</string>
 
-<string name="title_chrono">Chronometer</string>
-<string name="lbl_chrono_started_time">Started at %s</string>
-<string name="lbl_chrono_stopped">Chronometer is stopped</string>
+<string name="title_chrono">Chrono</string>
+<string name="lbl_chrono_started_time">Comenzado a %s</string>
+<string name="lbl_chrono_stopped">Chrono ha parado</string>
 <string name="btn_chrono_pause">Pause</string>
-<string name="btn_chrono_resume">Resume</string>
-<string name="btn_chrono_finish">Finish</string>
+<string name="btn_chrono_resume">Reanudar</string>
+<string name="btn_chrono_finish">Stop</string>
 <string name="btn_chrono_start">Start</string>
-<string name="chk_chrono_calc_auto"> Take from visits</string>
-<string name="msg_chrono_finish">End service?</string>
-<string name="msg_chrono_start">Start service?</string>
-<string name="msg_chrono_service_started">Service chronometer started</string>
-<string name="lbl_chrono_current_time">Service time:</string>
-<string name="lbl_chrono_service_note">Select to go to chronometer</string>
+<string name="chk_chrono_calc_auto"> Toma de visitas</string>
+<string name="msg_chrono_finish">ВїPredicacion Terminado?</string>
+<string name="msg_chrono_start">ВїComenzar Predicacion?</string>
+<string name="msg_chrono_service_started">Chrono predicacion empezado</string>
+<string name="lbl_chrono_current_time">Tiempo de predicacion:</string>
+<string name="lbl_chrono_service_note">Selecionar para ir a chrono</string>
 
-<string name="action_add_single_object">Add one</string>
-<string name="action_add_many_objects">Add some</string>
-<string name="dlg_add_single_object_note">For example, apartment or house number</string>
+<string name="action_add_single_object">AГ±ade uno</string>
+<string name="action_add_many_objects">AГ±ade alguno</string>
+<string name="dlg_add_single_object_note">Ejemplo, piso o numero de calle</string>
 <string name="msg_object_name">Enter heading:</string>
 <string name="msg_delete_object">Do you really want to delete this household?</string>
 <string name="lbl_set_row">Row:</string>
@@ -207,9 +207,9 @@ Tags: Jehovah's Witnesses, Bible, ministry <add the same translated tags here>.
 <string name="pref_template_magazine">Magazine</string>
 <string name="pref_template_brochure">Brochure</string>
 <string name="pref_template_book">Book</string>
-<string name="pref_template_magazine_default">--m</string>
-<string name="pref_template_brochure_default">--br</string>
-<string name="pref_template_book_default">--bk</string>
+<string name="pref_template_magazine_default">+m</string>
+<string name="pref_template_brochure_default">+br</string>
+<string name="pref_template_book_default">+bk</string>
    
 <string-array name="months">
     <item>January</item>
