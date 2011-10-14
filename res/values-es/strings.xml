@@ -16,25 +16,25 @@ Utilidades:
 
 Open source project: http://code.google.com/p/jwdroid/
 
-Tags: Jehovah's Witnesses, Bible, ministry, Testigos de JehovГЎ, Biblia, Ministerio, Predicacion.
+Tags: Jehovah's Witnesses, Bible, ministry, Testigos de Jehová, Biblia, Ministerio, Predicacion.
  -->
 <resources>
     
 <string name="app_name">JW Droid</string>
 
 <string name="lbl_territory_name">Nombre delTerritorio:</string>
-<string name="title_territory_add">AГ±ade territorio</string>
+<string name="title_territory_add">Añade territorio</string>
 <string name="lbl_territory_desc">Descripcion Breve:</string>
 <string name="err_empty_name">Pon un Nombre!</string>
-<string name="msg_territory_added">Territorio aГ±adido</string>
+<string name="msg_territory_added">Territorio añadido</string>
 <string name="msg_territory_deleted">Territorio suprimido</string>
-<string name="territory_list_empty">Lista de Territorios vacio . Puedes aГ±adir Territorio con el boton de arriba.</string>
-<string name="dlg_territory_delete_msg">Borrar Territorio no se puede deshacer. ВїEstas seguro?</string>
+<string name="territory_list_empty">Lista de Territorios vacio. Puedes añadir Territorio con el boton de arriba.</string>
+<string name="dlg_territory_delete_msg">Borrar Territorio no se puede deshacer. ¿Estas seguro?</string>
 <string name="dlg_territory_delete_title">Borrar Territorio</string>
 <string name="dlg_territory_add_label">Nombre de Territorio:</string>
-<string name="dlg_territory_add_note">Por ejemplo : nombre de calle</string>
+<string name="dlg_territory_add_note">Por ejemplo: nombre de calle</string>
 
-<string name="btn_add">AГ±ade</string>
+<string name="btn_add">Añade</string>
 <string name="btn_ok">OK</string>
 <string name="btn_yes">Si</string>
 <string name="btn_no">No</string>
@@ -55,14 +55,14 @@ Tags: Jehovah's Witnesses, Bible, ministry, Testigos de JehovГЎ, Biblia, Minis
 <string name="btn_chrono_finish">Stop</string>
 <string name="btn_chrono_start">Start</string>
 <string name="chk_chrono_calc_auto"> Toma de visitas</string>
-<string name="msg_chrono_finish">ВїPredicacion Terminado?</string>
-<string name="msg_chrono_start">ВїComenzar Predicacion?</string>
+<string name="msg_chrono_finish">¿Predicacion Terminado?</string>
+<string name="msg_chrono_start">¿Comenzar Predicacion?</string>
 <string name="msg_chrono_service_started">Chrono predicacion empezado</string>
 <string name="lbl_chrono_current_time">Tiempo de predicacion:</string>
 <string name="lbl_chrono_service_note">Selecionar para ir a chrono</string>
 
-<string name="action_add_single_object">AГ±ade uno</string>
-<string name="action_add_many_objects">AГ±ade alguno</string>
+<string name="action_add_single_object">Añade uno</string>
+<string name="action_add_many_objects">Añade alguno</string>
 <string name="dlg_add_single_object_note">Ejemplo, piso o numero de calle</string>
 <string name="msg_object_name">Enter heading:</string>
 <string name="msg_delete_object">Do you really want to delete this household?</string>
@@ -207,9 +207,9 @@ Tags: Jehovah's Witnesses, Bible, ministry, Testigos de JehovГЎ, Biblia, Minis
 <string name="pref_template_magazine">Magazine</string>
 <string name="pref_template_brochure">Brochure</string>
 <string name="pref_template_book">Book</string>
-<string name="pref_template_magazine_default">+m</string>
-<string name="pref_template_brochure_default">+br</string>
-<string name="pref_template_book_default">+bk</string>
+<string name="pref_template_magazine_default">--m</string>
+<string name="pref_template_brochure_default">--br</string>
+<string name="pref_template_book_default">--bk</string>
    
 <string-array name="months">
     <item>January</item>
