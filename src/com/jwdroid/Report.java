@@ -311,7 +311,7 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 	    	data.brochures = rs.getInt(1);
 	    	data.books = rs.getInt(2);
 	    	rs.close();
-	    	data.returns = Util.dbFetchInt(db, "SELECT COUNT(*) FROM visit WHERE type>0 AND strftime('%Y%m',date)=?", new String[]{mMonth});
+	    	data.returns = Util.dbFetchInt(db, "SELECT COUNT(*) FROM visit WHERE type>1 AND strftime('%Y%m',date)=?", new String[]{mMonth});
 	    }
 	    data.studies = Util.dbFetchInt(db, "SELECT COUNT(DISTINCT person_id) FROM visit WHERE type=2 AND strftime('%Y%m',date)=?", new String[]{mMonth});
 	    data.minutes = Util.dbFetchInt(db, "SELECT SUM(minutes) FROM session WHERE strftime('%Y%m',date)=?", new String[]{mMonth});

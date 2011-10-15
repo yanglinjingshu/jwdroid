@@ -86,8 +86,9 @@
 		    	android:padding="9dip">
 		    	
 		    	<TableLayout android:id="@+id/tbl_basic_options"
-		    		android:layout_width="fill_parent"
-		    		android:layout_height="wrap_content">
+		    		android:layout_width="wrap_content"
+		    		android:layout_height="wrap_content"
+		    		android:layout_centerHorizontal="true">
 		    		
 		    		<TableRow>	
 		    		
@@ -118,7 +119,7 @@
 		    		<TableRow>
 		    	
 				    	<TextView android:id="@+id/lbl_visit_date" 
-				    		android:layout_width="100dip"
+				    		android:layout_width="wrap_content"
 				    		android:layout_height="wrap_content"
 				    		android:layout_gravity="right"
 				    		android:paddingTop="10dip"
