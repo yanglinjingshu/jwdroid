@@ -345,7 +345,7 @@ public class Chrono extends Activity {
 		rs.close();
 		
 		
-		rs = db.rawQuery("SELECT COUNT(*) FROM visit WHERE type > 0 AND strftime('%s',date) >= ? AND strftime('%s',date) <= ?", new String[]{ String.valueOf(mService.startTime.toMillis(true)), String.valueOf(now.toMillis(true))});
+		rs = db.rawQuery("SELECT COUNT(*) FROM visit WHERE type > 1 AND strftime('%s',date) >= ? AND strftime('%s',date) <= ?", new String[]{ String.valueOf(mService.startTime.toMillis(true)), String.valueOf(now.toMillis(true))});
 		rs.moveToFirst();
 		mService.returns = rs.getInt(0);
 		rs.close();
