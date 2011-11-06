@@ -226,23 +226,27 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
     <item>December</item>
 </string-array>
 
-<string-array name="plural_magazines">
+<string-array name="plural_magazines">	
     <item>magazine</item>
+    <item>magazines</item>
     <item>magazines</item>
 </string-array>
 
 <string-array name="plural_brochures">
     <item>brochure</item>
     <item>brochures</item>
+    <item>brochures</item>
 </string-array>	
 
 <string-array name="plural_books">
     <item>book</item>
     <item>books</item>
+    <item>books</item>
 </string-array>
 
 <string-array name="plural_returns">
     <item>return visit</item>
+    <item>return visits</item>
     <item>return visits</item>
 </string-array>
 
@@ -250,10 +254,12 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string-array name="plural_studies">
     <item>bible study</item>
     <item>bible studies</item>
+    <item>bible studies</item>
 </string-array>
 
 <string-array name="plural_visits">
     <item>visit</item>
+    <item>visits</item>
     <item>visits</item>
 </string-array>
 
