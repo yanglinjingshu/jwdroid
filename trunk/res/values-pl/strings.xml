@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-<Android Market application description>
+<Opis aplikacji Android Market>
 
-Feature-packed service organizer for Jehovah's Witnesses that allows to take notes, conveniently view and arrange territories and interested persons, automatically track statistics and field service time.
+Organizer wielozadaniowy dla Świadków Jehowy, pozwalający tworzyć notatki, dogodnie wyświetlać i rozmieszczać tereny i zainteresowane osoby, automatycznie śledzić statystyki i czas służby polowej.
 
 Features:
- * Note taking in field service equally convenient for  private houses and condominiums.
- * Viewing territories by screens, households, tenants, visits.
- * Saving of date and time of all visits.
- * Custom colors for households in automatic or manual mode.
- * Tracking of placed literature (including via text templates in notes), return visits, Bible studies.
- * Detailed tracking of all service sessions with time and relevant statistics.
- * Composing total monthly reports and sending via e-mail or SMS.
- * Absolutely free app, no ads.
+ * Notatki ze służby polowej dogodne zarówno dla  prywatnych domów jak i bloków mieszkalnych..
+ * Wyświetlanie na ekranie terenów, mieszkań, mieszkańców, wizyt.
+ * Zapisywanie daty i czasu wszystkich wizyt.
+ * Dostosowywanie kolorów dla mieszkań w trybie automatycznym lub ręcznym.
+ * Śledzenie pozostawionej literatury (w tym przez szablony tekstu w notatkach), ponownych odwiedzin, studiów biblijnych.
+ * Szczegółowe śledzenie wszystkich sesji służby z czasem i powiązanymi statystykami.
+ * Przygotowywanie całkowitego miesięcznego sprawozdania i przesyłanie go przez e-mail lub SMS.
+ * Całkowicie bezpłatna aplikacja, żadnych reklam.
 
-Open source project: http://code.google.com/p/jwdroid/
+Bezpośrednie źródło projektu: http://code.google.com/p/jwdroid/
 
 Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated tags here>.
  -->
@@ -47,21 +47,21 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string name="lbl_hours">Godziny:</string>
 <string name="lbl_studies">Studia Biblijne:</string>
 
-<string name="title_chrono">Czasomierz</string>
+<string name="title_chrono">Pomiar czasu</string>
 <string name="lbl_chrono_started_time">Rozpocznij w %s</string>
-<string name="lbl_chrono_stopped">Czasomierz jest zatrzymany</string>
+<string name="lbl_chrono_stopped">Pomiar czasu został zatrzymany</string>
 <string name="btn_chrono_pause">Przerwa</string>
-<string name="btn_chrono_resume">Podsumowanie</string>
+<string name="btn_chrono_resume">Przywróć</string>
 <string name="btn_chrono_finish">Koniec</string>
 <string name="btn_chrono_start">Start</string>
 <string name="chk_chrono_calc_auto"> Weź z odwiedzin</string>
-<string name="msg_chrono_finish">Koniec Funkcji?</string>
-<string name="msg_chrono_start">Początek Funkcji?</string>
-<string name="msg_chrono_service_started">Funkcja czasomierz rozpoczęta</string>
-<string name="lbl_chrono_current_time">Czas Funkcji:</string>
-<string name="lbl_chrono_service_note">Wybierz, by przejś do czasomierza</string>
+<string name="msg_chrono_finish">Koniec służby?</string>
+<string name="msg_chrono_start">Początek służby?</string>
+<string name="msg_chrono_service_started">Pomiar czasu służby rozpoczęty</string>
+<string name="lbl_chrono_current_time">Czas służby:</string>
+<string name="lbl_chrono_service_note">Wybierz, by przejś do pomiaru czasu</string>
 
-<string name="action_add_single_object">Dodaj jeden</string>
+<string name="action_add_single_object">Dodaj pojedynczo</string>
 <string name="action_add_many_objects">Dodaj kilka</string>
 <string name="dlg_add_single_object_note">Na przykład, apartament lub numer domu</string>
 <string name="msg_object_name">Wprowadź nagłówek:</string>
@@ -70,11 +70,11 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string name="lbl_set_col">Kolumna:</string>
 <string name="lbl_numbers_from">Numery od:</string>
 <string name="lbl_numbers_to">do:</string>
-<string name="msg_arrange_after_add">Mieszkania zostały dodane. Dla twojego komfortu (na przykład, jeżeli dodajesz blok mieszkalny) możesz zaplanować siatkę z rzędami i kolumnami w  \&quot;Planowanie\&quot; menu. Czy chciałbyś zrobić to teraz?</string>
+<string name="msg_arrange_after_add">>Mieszkania zostały dodane. Dla twojej wygody (na przykład, jeżeli dodajesz blok mieszkalny) możesz zaplanować siatkę z rzędami i kolumnami w  \&quot;Planowanie\&quot; menu. Czy chciałbyś zrobić to teraz?</string>
 <string name="msg_error">Błąd!</string>
 <string name="msg_object_deleted">Mieszkanie usunięto</string>
 <string name="err_invalid_input">Nieprawidłowe dane wejściowe!</string>
-<string name="err_no_cols_value">Wprowadź numer kolumn!</string>
+<string name="err_no_cols_value">Wprowadź liczbę kolumn!</string>
 <string name="action_object_change_name">Nagłówek</string>
 <string name="action_object_change_color">Kolor</string>
 <string name="action_object_move_up">W górę</string>
@@ -90,33 +90,33 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string name="li_bottom_up">Maksymalnie do góry</string>
 <string name="li_left_right">Z lewej do prawej</string>
 <string name="li_right_left">Z prawej do lewej</string>
-<string name="lbl_one_color">  Kolor jednolity</string>
-<string name="lbl_two_colors">  Dwa kolory</string>
+<string name="lbl_one_color"> Kolor jednolity</string>
+<string name="lbl_two_colors">Dwa kolory</string>
 
 <string name="lbl_door_empty">Utwórz nowego mieszkańsca tutaj.\n\nDodaje nową wizytę przez przycisk powyżej.</string>
-<string name="lbl_group_empty">Ten ekran jest pusty.\n\nDodaje nowe mieszkanie przez przycisk powyżej.</string>
+<string name="lbl_group_empty">Ten ekran jest pusty.\n\nDodaj nowe mieszkanie przez przycisk powyżej.</string>
 
 <string name="title_help">Pomoc</string>
 <string name="title_territory_list">Tereny</string>
 <string name="title_people">Osoby</string>
 <string name="title_reports">Sprawozdania</string>
-<string name="title_chrono">Czasomierz</string>
+<string name="title_chrono">pomiar czasu</string>
 
 <string name="lbl_people_list_empty">Lista osób jest pusta. \n\nDodaj nową osobę przez przycisk powyżej albo w &amp;quot;Tereny&amp;quot; sekcja.</string>
-<string name="lbl_person_add_from_people">Zauważ, że ta osoba będzie dodana bez powiązania z terenem.</string>
+<string name="lbl_person_add_from_people">Zauważ, że ta osoba będzie dodana bez powiązania z jakimkolwiek terenem.</string>
 
 <string name="title_report">Sprawozdanie dla %s</string>
-<string name="action_calc_type_sessions">Przez listę funkcji</string>
+<string name="action_calc_type_sessions">Przez listę służby</string>
 <string name="action_calc_type_visits">Przez wizyty</string>
 <string name="lbl_report_no_data">Brak danych</string>
-<string name="msg_delete_session">Naprawdę chcesz usuną tą funkcję?</string>
-<string name="msg_session_deleted">Funkcja usunięta</string>
+<string name="msg_delete_session">Naprawdę chcesz usuną tą służbę?</string>
+<string name="msg_session_deleted">Służba usunięta</string>
 <string name="action_session_delete">Usuń</string>
-<string name="title_session">Funkcja w %s</string>
+<string name="title_session">Służba w %s</string>
 <string name="lbl_report_list_empty">Lista sprawozdań jest pusta.</string>
 <string name="lbl_report_summary">Całkowicie</string>
 <string name="lbl_report_empty">Sprawozdanie puste.</string>
-<string name="lbl_session_desc">Opis funkcji:</string>
+<string name="lbl_session_desc">Opis służby:</string>
 
 <string name="lbl_territory_notes">Notatki</string>
 <string name="lbl_territory_got">Teren pobrany:</string>
@@ -130,7 +130,7 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string-array name="visit_types">
     <item>N/O</item>
     <item>Wizyta</item>
-    <item>Odwiedziny ponownw</item>
+    <item>Odwiedziny ponowne</item>
     <item>Studium biblijne</item>
 </string-array>
 
@@ -152,8 +152,8 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string name="menu_feedback">Wyślij komunikat</string>
 <string name="menu_help">Pomoc</string>
 <string name="menu_session_date">Data i czas</string>
-<string name="menu_change_session_date">Zmiana daty</string>
-<string name="menu_change_session_time">Zmiana czasu</string>
+<string name="menu_change_session_date">Zmień datę</string>
+<string name="menu_change_session_time">Żmień czas</string>
 <string name="menu_set_position">Ustaw pozycję</string>
 <string name="menu_move_up">Przenieś w górę</string>
 <string name="menu_move_down">Przenieś w dół</string>
@@ -170,8 +170,8 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string name="title_preferences">Preferencje</string>
 
 <string name="pref_title_appearance">Wygląd</string>
-<string name="pref_list_text_rows">Numer rzędów</string>
-<string name="pref_list_text_rows_note">Pokazuj w widoku listy numer rzędów ostatniej notatki mieszkania</string>
+<string name="pref_list_text_rows">Liczba rzędów</string>
+<string name="pref_list_text_rows_note">liczba wyświetlanych rzędów treści ostatniej notatki z mieszkania, pokazywana w widoku listy</string>
 <string name="pref_table_button_size">Wielkość przycisku</string>
 <string name="pref_table_button_size_note">Wielkość przycisków reprezentujących mieszkania w widoku siatki</string>
 <string-array name="entries_table_button_size_preference">
@@ -183,13 +183,13 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string name="pref_title_colors">Kolor</string>
 <string name="pref_autocolor">Auto-Ustawienia kolorów</string>
 <string name="pref_autocolor_note">Automatycznie ustaw kolor pod pewnymi warunkami</string>
-<string name="pref_assign_colors">Ustaw kolory</string>
+<string name="pref_assign_colors">Ustawienia kolorów</string>
 <string name="pref_color_reject">Nie zainteresowany</string>
 <string name="pref_color_visit">Wizyta</string>
 <string name="pref_color_return">Odwiedziny ponowne</string>
-<string name="pref_color_study">Studium biblii</string>
+<string name="pref_color_study">Studium biblijne</string>
 <string-array name="entries_color_preference">
-?  <item>Nie\ zmieniaj</item>
+?  <item>Bez\ zmian</item>
     <item>Niebieski</item>
     <item>Zielony</item>
     <item>Żółty</item>
@@ -202,7 +202,7 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 
 <string name="pref_title_literature">Śledzenie literatury</string>
 <string name="pref_assign_templates">Ustaw Szablony</string>
-<string name="pref_assign_templates_note">Ustaw tekst szblonu, do użycia w notatkach dla śledzenia literatury</string>
+<string name="pref_assign_templates_note">Ustaw tekst szblonu, który będzie używany dla śledzenia literatury w notatkach</string>
 <string name="pref_template_magazine">Czasopismo</string>
 <string name="pref_template_brochure">Broszura</string>
 <string name="pref_template_book">Książka</string>
@@ -247,7 +247,7 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 
 
 <string-array name="plural_studies">
-    <item>studium bibli</item>
+    <item>studium biblijne</item>
     <item>studia biblijne</item>
 </string-array>
 
@@ -258,7 +258,7 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 
 
 <string name="title_tip">Wskazówka</string>
-<string name="msg_tip_literature_templates" formatted="false">Zauważ, że możesz użyć tych szablonów tekstowych dla umieszczonej literatury:\n%s, %s, %s\n\nnNa przykład: \"Umieszczony %s o dzieciach.\"</string>
+<string name="msg_tip_literature_templates" formatted="false">Zauważ, że możesz użyć tych szablonów tekstowych dla pozostawianejliteratury:\n%s, %s, %s\n\nnNa przykład: \"Pozostawiono%s o dzieciach.\"</string>
 
 <!-- v1.2 -->
 
