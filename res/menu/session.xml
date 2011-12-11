@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">	
-	<item android:icon="@android:drawable/ic_menu_my_calendar" android:title="@string/menu_session_date">
-		<menu>
-			<item android:title="@string/menu_change_session_date" android:id="@+id/menu_change_date" />
-			<item android:title="@string/menu_change_session_time" android:id="@+id/menu_change_time" />
-		</menu>
-	</item>
-	<item android:icon="@android:drawable/ic_menu_preferences" android:title="@string/menu_preferences" android:id="@+id/menu_preferences"></item>
-	<item android:icon="@android:drawable/ic_menu_send" android:title="@string/menu_feedback" android:id="@+id/menu_feedback"></item>
-	<item android:icon="@android:drawable/ic_menu_help" android:title="@string/menu_help" android:id="@+id/menu_help"></item>
+	<item android:icon="@android:drawable/ic_menu_delete" android:title="@string/action_session_delete" android:id="@+id/menu_delete"></item>
 </menu>

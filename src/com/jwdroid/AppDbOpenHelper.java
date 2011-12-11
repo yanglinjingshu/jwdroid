@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class AppDbOpenHelper extends SQLiteOpenHelper {	
-	private static final int DATABASE_VERSION = 46;
+	private static final int DATABASE_VERSION = 47;
 	private static final String DATABASE_NAME = "jwdroid";
 	private static final String TAG = "JWTerritoryDbOpenHelper";
 
@@ -99,6 +99,10 @@ public class AppDbOpenHelper extends SQLiteOpenHelper {
 		
 		if(oldVersion < 42) {
 			db.execSQL("UPDATE visit SET type=type+1");
+		}
+		
+		if(oldVersion < 47) {
+			db.execSQL("ALTER TABLE `door` ADD last_modified_date INTEGER");
 		}
 		
 	}

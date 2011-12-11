@@ -181,6 +181,11 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
 	    	intent = new Intent(this, Help.class);
 	    	startActivity(intent);
 	    	break;
+	    	
+	    case R.id.menu_backups:
+			intent = new Intent(this, BackupList.class);
+	    	startActivity(intent);
+	    	break;
 	    }
 	    
 	    return false;

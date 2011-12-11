@@ -2,8 +2,8 @@ package com.jwdroid;
 
 public class SimpleArrayItem {
 	public Object data;
-	public int id;
-	public SimpleArrayItem(int _id, Object _data) {
+	public long id;
+	public SimpleArrayItem(long _id, Object _data) {
 		id = _id;
 		data = _data;
 	}

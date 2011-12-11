@@ -70,7 +70,8 @@
 		    		android:inputType="textMultiLine|textCapSentences"
 		    		android:gravity="top"
 		    		android:textSize="15dip"
-		    		android:minLines="3" />
+		    		android:minLines="3" 
+		    		android:hint="@string/lbl_visit_text"/>
 		    		
 		    </LinearLayout>
 		    

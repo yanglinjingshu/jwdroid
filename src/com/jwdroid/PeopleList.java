@@ -99,6 +99,7 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
 	    personActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_change_color), getResources().getDrawable(R.drawable.ac_color)));
 		personActions.addActionItem(new ActionItem(getResources().getString(R.string.action_person_delete), getResources().getDrawable(R.drawable.ac_trash)));			
 		personActions.animateTrack(false);
+		personActions.setAnimStyle(QuickAction.ANIM_MOVE_FROM_RIGHT);
 		personActions.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {				
 			@Override
 			public void onItemClick(int pos) {				
@@ -124,7 +125,7 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
 			public boolean onItemLongClick(AdapterView<?> arg0, View v,
 					int arg2, long id) {
 				personActions.show(v,id);
-				return false;
+				return true;
 			}			
 		});
 	    
@@ -165,6 +166,13 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
 	    	intent = new Intent(this, Help.class);
 	    	startActivity(intent);
 	    	break;
+	    	
+	    case R.id.menu_backups:
+			intent = new Intent(this, BackupList.class);
+	    	startActivity(intent);
+	    	break;
+	    	
+	    	
 	    }
 	    
 	    return false;

@@ -19,7 +19,19 @@
   		android:summary="@string/pref_table_button_size_note"  		
   		android:defaultValue="2"
   		android:entries="@array/entries_table_button_size_preference"
-  		android:entryValues="@array/entryvalues_table_button_size_preference" />   
+  		android:entryValues="@array/entryvalues_table_button_size_preference" />  
+  		
+  	<CheckBoxPreference 
+  		android:key="hide_visited"
+  		android:title="@string/pref_hide_visited"
+  		android:summary="@string/pref_hide_visited_note" 
+  		android:defaultValue="false"/> 
+  		
+  	<CheckBoxPreference 
+  		android:key="object_add_sorted"
+  		android:title="@string/pref_object_add_sorted"
+  		android:summary="@string/pref_object_add_sorted_note" 
+  		android:defaultValue="true"/> 
   	
   </PreferenceCategory>
   
@@ -92,6 +104,23 @@
 	  			android:defaultValue="@string/pref_template_book_default" />
 	  		
 	  	</PreferenceScreen>
+  	
+  </PreferenceCategory>
+  
+  <PreferenceCategory
+  	android:title="@string/pref_title_backup">
+  	
+  	<CheckBoxPreference 
+  		android:key="autobackup"
+  		android:title="@string/pref_autobackup"
+  		android:summary="@string/pref_autobackup_note" 
+  		android:defaultValue="true"/> 
+  	
+  	<EditTextPreference
+		android:key="num_backups"
+		android:title="@string/pref_num_backups"
+		android:summary="@string/pref_num_backups_note"
+		android:defaultValue="20" />
   	
   </PreferenceCategory>
     

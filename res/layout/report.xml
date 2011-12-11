@@ -23,7 +23,11 @@
     	<Button android:id="@+id/title_btn_send"
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
-    		android:background="@drawable/title_btn_mail"/>
+    		android:background="@drawable/title_btn_mail"/>    	
+    	<Button android:id="@+id/title_btn_add"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:background="@drawable/title_btn_round_add" />
     </LinearLayout>
     
     
@@ -36,7 +40,7 @@
 			<TextView android:id="@+id/summary_title"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:textSize="15dip"
+				android:textSize="16dip"
 		    	android:textStyle="bold"
 		    	android:text="@string/lbl_report_summary" />
 		    	
@@ -44,7 +48,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
-				android:textSize="15dip"
+				android:textSize="16dip"
 		    	android:textStyle="bold"
 		    	android:text="18:23" />
 		    	

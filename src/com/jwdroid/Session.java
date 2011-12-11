@@ -5,9 +5,11 @@ import java.text.DateFormat;
 
 import net.londatiga.android.R;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,17 +26,19 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 public class Session extends Activity {
 	
 	private static final int DIALOG_DATE = 1;
 	private static final int DIALOG_TIME = 2;
+	private static final int DIALOG_DELETE = 3;
 	
 	private AppDbOpenHelper mDbOpenHelper = new AppDbOpenHelper(this);
 	
 	Long mSessionId;
 	
-	Integer mMinutes,mBooks,mBrochures,mMagazines,mReturns;
+	Integer mMinutes=0,mBooks=0,mBrochures=0,mMagazines=0,mReturns=0;
 	String mDesc;
 	Time mDate;
 	
@@ -47,22 +51,44 @@ public class Session extends Activity {
 		
 		SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
 		
-		Cursor rs = db.rawQuery("SELECT strftime('%s',date),desc,minutes,books,brochures,magazines,returns FROM session WHERE ROWID=?", new String[]{mSessionId.toString()});
-		rs.moveToFirst();
-		
 		mDate = new Time();
-		mDate.set(rs.getLong(0)*1000);
+		mDate.setToNow();
+		
+		if(mSessionId != 0) {
+		
+			Cursor rs = db.rawQuery("SELECT strftime('%s',date),desc,minutes,books,brochures,magazines,returns FROM session WHERE ROWID=?", new String[]{mSessionId.toString()});
+			rs.moveToFirst();			
+			
+			mDate.set(rs.getLong(0)*1000);						
+			
+			mDesc = rs.getString(1);
+			mMinutes = rs.getInt(2);
+			mBooks = rs.getInt(3);
+			mBrochures = rs.getInt(4);
+			mMagazines = rs.getInt(5);
+			mReturns = rs.getInt(6);
+			
+			rs.close();
+		}
+		
 		Date date = new Date(mDate.toMillis(true));
-		((TextView)findViewById(R.id.title)).setText( String.format(getResources().getString(R.string.title_session), DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT).format(date)));
+		//((TextView)findViewById(R.id.title)).setText( String.format(getResources().getString(R.string.title_session), DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT).format(date)));		
+		((TextView)findViewById(R.id.title)).setText( String.format(getResources().getString(R.string.title_session), ""));
 		
-		mDesc = rs.getString(1);
-		mMinutes = rs.getInt(2);
-		mBooks = rs.getInt(3);
-		mBrochures = rs.getInt(4);
-		mMagazines = rs.getInt(5);
-		mReturns = rs.getInt(6);
-		
-		rs.close();
+		((Button)findViewById(R.id.btn_date)).setText( DateFormat.getDateInstance(DateFormat.SHORT).format(date) );
+		((Button)findViewById(R.id.btn_date)).setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				showDialog(DIALOG_DATE);				
+			}
+		});
+		((Button)findViewById(R.id.btn_time)).setText( DateFormat.getTimeInstance(DateFormat.SHORT).format(date) );
+		((Button)findViewById(R.id.btn_time)).setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				showDialog(DIALOG_TIME);				
+			}
+		});
 		
 		((TextView)findViewById(R.id.edit_desc)).setText(mDesc);
 		
@@ -180,15 +206,22 @@ public class Session extends Activity {
 			public void onClick(View v) {
 				SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
 				
-				db.execSQL("UPDATE session SET date=?,desc=?,minutes=?,magazines=?,brochures=?,books=?,returns=? WHERE ROWID=?",
-						new Object[] {mDate.format3339(false), mDesc, mMinutes, mMagazines, mBrochures, mBooks, mReturns, mSessionId});
-				
-				
-				Intent intent = new Intent(Session.this, Report.class);
-				intent.putExtra("month", mDate.format("%Y%m"));
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				finish();
+				if(mSessionId != 0) {				
+					db.execSQL("UPDATE session SET date=?,desc=?,minutes=?,magazines=?,brochures=?,books=?,returns=? WHERE ROWID=?",
+							new Object[] {mDate.format3339(false), mDesc, mMinutes, mMagazines, mBrochures, mBooks, mReturns, mSessionId});					
+					
+					Intent intent = new Intent(Session.this, Report.class);
+					intent.putExtra("month", mDate.format("%Y%m"));
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
+					finish();
+				}
+				else {
+					db.execSQL("INSERT INTO session (date,desc,minutes,magazines,books,brochures,returns) VALUES(?,?,?,?,?,?,?)",							
+							new Object[] {mDate.format3339(false), mDesc, mMinutes, mMagazines, mBooks, mBrochures, mReturns});
+					setResult(1);
+					finish();
+				}
 			}
 		});
 	}
@@ -196,11 +229,16 @@ public class Session extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.session, menu);
+		getMenuInflater().inflate(R.menu.main_menu, menu);
+		menu.findItem(R.id.menu_delete).setVisible(mSessionId != 0);
 		return true;
 	}
     
     public boolean onOptionsItemSelected(MenuItem item) {    	
 	    switch (item.getItemId()) {
+	    case R.id.menu_delete:
+	    	showDialog(DIALOG_DELETE);
+	    	break;	    
 	    case R.id.menu_preferences:
 	    	Intent intent = new Intent(this, Preferences.class);
 	    	startActivity(intent);
@@ -219,12 +257,9 @@ public class Session extends Activity {
 	    	startActivity(intent);
 	    	break;
 	    	
-	    case R.id.menu_change_date:
-	    	showDialog(DIALOG_DATE);
-	    	break;
-	    	
-	    case R.id.menu_change_time:
-	    	showDialog(DIALOG_TIME);
+	    case R.id.menu_backups:
+			intent = new Intent(this, BackupList.class);
+	    	startActivity(intent);
 	    	break;
 	    }
 	    
@@ -244,7 +279,7 @@ public class Session extends Activity {
 								mDate.set(0, minute, hourOfDay, mDate.monthDay, mDate.month, mDate.year);
 								mDate.normalize(true);
 								Date date = new Date(mDate.toMillis(true));
-								((TextView)findViewById(R.id.title)).setText( String.format(getResources().getString(R.string.title_session), DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT).format(date)));
+								//((TextView)findViewById(R.id.title)).setText( String.format(getResources().getString(R.string.title_session), DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT).format(date)));
 							}
 						}, 
 						mDate.hour, mDate.minute, android.text.format.DateFormat.is24HourFormat(this));
@@ -257,10 +292,17 @@ public class Session extends Activity {
 								mDate.set(0, mDate.minute, mDate.hour, dayOfMonth, monthOfYear, year);
 								mDate.normalize(true);
 								Date date = new Date(mDate.toMillis(true));
-								((TextView)findViewById(R.id.title)).setText( String.format(getResources().getString(R.string.title_session), DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT).format(date)));
+								//((TextView)findViewById(R.id.title)).setText( String.format(getResources().getString(R.string.title_session), DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT).format(date)));
 							}
 						},
                         mDate.year, mDate.month, mDate.monthDay);
+            case DIALOG_DELETE:
+        		return new AlertDialog.Builder(this) 	
+        				.setCancelable(true)
+        				.setMessage(R.string.msg_delete_session)
+        				.setPositiveButton(R.string.btn_ok, null)
+        				.setNegativeButton(R.string.btn_cancel, null)
+        				.create();
         }
         return null;
     }	
@@ -275,6 +317,19 @@ public class Session extends Activity {
             case DIALOG_DATE:
                 ((DatePickerDialog) dialog).updateDate(mDate.year, mDate.month, mDate.monthDay);
                 break;
+            case DIALOG_DELETE: {		    	
+		    	AlertDialog alertDialog = (AlertDialog)dialog;
+		    	alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {					
+						public void onClick(DialogInterface dialog, int which) {
+							SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+							db.execSQL("DELETE FROM `session` WHERE rowid=?", new Long[] { mSessionId });					  		
+					  		Toast.makeText(Session.this, R.string.msg_session_deleted, Toast.LENGTH_SHORT).show();
+					  		setResult(1);
+					  		finish();
+						}
+					});
+	    		break;
+            }
         }
     }  	
 }

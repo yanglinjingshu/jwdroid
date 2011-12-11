@@ -18,7 +18,7 @@
 		    android:id="@+id/session_item_date"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"		    
-		    android:textSize="15dip"
+		    android:textSize="16dip"
 		    android:textStyle="bold"/>
 		<TextView 
 		    android:id="@+id/session_item_desc"
@@ -43,6 +43,6 @@
 	    android:layout_height="wrap_content"
 	    android:layout_marginRight="10dip"
 	    android:textColor="#777777"
-	    android:textSize="15dip"/>
+	    android:textSize="16dip"/>
 	
 </LinearLayout>
