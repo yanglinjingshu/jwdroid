@@ -266,12 +266,44 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 
 <string name="msg_person">Tenant</string>
 <string name="lbl_person_desc">Tenant description</string>
-<string name="lbl_male">Male</string>
-<string name="lbl_female">Female</string>
+<string name="lbl_male">Man</string>
+<string name="lbl_female">Woman</string>
 <string name="lbl_male_letter">M</string>
-<string name="lbl_female_letter">F</string>
+<string name="lbl_female_letter">W</string>
 <string name="msg_choose_age">Choose age:</string>
 
 <string name="lbl_visit_text">Visit content</string>
+
+<string name="action_object_add_na_visit">Not at home</string>
+<string name="msg_added_na_visit">Added \'N/A\' visit at %s</string>
+
+<string name="pref_hide_visited">Hide visited today</string>
+<string name="pref_hide_visited_note">Скрывать жилые объекты, которые были посещены сегодня (помечены флажком)</string>
+
+<string name="msg_delete_object">Будут удалены все жильцы и их посещения. Вы действительно хотите удалить жилой объект?</string>
+
+<string name="menu_territory_sort">Sort</string>
+<string name="msg_territory_sort">Отсортировать список по названию жилых объектов?</string>
+
+<string-array name="menu_move_list">
+	<item>Задать положение</item>
+	<item>Переместить выше</item>
+	<item>Переместить ниже</item>
+</string-array>
+
+<string name="pref_object_add_sorted">Автосортировка</string>
+<string name="pref_object_add_sorted_note">Вставлять новый жилой объект с учетом сортировки по названию (только для режима списка)</string>
+
+<string name="menu_backups">Backups</string>
+<string name="lbl_backup_list_empty">Список резервных копий пуст.</string>
+<string name="msg_backup_failed">Ошибка при создании резервной копии</string>
+<string name="pref_title_backup">Backups</string>
+<string name="pref_autobackup">Auto backup</string>
+<string name="pref_autobackup_note">Автоматически создавать резервные копии после завершения каждого служения</string>
+<string name="pref_num_backups">Количество копий</string>
+<string name="pref_num_backups_note">Максимальное количество хранящихся резервных копий</string>
+<string name="msg_create_backup">Создать новую резервную копию?</string>
+<string name="msg_delete_backup">Удалить эту резервную копию?</string>
+<string name="msg_restore_backup">Внимание: ВСЕ текущие данные будут безвовратно утеряны и заменены на данные из резервной копии. Вы уверены?</string>
 
 </resources>
