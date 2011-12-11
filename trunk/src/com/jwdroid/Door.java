@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.londatiga.android.ActionItem;
 import net.londatiga.android.QuickAction;
@@ -35,6 +37,7 @@ import android.support.v4.content.Loader;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
+import android.text.Selection;
 import android.text.format.Time;
 import android.text.style.TypefaceSpan;
 import android.util.Log;
@@ -43,6 +46,7 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +77,7 @@ public class Door extends FragmentActivity {
 	private static final int DIALOG_DELETE = 2;
 	private static final int DIALOG_COLOR = 3;
 	private static final int DIALOG_DELETE_PERSON = 4;
+	private static final int DIALOG_DELETE_DOOR = 5;
 	
 	private static final int LOADER_PERSON = 1;
 	private static final int LOADER_VISIT = 2;
@@ -224,12 +229,17 @@ public class Door extends FragmentActivity {
 	
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+    	if(mTerritoryId != 0) 
+    		getMenuInflater().inflate(R.menu.door, menu);
 		getMenuInflater().inflate(R.menu.main_menu, menu);
 		return true;
 	}	
     
     public boolean onOptionsItemSelected(MenuItem item) {		
 	    switch (item.getItemId()) {
+	    case R.id.menu_delete:
+	    	showDialog(DIALOG_DELETE_DOOR);
+	    	break;
 	    case R.id.menu_preferences:
 	    	Intent intent = new Intent(this, Preferences.class);
 	    	startActivity(intent);
@@ -247,6 +257,11 @@ public class Door extends FragmentActivity {
 	    	intent = new Intent(this, Help.class);
 	    	startActivity(intent);
 	    	break;
+	    	
+	    case R.id.menu_backups:
+			intent = new Intent(this, BackupList.class);
+	    	startActivity(intent);
+	    	break;
 	    }
 	    
 	    return false;
@@ -261,18 +276,81 @@ public class Door extends FragmentActivity {
     	switch(id) {
     	case DIALOG_EDIT_PERSON:
     		
-            final View view = factory.inflate(R.layout.dlg_edit, null);
-            ((TextView)view.findViewById(R.id.lbl_dlgedit_note)).setVisibility(View.GONE);
-            ((EditText)view.findViewById(R.id.edit_dlgedit_text)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+            final View view = factory.inflate(R.layout.dlg_person_desc, null);
+            final EditText edit = (EditText)view.findViewById(R.id.edit_dlgedit_text);
+            
+            final String maleLetter = getResources().getString(R.string.lbl_male_letter);
+			final String femaleLetter = getResources().getString(R.string.lbl_female_letter);
+            
+            view.findViewById(R.id.btn_person_male).setOnClickListener(new View.OnClickListener() {				
+				@Override
+				public void onClick(View view) {					
+					final ArrayList<String> items = new ArrayList<String>();
+					for(int i=10;i<=80;i+=5)
+						items.add(maleLetter+i);
+					String[] strings = new String[15];					
+					items.toArray(strings);
+					new AlertDialog.Builder(Door.this)
+						.setTitle(R.string.msg_choose_age)
+						.setItems(strings, new DialogInterface.OnClickListener() {
+						    public void onClick(DialogInterface dialog, int selectedItem) {
+						        
+						    	String text = edit.getText().toString();
+						    	Pattern p = Pattern.compile("^((?:"+maleLetter+"|"+femaleLetter+")\\d+)?\\s*(.+)?$");
+								Matcher m = p.matcher(text);
+								if(m.matches() && m.group(2) != null) 
+									text = items.get(selectedItem)+" "+m.group(2);						
+								else
+									text = items.get(selectedItem);
+								edit.setText(text);
+								Editable editable = edit.getText();
+								Selection.setSelection(editable, editable.length());
+						    	
+						    }
+						})
+						.create()
+						.show();
+				}
+			});
+            
+            view.findViewById(R.id.btn_person_female).setOnClickListener(new View.OnClickListener() {				
+				@Override
+				public void onClick(View view) {					
+					final ArrayList<String> items = new ArrayList<String>();
+					for(int i=10;i<=80;i+=5)
+						items.add(femaleLetter+i);
+					String[] strings = new String[15];					
+					items.toArray(strings);
+					new AlertDialog.Builder(Door.this)
+						.setTitle(R.string.msg_choose_age)
+						.setItems(strings, new DialogInterface.OnClickListener() {
+						    public void onClick(DialogInterface dialog, int selectedItem) {
+						        
+						    	String text = edit.getText().toString();
+								Pattern p = Pattern.compile("^((?:"+maleLetter+"|"+femaleLetter+")\\d+)?\\s*(.+)?$");
+								Matcher m = p.matcher(text);
+								if(m.matches() && m.group(2) != null) 
+									text = items.get(selectedItem)+" "+m.group(2);						
+								else
+									text = items.get(selectedItem);
+								edit.setText(text);
+								Editable editable = edit.getText();
+								Selection.setSelection(editable, editable.length());
+						    	
+						    }
+						})
+						.create()
+						.show();
+				}
+			});
+            
     		dialog = new AlertDialog.Builder(this)
-    					.setTitle(R.string.msg_person_desc)
+    					.setTitle(R.string.msg_person)
     					.setView(view)
-    					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    					.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
 							
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
-
-								int error = 0;
 								
 								Editable editable = ((EditText)view.findViewById(R.id.edit_dlgedit_text)).getText();
 								
@@ -326,7 +404,6 @@ public class Door extends FragmentActivity {
     		SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
     	    Cursor rs = db.rawQuery("SELECT name,color1,color2 FROM door WHERE ROWID=?", new String[] {mDoorId.toString()});
     	    rs.moveToFirst();
-    	    String name = rs.getString(0);
     	    Integer color1 = rs.getInt(1);
     	    Integer color2 = rs.getInt(2);
     	    
@@ -344,6 +421,15 @@ public class Door extends FragmentActivity {
     		});
     		
     		dialog = colorPicker.getDialog();
+    		break;
+    		
+    	case DIALOG_DELETE_DOOR:
+    		builder = new AlertDialog.Builder(this);    	
+    		builder.setCancelable(true)
+    			   .setMessage(R.string.msg_delete_object)
+    			   .setPositiveButton(R.string.btn_ok, null)
+    			   .setNegativeButton(R.string.btn_cancel, null);
+    		dialog = builder.create();
     		break;
     	}
     	
@@ -363,9 +449,12 @@ public class Door extends FragmentActivity {
 	    		((EditText)dialog.findViewById(R.id.edit_dlgedit_text)).setText(rs.getString(0));
 	    		rs.close();
     		}
+    		else {
+    			((EditText)dialog.findViewById(R.id.edit_dlgedit_text)).setText("");
+    		}
     		break;
     		
-    	case DIALOG_DELETE:    		    	
+    	case DIALOG_DELETE: {	    	
 	    	AlertDialog alertDialog = (AlertDialog)dialog;
 	    	alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {					
 					public void onClick(DialogInterface dialog, int which) {
@@ -382,12 +471,13 @@ public class Door extends FragmentActivity {
 					}
 				});
 	    	break;
+    	}
 	    	
-    	case DIALOG_DELETE_PERSON:   
+    	case DIALOG_DELETE_PERSON:  {
     		if(mPersonIds.containsKey(mPanelsView.getActivePos())) {
 	    	
     			final Long personId = mPersonIds.get(mPanelsView.getActivePos());
-		    	alertDialog = (AlertDialog)dialog;
+    			AlertDialog alertDialog = (AlertDialog)dialog;
 		    	alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {					
 						public void onClick(DialogInterface dialog, int which) {
 							SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
@@ -406,13 +496,33 @@ public class Door extends FragmentActivity {
     		}
 	    	break;
     	}
+	    	
+    	case DIALOG_DELETE_DOOR: {		    	
+	    	AlertDialog alertDialog = (AlertDialog)dialog;
+	    	alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {					
+					public void onClick(DialogInterface dialog, int which) {
+						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+						db.execSQL("DELETE FROM `door` WHERE rowid=?", new Long[] { mDoorId });
+				  		db.execSQL("DELETE FROM `person` WHERE door_id=?", new Long[] { mDoorId });
+				  		db.execSQL("DELETE FROM `visit` WHERE door_id=?", new Long[] { mDoorId });					  		
+				  		Toast.makeText(Door.this, R.string.msg_object_deleted, Toast.LENGTH_SHORT).show();			  		
+				  		finish();
+					}
+				});
+    		break;
+    	}
+    	}
     	
     }
     
     
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-
+		switch(v.getId()) {
+		case R.id.btn_person_male:
+			menu.add(0, 0, 0, getResources().getString(R.string.lbl_male_letter) + "10");
+			break;
+		}
 	}
     
     
@@ -695,10 +805,12 @@ public class Door extends FragmentActivity {
 		}
 		rs.close();
 		
+		db.execSQL("UPDATE door SET last_modified_date=(SELECT date FROM visit WHERE door_id=door.ROWID ORDER BY date DESC LIMIT 1) WHERE ROWID=?", new Object[] {doorId});
+		
 		Long territoryId = Util.dbFetchLong(db, "SELECT territory_id FROM door WHERE ROWID=?", new String[] {doorId.toString()});
 		
 		
-		db.execSQL("UPDATE door SET visits_num=(SELECT COUNT(*) FROM visit WHERE door_id=? AND type!=?) WHERE ROWID=?", new Object[] {doorId,String.valueOf(Visit.TYPE_NA),doorId});
+		db.execSQL("UPDATE door SET visits_num=(SELECT COUNT(*) FROM visit WHERE door_id=?) WHERE ROWID=?", new Object[] {doorId,doorId});
 		db.execSQL("UPDATE territory SET modified=(SELECT date FROM visit WHERE territory_id=territory.ROWID ORDER BY date DESC LIMIT 1) WHERE ROWID=?", new Object[] {territoryId});
 		
 		updateColor(context, doorId);

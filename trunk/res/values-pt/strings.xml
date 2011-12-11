@@ -241,4 +241,16 @@
 <string name="title_tip">Sugestão</string>
 <string name="msg_tip_literature_templates" formatted="false">Note que para usar estes atalhos em literatura deixada use: \n%s, %s, %s\n\nPor exemplo: \"Colocada %s sobre crianças.\"</string>
 
+<!-- v1.2 -->
+
+<string name="msg_person">Tenant</string>
+<string name="lbl_person_desc">Tenant description</string>
+<string name="lbl_male">Male</string>
+<string name="lbl_female">Female</string>
+<string name="lbl_male_letter">M</string>
+<string name="lbl_female_letter">F</string>
+<string name="msg_choose_age">Choose age:</string>
+
+<string name="lbl_visit_text">Visit content</string>
+
 </resources>

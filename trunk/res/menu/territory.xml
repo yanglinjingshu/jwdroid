@@ -13,6 +13,9 @@
 			</menu>
 		</item>
 	</group>  
+	<group android:id="@+id/menu_group_list">		
+		<item android:id="@+id/menu_sort" android:icon="@android:drawable/ic_menu_sort_by_size" android:title="@string/menu_territory_sort" />
+	</group>  
 	<item android:icon="@android:drawable/ic_menu_preferences" android:title="@string/menu_preferences" android:id="@+id/menu_preferences"></item>
 	<item android:icon="@android:drawable/ic_menu_send" android:title="@string/menu_feedback" android:id="@+id/menu_feedback"></item>
 	<item android:icon="@android:drawable/ic_menu_help" android:title="@string/menu_help" android:id="@+id/menu_help"></item>

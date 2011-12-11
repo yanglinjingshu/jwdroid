@@ -254,5 +254,52 @@
 <string name="msg_tip_literature_templates" formatted="false">Вы можете использовать в тексте следующие шаблоны для распространенной литературы:\n%s, %s, %s\n\nНапример: \"Отдали %s о детях\".</string>
 
 
+<!-- v1.2 -->
+
+<string name="msg_person">Жилец</string>
+<string name="lbl_person_desc">Описание жильца</string>
+<string name="lbl_male">Мужчина</string>
+<string name="lbl_female">Женщина</string>
+<string name="lbl_male_letter">М</string>
+<string name="lbl_female_letter">Ж</string>
+<string name="msg_choose_age">Выберите возраст:</string>
+
+<string name="lbl_visit_text">Текст посещения</string>
+
+<string name="action_object_add_na_visit">Нет дома</string>
+<string name="msg_added_na_visit">Посещение добавлено %s</string>
+
+<string name="pref_hide_visited">Скрывать посещенные</string>
+<string name="pref_hide_visited_note">Скрывать жилые объекты, которые были посещены сегодня (помечены флажком)</string>
+
+<string name="msg_delete_object">Будут удалены все жильцы и их посещения. Вы действительно хотите удалить жилой объект?</string>
+
+<string name="menu_territory_sort">Сортировка</string>
+<string name="msg_territory_sort">Отсортировать список по названию жилых объектов?</string>
+
+<string-array name="menu_move_list">
+	<item>Задать положение</item>
+	<item>Переместить выше</item>
+	<item>Переместить ниже</item>
+</string-array>
+
+<string name="pref_object_add_sorted">Автосортировка</string>
+<string name="pref_object_add_sorted_note">Вставлять новый жилой объект с учетом сортировки по названию (только для режима списка)</string>
+
+<string name="menu_backups">Резервные копии</string>
+<string name="lbl_backup_list_empty">Список резервных копий пуст.</string>
+<string name="msg_backup_failed">Ошибка при создании резервной копии</string>
+<string name="pref_title_backup">Резервные копии</string>
+<string name="pref_autobackup">Автоматическое резервирование</string>
+<string name="pref_autobackup_note">Автоматически создавать резервные копии после завершения каждого служения</string>
+<string name="pref_num_backups">Количество копий</string>
+<string name="pref_num_backups_note">Максимальное количество хранящихся резервных копий</string>
+<string name="msg_create_backup">Создать новую резервную копию?</string>
+<string name="msg_delete_backup">Удалить эту резервную копию?</string>
+<string name="msg_restore_backup">Внимание: ВСЕ текущие данные будут безвовратно утеряны и заменены на данные из резервной копии. Вы уверены?</string>
+<string name="action_backup_restore">Восстановить</string>
+<string name="action_backup_delete">Удалить</string>
+<string name="msg_restore_backup_failed">Ошибка при восстановлении резервной копии</string>
+<string name="msg_restore_backup_success">Резервная копия успешно восстановлена</string>
 </resources>
 

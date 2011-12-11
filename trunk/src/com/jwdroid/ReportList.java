@@ -111,6 +111,12 @@ public class ReportList extends Activity {
 	    	intent = new Intent(this, Help.class);
 	    	startActivityForResult(intent,1);
 	    	break;
+	    	
+	    case R.id.menu_backups:
+			intent = new Intent(this, BackupList.class);
+	    	startActivity(intent);
+	    	break;
+	    	
 	    }
 	    
 	    return false;

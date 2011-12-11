@@ -5,7 +5,7 @@
   android:layout_width="fill_parent"
   android:layout_height="wrap_content">  
   
-  <LinearLayout
+  <LinearLayout android:id="@+id/layout_dlgedit"
   	android:layout_width="fill_parent"
   	android:layout_height="wrap_content"
   	android:orientation="vertical"
@@ -20,7 +20,8 @@
   		android:layout_width="wrap_content"
   		android:layout_height="wrap_content"
   		android:layout_marginLeft="5dip" 
-  		android:textColor="#ffffff" />	
+  		android:textColor="#ffffff" />
+  		
   	  	 
   </LinearLayout>
 </ScrollView>

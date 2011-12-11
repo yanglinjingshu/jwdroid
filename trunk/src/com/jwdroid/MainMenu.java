@@ -81,6 +81,12 @@ public class MainMenu extends Activity {
 	    	intent = new Intent(this, Help.class);
 	    	startActivity(intent);
 	    	break;
+	    	
+		case R.id.menu_backups:
+			intent = new Intent(this, BackupList.class);
+	    	startActivity(intent);
+	    	break;
+	    	
 		}
 		return super.onOptionsItemSelected(item);
 	}

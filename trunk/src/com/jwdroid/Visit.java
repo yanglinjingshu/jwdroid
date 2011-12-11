@@ -15,6 +15,8 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
@@ -28,6 +30,8 @@ import android.text.TextWatcher;
 import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -47,6 +51,7 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 public class Visit extends FragmentActivity {
 	
@@ -58,6 +63,7 @@ public class Visit extends FragmentActivity {
     static final int TIME_DIALOG_ID = 0;
     static final int DATE_DIALOG_ID = 1;
     static final int DIALOG_TIP_TEMPLATES = 2;	
+    static final int DIALOG_DELETE = 3;
     
     public static final int[] TYPE_ICONS = {R.drawable.visit_na, R.drawable.first_visit, R.drawable.revisit, R.drawable.study};
 	
@@ -353,7 +359,15 @@ public class Visit extends FragmentActivity {
             		   .setTitle(R.string.title_tip)
         			   .setCancelable(true)
         			   .setMessage(text)
-        			   .setPositiveButton(R.string.btn_ok, null).create();        		
+        			   .setPositiveButton(R.string.btn_ok, null).create();      
+            	
+            case DIALOG_DELETE:
+        		return new AlertDialog.Builder(this)    	
+        				.setCancelable(true)
+        				.setMessage(R.string.msg_delete_visit)
+        				.setPositiveButton(R.string.btn_ok, null)
+        				.setNegativeButton(R.string.btn_cancel, null)
+        				.create();
         }
         return null;
     }	
@@ -368,8 +382,67 @@ public class Visit extends FragmentActivity {
             case DATE_DIALOG_ID:
                 ((DatePickerDialog) dialog).updateDate(mDate.year, mDate.month, mDate.monthDay);
                 break;
+            case DIALOG_DELETE:    		    	
+    	    	AlertDialog alertDialog = (AlertDialog)dialog;
+    	    	alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {					
+    					public void onClick(DialogInterface dialog, int which) {
+    						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+    				  		db.execSQL("DELETE FROM `visit` WHERE rowid=?", new Long[] { mVisitId });
+    				  		Door.updateVisits(Visit.this, mDoorId);
+    				  		Toast.makeText(Visit.this, R.string.msg_visit_deleted, Toast.LENGTH_SHORT).show();
+    				  		setResult(1);
+    				  		finish();
+    					}
+    				});
+    	    	alertDialog.setButton(alertDialog.BUTTON_NEGATIVE, null, new DialogInterface.OnClickListener() {
+    					   public void onClick(DialogInterface dialog, int which) {
+    						   dialog.cancel();
+    					}
+    				});
+    	    	break;
         }
     }  	
+    
+    @Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+    	if(mVisitId != 0)
+    		getMenuInflater().inflate(R.menu.visit, menu);
+		getMenuInflater().inflate(R.menu.main_menu, menu);
+		return true;
+	}	
+    
+    public boolean onOptionsItemSelected(MenuItem item) {		
+	    switch (item.getItemId()) {
+	    case R.id.menu_delete:
+	    	showDialog(DIALOG_DELETE);
+	    	break;
+	    	
+	    case R.id.menu_preferences:
+	    	Intent intent = new Intent(this, Preferences.class);
+	    	startActivity(intent);
+	    	break;
+	    	
+	    case R.id.menu_feedback:
+			intent = new Intent(Intent.ACTION_SEND);
+			intent.setType("message/rfc822");
+			intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"chivchalov@gmail.com"});
+			intent.putExtra(Intent.EXTRA_SUBJECT,"JW Droid");
+			startActivity(Intent.createChooser(intent, null));
+			break;
+			
+	    case R.id.menu_help:
+	    	intent = new Intent(this, Help.class);
+	    	startActivity(intent);
+	    	break;
+	    	
+	    case R.id.menu_backups:
+			intent = new Intent(this, BackupList.class);
+	    	startActivity(intent);
+	    	break;
+	    }
+	    
+	    return false;
+	}    
     
     private void recalcLiterature() {
     	if(mCalcAuto == 0)

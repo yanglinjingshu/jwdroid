@@ -33,13 +33,21 @@
 			    android:layout_height="wrap_content"
 			    android:textSize="18dip"
 			    android:textStyle="bold"/>
-			    
+			
+			<ImageView
+				android:id="@+id/door_item_visited"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentRight="true"
+			    android:layout_alignBottom="@id/door_item_name"
+			    android:layout_marginBottom="4dip"
+			    android:src="@drawable/checkbox_checked" />
 			
 			<TextView android:id="@+id/door_item_num_visits"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:layout_alignParentRight="true"
-			    android:layout_alignBaseline="@id/door_item_name"
+			    android:layout_alignBaseline="@id/door_item_name"			    
 			    android:textSize="12dip"
 			    android:textColor="#999999"/>	
 			    
@@ -53,6 +61,8 @@
 			    android:textSize="13dip"
 			    android:textColor="#000000"
 			    android:fadingEdge="vertical"/>
+			    
+			
 		</RelativeLayout>
 		
 		<View

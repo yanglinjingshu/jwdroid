@@ -189,7 +189,7 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string name="pref_color_return">Odwiedziny ponowne</string>
 <string name="pref_color_study">Studium biblijne</string>
 <string-array name="entries_color_preference">
-?  <item>Bez\ zmian</item>
+    <item>Bez\ zmian</item>
     <item>Niebieski</item>
     <item>Zielony</item>
     <item>Żółty</item>
@@ -226,38 +226,38 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 </string-array>
 
 <string-array name="plural_magazines">
-	<item></item>
+	<item>czasopismo</item>
     <item>czasopismo</item>
     <item>czasopisma</item>
 </string-array>
 
 <string-array name="plural_brochures">
-	<item></item>
+	<item>broszura</item>
     <item>broszura</item>
     <item>broszury</item>
-</string-array>?  
+</string-array>
 
 <string-array name="plural_books">
-	<item></item>
+	<item>książka</item>
     <item>książka</item>
     <item>książki</item>
 </string-array>
 
 <string-array name="plural_returns">
-	<item></item>
+	<item>odwiedziny ponowne</item>
     <item>odwiedziny ponowne</item>
     <item>odwiedziny ponowne</item>
 </string-array>
 
 
 <string-array name="plural_studies">
-	<item></item>
+	<item>studium biblijne</item>
     <item>studium biblijne</item>
     <item>studia biblijne</item>
 </string-array>
 
 <string-array name="plural_visits">
-	<item></item>
+	<item>wizyta</item>
     <item>wizyta</item>
     <item>wizyty</item>
 </string-array>

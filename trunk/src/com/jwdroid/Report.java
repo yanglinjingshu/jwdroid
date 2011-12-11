@@ -63,7 +63,7 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
         
         final String monthName = getResources().getStringArray(R.array.months)[Integer.parseInt(mMonth.substring(4,6))-1] + " " + mMonth.substring(0,4);
 
-        ((TextView)findViewById(R.id.title)).setText(String.format(getResources().getString(R.string.title_report), monthName));
+        ((TextView)findViewById(R.id.title)).setText(monthName);
         
               
         // Set up territory list
@@ -172,6 +172,16 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 			}
 		});
 		
+		findViewById(R.id.title_btn_add).setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(Report.this, Session.class);
+	    		intent.putExtra("session", 0);
+	    		startActivityForResult(intent,1);	
+				
+			}
+		});
+		
 		
 		
 		
@@ -239,6 +249,11 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 			
 	    case R.id.menu_help:
 	    	intent = new Intent(this, Help.class);
+	    	startActivity(intent);
+	    	break;
+	    	
+	    case R.id.menu_backups:
+			intent = new Intent(this, BackupList.class);
 	    	startActivity(intent);
 	    	break;
 	    }

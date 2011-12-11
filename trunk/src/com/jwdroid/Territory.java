@@ -2,9 +2,11 @@ package com.jwdroid;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import com.jwdroid.TriangleButton.TriangleButtonContextMenuInfo;
 
@@ -61,6 +63,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -88,6 +91,9 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	private static final int DIALOG_SET_POSITION = 6;
 	private static final int DIALOG_ADD_MULTIPLE = 7;
 	private static final int DIALOG_OFFER_ARRANGE = 8;
+	private static final int DIALOG_SORT = 9;
+	private static final int DIALOG_MOVE_LIST = 10;
+	private static final int DIALOG_SET_POSITION_LIST = 11;
 	
 	private static final int ID_PANEL_LISTVIEW = 100000;
 	private static final int ID_PANEL_TABLE = 100001;
@@ -223,6 +229,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
     	menu.setGroupVisible(R.id.menu_group_table, mDisplayMode == DISPLAY_TABLE);
+    	menu.setGroupVisible(R.id.menu_group_list, mDisplayMode == DISPLAY_LIST);
     	return super.onPrepareOptionsMenu(menu);
     }
     
@@ -257,6 +264,10 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	    	startActivity(intent);
 	    	break;
 	    	
+	    case R.id.menu_sort:
+	    	showDialog(DIALOG_SORT);
+	    	break;
+	    	
 	    case R.id.menu_preferences:
 	    	intent = new Intent(this, Preferences.class);
 	    	startActivity(intent);
@@ -272,6 +283,11 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 			
 	    case R.id.menu_help:
 	    	intent = new Intent(this, Help.class);
+	    	startActivity(intent);
+	    	break;
+	    	
+	    case R.id.menu_backups:
+			intent = new Intent(this, BackupList.class);
 	    	startActivity(intent);
 	    	break;
 	    }
@@ -381,6 +397,83 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
     				.setNegativeButton(R.string.btn_no, null)
     				.create();
     		break;   
+    		
+    	case DIALOG_SORT:
+    		dialog = new AlertDialog.Builder(this) 	
+			.setCancelable(true)
+			.setMessage(R.string.msg_territory_sort)
+			.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {					
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					sortDoors(Territory.this, mTerritoryId, mPanelsView.getActivePos());
+					getSupportLoaderManager().getLoader(0).forceLoad();	
+				}
+			})
+			.setNegativeButton(R.string.btn_no, null)
+			.create();
+    		break;
+    		
+    	case DIALOG_MOVE_LIST:
+    		dialog = new AlertDialog.Builder(this) 	
+			.setCancelable(true)
+			.setItems(R.array.menu_move_list, new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					
+					switch(which) {
+					case 0:		// Задать положение
+						showDialog(DIALOG_SET_POSITION_LIST);
+						break;
+					case 1:		// Переместить выше
+						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+						Cursor rs = db.rawQuery("SELECT group_id,order_num FROM door WHERE ROWID=?", new String[] {String.valueOf(mDialogItemId)});
+						rs.moveToFirst();
+						int groupId = rs.getInt(0);
+						int orderNum = rs.getInt(1);
+						if(orderNum > 1) {
+							rs = db.rawQuery("SELECT ROWID FROM door WHERE territory_id=? AND group_id=? AND order_num=?", new String[] {mTerritoryId.toString(), String.valueOf(groupId), String.valueOf(orderNum-1)});									
+							if(rs.getCount() > 0) {
+								rs.moveToFirst();
+								long otherId = rs.getLong(0);									
+								db.execSQL("UPDATE door SET order_num=? WHERE ROWID=?", new Object[] {String.valueOf(orderNum), String.valueOf(otherId)});
+							}
+							db.execSQL("UPDATE door SET order_num=? WHERE ROWID=?", new Object[] {String.valueOf(orderNum-1), String.valueOf(mDialogItemId)});
+							getSupportLoaderManager().getLoader(0).forceLoad();
+						}
+						rs.close();
+						break;
+					case 2:		// Переместить ниже
+						db = mDbOpenHelper.getWritableDatabase();
+						rs = db.rawQuery("SELECT group_id,order_num FROM door WHERE ROWID=?", new String[] {String.valueOf(mDialogItemId)});
+						rs.moveToFirst();
+						groupId = rs.getInt(0);
+						orderNum = rs.getInt(1);
+						rs = db.rawQuery("SELECT ROWID FROM door WHERE territory_id=? AND group_id=? AND order_num>? ORDER BY order_num ASC LIMIT 1", new String[] {mTerritoryId.toString(), String.valueOf(groupId), String.valueOf(orderNum)});
+						if(rs.getCount() > 0) {
+							rs.moveToFirst();
+							long otherId = rs.getLong(0);
+							db.execSQL("UPDATE door SET order_num=? WHERE ROWID=?", new Object[] {String.valueOf(orderNum+1), String.valueOf(mDialogItemId)});									
+							db.execSQL("UPDATE door SET order_num=? WHERE ROWID=?", new Object[] {String.valueOf(orderNum), String.valueOf(otherId)});
+						}
+						getSupportLoaderManager().getLoader(0).forceLoad();
+						rs.close();
+						break;
+					}										
+				}		
+			})			
+			.create();    		
+			
+			break;
+			
+    	case DIALOG_SET_POSITION_LIST:   
+   		 	((TextView)dlgEditLayout.findViewById(R.id.lbl_dlgedit_note)).setVisibility(View.GONE);
+    		dialog = new AlertDialog.Builder(this)
+    					.setTitle(R.string.menu_set_position)
+    					.setView(dlgEditLayout)
+    					.setPositiveButton(R.string.btn_ok, null)
+    					.setNegativeButton(R.string.btn_cancel, null).create(); 
+   		break;
     	
     	}	 	
     	
@@ -403,11 +496,20 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 						String name = ((EditText)editDialog.findViewById(R.id.edit_dlgedit_text)).getText().toString();
 						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
 						
-						Integer orderNum = Util.dbFetchInt(db,"SELECT MAX(order_num) FROM door WHERE territory_id=? AND group_id=?", new String[] {mTerritoryId.toString(), String.valueOf(mPanelsView.getActivePos())});
-						if(orderNum == null)
-							orderNum = 0;
-						else
-							orderNum++;
+						Integer orderNum;
+						
+						SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Territory.this);
+						boolean addSorted = prefs.getBoolean("object_add_sorted", true);
+						
+						if(addSorted)
+							orderNum = findSortedOrderNum(Territory.this, mTerritoryId, mPanelsView.getActivePos(), name);
+						else {
+							orderNum = Util.dbFetchInt(db,"SELECT MAX(order_num) FROM door WHERE territory_id=? AND group_id=?", new String[] {mTerritoryId.toString(), String.valueOf(mPanelsView.getActivePos())});
+							if(orderNum == null)
+								orderNum = 0;
+							else
+								orderNum++;
+						}
 						
 						Integer row = Util.dbFetchInt(db,"SELECT MAX(row) FROM door WHERE territory_id=? AND group_id=?", new String[] {mTerritoryId.toString(), String.valueOf(mPanelsView.getActivePos())});
 						Integer col = 0;
@@ -425,10 +527,13 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 			    			row++;
 			    		}
 			    		
+			    		db.execSQL("UPDATE door SET order_num=order_num+1 WHERE territory_id=? AND group_id=? AND order_num>=?", new Object[] {mTerritoryId, mPanelsView.getActivePos(), orderNum});
+			    		
 			    		db.execSQL(	"INSERT INTO door (territory_id, group_id, order_num, col, row, name, color1, color2, visits_num, last_person_name, last_date, last_desc)" +
 			    		"VALUES(?,?,?,?,?,?,0,0,0,null,null,null)", new Object[] {mTerritoryId, mPanelsView.getActivePos(), orderNum, col, row, name});
 			    		
-			    		mRememberedActiveViewGroupScroll = -1;
+			    		if(!addSorted)
+			    			mRememberedActiveViewGroupScroll = -1;
 			    		getSupportLoaderManager().getLoader(0).forceLoad();	
 					}
 	    		});
@@ -455,11 +560,8 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 				    		else
 				    			maxCol = Util.dbFetchInt(db,"SELECT MAX(col)+1 FROM door WHERE territory_id=? AND group_id=? AND row=?", new String[] {mTerritoryId.toString(), String.valueOf(mPanelsView.getActivePos()), String.valueOf(maxRow)});
 				    		
-				    		Integer orderNum = Util.dbFetchInt(db,"SELECT MAX(order_num) FROM door WHERE territory_id=? AND group_id=?", new String[] {mTerritoryId.toString(), String.valueOf(mPanelsView.getActivePos())});
-				    		if(orderNum == null)
-				    			orderNum = 0;
-				    		else
-				    			orderNum++;
+				    		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Territory.this);
+				    		boolean addSorted = prefs.getBoolean("object_add_sorted", true);
 				    		
 				    		int cols = 6;				    		
 				    		if(maxRow>0) 
@@ -468,11 +570,24 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 				    		int col = maxCol;
 				    		int row = maxRow;
 				    		for(int i=from;i<=to;i++) {
+								
+				    			Integer orderNum;
+								if(addSorted)
+									orderNum = findSortedOrderNum(Territory.this, mTerritoryId, mPanelsView.getActivePos(), String.valueOf(i));
+								else {
+									orderNum = Util.dbFetchInt(db,"SELECT MAX(order_num) FROM door WHERE territory_id=? AND group_id=?", new String[] {mTerritoryId.toString(), String.valueOf(mPanelsView.getActivePos())});
+									if(orderNum == null)
+										orderNum = 0;
+									else
+										orderNum++;
+								}
 				    			
 				    			if(col >= cols) {
 				    				col = 0;
 				    				row++;
 				    			}
+				    			
+				    			db.execSQL("UPDATE door SET order_num=order_num+1 WHERE territory_id=? AND group_id=? AND order_num>=?", new Object[] {mTerritoryId, mPanelsView.getActivePos(), orderNum});
 				    			
 				    			db.execSQL(	"INSERT INTO door (territory_id, group_id, order_num, col, row, name, color1, color2, visits_num, last_person_name, last_date, last_desc)" +
 							    		"VALUES(?,?,?,?,?,?,0,0,0,null,null,null)", new Object[] {mTerritoryId, mPanelsView.getActivePos(), orderNum, col, row, String.valueOf(i)});
@@ -483,6 +598,10 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 				    		}
 				    						    		
 				    		showDialog(DIALOG_OFFER_ARRANGE);
+				    		
+				    		if(!addSorted)
+				    			mRememberedActiveViewGroupScroll = -1;
+				    		
 				    		getSupportLoaderManager().getLoader(0).forceLoad();
 				    		
 				    		
@@ -504,7 +623,10 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 							SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
 							db.execSQL("DELETE FROM `door` WHERE rowid=?", new Long[] { mDialogItemId });
 					  		db.execSQL("DELETE FROM `person` WHERE door_id=?", new Long[] { mDialogItemId });
-					  		db.execSQL("DELETE FROM `visit` WHERE door_id=?", new Long[] { mDialogItemId });					  		
+					  		db.execSQL("DELETE FROM `visit` WHERE door_id=?", new Long[] { mDialogItemId });	
+					  		
+					  		fixOrderNums(Territory.this, mTerritoryId, mPanelsView.getActivePos());					  		
+					  		
 					  		Toast.makeText(Territory.this, R.string.msg_object_deleted, Toast.LENGTH_SHORT).show();			  		
 					  		getSupportLoaderManager().getLoader(0).forceLoad();
 						}
@@ -604,8 +726,8 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 							return;
 						}
 						
-						int directionVertical = ( (SimpleArrayItem)  ((Spinner)alertDialog.findViewById(R.id.spinner_arrange_direction_vertical)).getSelectedItem() ).id;
-						int directionHorizontal = ( (SimpleArrayItem)  ((Spinner)alertDialog.findViewById(R.id.spinner_arrange_direction_horizontal)).getSelectedItem() ).id;
+						long directionVertical = ( (SimpleArrayItem)  ((Spinner)alertDialog.findViewById(R.id.spinner_arrange_direction_vertical)).getSelectedItem() ).id;
+						long directionHorizontal = ( (SimpleArrayItem)  ((Spinner)alertDialog.findViewById(R.id.spinner_arrange_direction_horizontal)).getSelectedItem() ).id;
 						
 						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();						
 						Cursor rs = db.rawQuery("SELECT ROWID FROM door WHERE territory_id=? AND group_id=? ORDER BY order_num ASC", new String[] {mTerritoryId.toString(), String.valueOf(mPanelsView.getActivePos())});
@@ -681,11 +803,41 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	    		});
 	    		break;
 	    	}
-	    	
-	    	
-	    	
-	    	
 	    		
+	    	case DIALOG_SET_POSITION_LIST: {
+	    		final AlertDialog alertDialog = (AlertDialog)dialog;
+	    		
+	    		final SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();						
+				Cursor rs = db.rawQuery("SELECT order_num FROM door WHERE ROWID=?", new String[] {mDialogItemId.toString()});
+				rs.moveToFirst();
+				final int orderNum = rs.getInt(0);				
+				rs.close();
+	    		
+	    		((EditText)dialog.findViewById(R.id.edit_dlgedit_text)).setText(String.valueOf(orderNum+1));
+	    		alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {						
+						try {
+							Integer newOrderNum = Integer.parseInt(((EditText)alertDialog.findViewById(R.id.edit_dlgedit_text)).getText().toString());
+							newOrderNum--;
+							
+							if(newOrderNum < orderNum) 
+								db.execSQL("UPDATE door SET order_num=order_num+1 WHERE territory_id=? AND group_id=? AND order_num>=? AND order_num<=?", 
+											new Object[] {mTerritoryId, mPanelsView.getActivePos(), newOrderNum, orderNum-1});
+							if(newOrderNum > orderNum) 
+								db.execSQL("UPDATE door SET order_num=order_num-1 WHERE territory_id=? AND group_id=? AND order_num>=? AND order_num<=?", 
+											new Object[] {mTerritoryId, mPanelsView.getActivePos(), orderNum+1, newOrderNum});
+														
+							db.execSQL("UPDATE door SET order_num=? WHERE ROWID=?", new Object[] {newOrderNum,mDialogItemId});
+							
+							getSupportLoaderManager().getLoader(0).forceLoad();
+						}
+						catch(Exception e) {							
+						}
+					}
+	    		});
+	    		break;	
+	    	}	
     	}
     }
     
@@ -781,6 +933,13 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 		
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		
+		final boolean hideVisited = sharedPref.getBoolean("hide_visited", false);
+		
+		Time todayBegin = new Time();
+		todayBegin.setToNow();
+		todayBegin.hour = todayBegin.minute = todayBegin.second = 0;
+		todayBegin.normalize(false);
+		
 		if(mRememberedActiveViewGroupScroll != -1 && mPanelsView.getViewGroupsCount() > 0 && mPanelsView.getViewGroupAt( mPanelsView.getActivePos() ).findViewById(ID_PANEL_LISTVIEW) != null)
 			mRememberedActiveViewGroupScroll = ((ListView)mPanelsView.getViewGroupAt( mPanelsView.getActivePos() ).findViewById(ID_PANEL_LISTVIEW)).getFirstVisiblePosition();
 		
@@ -790,9 +949,14 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
     	
     	mPanelsView.removeViewGroups();
     	
-    	HashMap<Integer,ArrayList<DoorItem>> items = new HashMap<Integer,ArrayList<DoorItem>>();
+    	HashMap<Integer,LinkedList<DoorItem>> items = new HashMap<Integer,LinkedList<DoorItem>>();
 	    
 		while(cursor.moveToNext()) {
+			
+			
+			if(hideVisited && cursor.getLong(13)*1000 > todayBegin.toMillis(false)) {
+				continue;
+			}
 	    	
 			DoorItem item = new DoorItem();
 	    	
@@ -810,9 +974,11 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
     		item.lastDate.set(cursor.getLong(10)*1000);    		
     		item.lastDesc = cursor.getString(11);
     		item.lastPersonReject = cursor.getInt(12);
+    		item.lastModifiedDate = new Time();
+    		item.lastModifiedDate.set(cursor.getLong(13)*1000);
     		
     		if(!items.containsKey(item.groupId))
-    			items.put(item.groupId, new ArrayList<DoorItem>());
+    			items.put(item.groupId, new LinkedList<DoorItem>());
     		
     		items.get(item.groupId).add(item);
 	    	
@@ -838,10 +1004,10 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 			    	curGroup.addView(listView);
 			    	
 			    	final QuickAction listActions 	= new QuickAction(this);
-					listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_change_name), getResources().getDrawable(R.drawable.ac_pencil)));
+			    	listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_add_na_visit), getResources().getDrawable(R.drawable.ac_doc_empty)));					
 					listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_change_color), getResources().getDrawable(R.drawable.ac_color)));
-					listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_move_up), getResources().getDrawable(R.drawable.ac_up)));
-					listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_move_down), getResources().getDrawable(R.drawable.ac_down)));				
+					listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_change_name), getResources().getDrawable(R.drawable.ac_pencil)));
+					listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_move), getResources().getDrawable(R.drawable.ac_move)));				
 					listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_delete), getResources().getDrawable(R.drawable.ac_trash)));
 					listActions.animateTrack(false);
 					listActions.setAnimStyle(QuickAction.ANIM_MOVE_FROM_RIGHT);			
@@ -859,51 +1025,32 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 						@Override
 						public void onItemClick(int pos) {
 							Bundle args;
-							SQLiteDatabase db;
+							SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
 							Cursor rs;
 							switch(pos) {
-							case 0:	// Заголовок						
-								mDialogItemId = listActions.getId();
-						  		showDialog(DIALOG_CHANGE_NAME);
-								break;		
+							case 0:	// Add N/A
+								Long doorId = listActions.getId();
+								TerritoryAdapter adapter = (TerritoryAdapter)listView.getAdapter();
+								int itemPos = adapter.getPositionById(doorId);
+								DoorItem item = adapter.getItem(itemPos);
+								addNAVisit(doorId, item);
+								
+								if(hideVisited)
+									adapter.getData().remove(itemPos);
+								
+								adapter.notifyDataSetChanged();
+								break;
 							case 1:	// Цвет						
 								mDialogItemId = listActions.getId();
 						  		showDialog(DIALOG_COLOR);
 								break;	
-							case 2: // Выше			
-								long id = listActions.getId();
-								db = mDbOpenHelper.getWritableDatabase();
-								rs = db.rawQuery("SELECT group_id,order_num FROM door WHERE ROWID=?", new String[] {String.valueOf(id)});
-								rs.moveToFirst();
-								int groupId = rs.getInt(0);
-								int orderNum = rs.getInt(1);
-								if(orderNum > 1) {
-									rs = db.rawQuery("SELECT ROWID FROM door WHERE territory_id=? AND group_id=? AND order_num=?", new String[] {mTerritoryId.toString(), String.valueOf(groupId), String.valueOf(orderNum-1)});									
-									if(rs.getCount() > 0) {
-										rs.moveToFirst();
-										long otherId = rs.getLong(0);									
-										db.execSQL("UPDATE door SET order_num=? WHERE ROWID=?", new Object[] {String.valueOf(orderNum), String.valueOf(otherId)});
-									}
-									db.execSQL("UPDATE door SET order_num=? WHERE ROWID=?", new Object[] {String.valueOf(orderNum-1), String.valueOf(id)});
-									getSupportLoaderManager().getLoader(0).forceLoad();
-								}
-								rs.close();
-								break;
-							case 3: // Ниже								
-								db = mDbOpenHelper.getWritableDatabase();
-								rs = db.rawQuery("SELECT group_id,order_num FROM door WHERE ROWID=?", new String[] {String.valueOf(listActions.getId())});
-								rs.moveToFirst();
-								groupId = rs.getInt(0);
-								orderNum = rs.getInt(1);
-								rs = db.rawQuery("SELECT ROWID FROM door WHERE territory_id=? AND group_id=? AND order_num>? ORDER BY order_num ASC LIMIT 1", new String[] {mTerritoryId.toString(), String.valueOf(groupId), String.valueOf(orderNum)});
-								if(rs.getCount() > 0) {
-									rs.moveToFirst();
-									long otherId = rs.getLong(0);
-									db.execSQL("UPDATE door SET order_num=? WHERE ROWID=?", new Object[] {String.valueOf(orderNum+1), String.valueOf(listActions.getId())});									
-									db.execSQL("UPDATE door SET order_num=? WHERE ROWID=?", new Object[] {String.valueOf(orderNum), String.valueOf(otherId)});
-								}
-								getSupportLoaderManager().getLoader(0).forceLoad();
-								rs.close();
+							case 2:	// Заголовок						
+								mDialogItemId = listActions.getId();
+						  		showDialog(DIALOG_CHANGE_NAME);
+								break;		
+							case 3: // Переместить	
+								mDialogItemId = listActions.getId();
+								showDialog(DIALOG_MOVE_LIST);								
 								break;
 							case 4:	// Удалить						
 								mDialogItemId = listActions.getId();
@@ -1031,8 +1178,9 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 						}
 						
 						final QuickAction listActions 	= new QuickAction(this);
-						listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_change_name), getResources().getDrawable(R.drawable.ac_pencil)));
+						listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_add_na_visit), getResources().getDrawable(R.drawable.ac_doc_empty)));						
 						listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_change_color), getResources().getDrawable(R.drawable.ac_color)));
+						listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_change_name), getResources().getDrawable(R.drawable.ac_pencil)));
 						listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_move), getResources().getDrawable(R.drawable.ac_move)));			
 						listActions.addActionItem(new ActionItem(getResources().getString(R.string.action_object_delete), getResources().getDrawable(R.drawable.ac_trash)));
 						listActions.animateTrack(false);
@@ -1043,7 +1191,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 							@Override
 							public boolean onLongClick(View v) {
 								listActions.show(v, (Long)v.getTag());
-								return false;
+								return true;
 							}
 						}); 	
 						
@@ -1052,20 +1200,27 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 							public void onItemClick(int pos) {
 								Bundle args;
 								switch(pos) {
-								case 0:	// Заголовок						
-									mDialogItemId = listActions.getId();
-							  		showDialog(DIALOG_CHANGE_NAME);
-									break;		
+								case 0:	// Add N/A
+									Long doorId = listActions.getId();									
+									addNAVisit(doorId, null);
+									
+									if(hideVisited)
+										listActions.getView().setVisibility(View.INVISIBLE);
+									break;
 								case 1:	// Цвет						
 									mDialogItemId = listActions.getId();
 							  		showDialog(DIALOG_COLOR);
 									break;	
-								case 2:	// Переместить
+								case 2:	// Заголовок						
+									mDialogItemId = listActions.getId();
+							  		showDialog(DIALOG_CHANGE_NAME);
+									break;		
+								case 3:	// Переместить
 									registerForContextMenu(listActions.getView());
 									listActions.getView().showContextMenu();
 									unregisterForContextMenu(listActions.getView());
 									break;
-								case 3:	// Удалить						
+								case 4:	// Удалить						
 									mDialogItemId = listActions.getId();
 							  		showDialog(DIALOG_DELETE);
 									break;	
@@ -1131,7 +1286,96 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 		if(key.equals("table_button_size") && mDisplayMode == DISPLAY_TABLE) {
 			getSupportLoaderManager().getLoader(0).forceLoad();
 		}
+		if(key.equals("hide_visited")) {
+			getSupportLoaderManager().getLoader(0).forceLoad();
+		}
+	}
+	
+	private void addNAVisit(Long doorId, DoorItem item) {
+		SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+				
+		Cursor rs = db.rawQuery("SELECT ROWID FROM person WHERE door_id=?", new String[] {doorId.toString()});
+		if(rs.getCount() == 0) {
+			rs.close();
+			db.execSQL("INSERT INTO person (door_id,name) VALUES (?,'')", new String[] {doorId.toString()});
+			rs = db.rawQuery("SELECT last_insert_rowid()", new String[] {});
+		}
 		
+		while(rs.moveToNext()) {
+			if(item != null)
+				item.visitsNum++;
+			db.execSQL("INSERT INTO visit (territory_id,door_id,person_id,date,desc) VALUES(?,?,?,strftime('now'),'')", new Object[] {mTerritoryId, doorId, rs.getString(0)});
+		}
+		rs.close();
+		db.close();
+		
+		if(item != null)
+			item.lastModifiedDate.setToNow();
+		
+		String msg = getResources().getString(R.string.msg_added_na_visit, DateFormat.getDateInstance(DateFormat.SHORT).format(new Date())+", "+DateFormat.getTimeInstance(DateFormat.SHORT).format(new Date()));
+		Toast.makeText(Territory.this, msg, Toast.LENGTH_LONG).show();
+		
+		Door.updateVisits(Territory.this, doorId);		
+	}
+	
+	static public void sortDoors(Context context, Long territoryId, Integer groupId) {
+		AppDbOpenHelper dbOpenHelper = new AppDbOpenHelper(context);
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+		
+		ArrayList<SimpleArrayItem> items = new ArrayList<SimpleArrayItem>();
+		
+		Cursor rs = db.rawQuery("SELECT ROWID,name FROM door WHERE territory_id=? AND group_id=?", new String[] {territoryId.toString(), groupId.toString()});
+		while(rs.moveToNext()) {
+			long id = rs.getLong(0);
+			String name = rs.getString(1);		
+			
+			items.add(new SimpleArrayItem(id,name));
+		}
+		rs.close();		
+				
+		Collections.sort(items, new AlphanumComparator());
+		
+		for(int i=0;i<items.size();i++) {
+			db.execSQL("UPDATE door SET order_num=? WHERE ROWID=?", new Object[] {i, Long.toString( items.get(i).id )});			
+		}
+		
+		db.close();
+	}
+	
+	static public int findSortedOrderNum(Context context, Long territoryId, Integer groupId, String name) {
+		AppDbOpenHelper dbOpenHelper = new AppDbOpenHelper(context);
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+		
+		AlphanumComparator comparator = new AlphanumComparator();
+		
+		int orderNum = 0;
+		
+		Cursor rs = db.rawQuery("SELECT order_num,name FROM door WHERE territory_id=? AND group_id=? ORDER BY order_num", new String[] {territoryId.toString(), groupId.toString()});
+		while(rs.moveToNext()) {
+			int iOrderNum = rs.getInt(0); 
+			String iName = rs.getString(1);		
+			
+			if(comparator.compare(name, iName) >= 0)
+				orderNum = iOrderNum+1;
+			else
+				break;
+				
+		}
+		rs.close();
+		
+		return orderNum;
+	}
+	
+	static public void fixOrderNums(Context context, Long territoryId, Integer groupId) {
+		AppDbOpenHelper dbHelper = new AppDbOpenHelper(context);
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		int orderNum = 0;
+		Cursor rs = db.rawQuery("SELECT ROWID FROM door WHERE territory_id=? AND group_id=? ORDER BY order_num ASC", new String[] {territoryId.toString(), groupId.toString()});
+		while(rs.moveToNext()) {
+			long id = rs.getLong(0);				
+			db.execSQL("UPDATE door SET order_num=? WHERE ROWID=?", new Object[] {orderNum, id});
+			orderNum++;		
+		}
 	}
 	
 	
@@ -1143,20 +1387,28 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 		int color1,color2,visitsNum;
 		String lastPersonName,lastDesc;
 		int lastPersonReject;
-		Time lastDate;
+		Time lastDate, lastModifiedDate;
 	}
 	
 	
-	private static class TerritoryAdapter extends SimpleArrayAdapter<DoorItem> implements SharedPreferences.OnSharedPreferenceChangeListener {
+	private static class TerritoryAdapter extends SimpleListAdapter<DoorItem> implements SharedPreferences.OnSharedPreferenceChangeListener {
 		        
         private int mTextRowsCnt = 0;
+        private Time mTodayBegin;
+        private float mDensity;
         
-        public TerritoryAdapter(Context context, ArrayList<DoorItem> items, SharedPreferences prefs) {
+        public TerritoryAdapter(Context context, LinkedList<DoorItem> items, SharedPreferences prefs) {
            super(context,items);
            
            mTextRowsCnt = Integer.parseInt(prefs.getString("list_text_rows", "2"));
            prefs.registerOnSharedPreferenceChangeListener(this);
            
+           mTodayBegin = new Time();
+           mTodayBegin.setToNow();
+	   		mTodayBegin.hour = mTodayBegin.minute = mTodayBegin.second = 0;
+	   		mTodayBegin.normalize(false);
+	   		
+	   		mDensity = context.getResources().getDisplayMetrics().density;
         }
         
 
@@ -1168,6 +1420,8 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 
         	ViewHolder holder;
         	DoorItem item = mItems.get(position);
+        	
+        	RelativeLayout.LayoutParams rlp;
 
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.door_item_list, null);
@@ -1178,6 +1432,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
                 holder.desc = (TextView) convertView.findViewById(R.id.door_item_desc);
                 holder.color1 = convertView.findViewById(R.id.door_item_color1);
                 holder.color2 = convertView.findViewById(R.id.door_item_color2);
+                holder.visited = (ImageView)convertView.findViewById(R.id.door_item_visited);
                                 
                 convertView.setTag(holder);
             } else {
@@ -1186,20 +1441,43 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
             }
             
             holder.name.setText(item.name);
+            
+            rlp = (RelativeLayout.LayoutParams)holder.num_visits.getLayoutParams();
         	
+            
         	if(item.visitsNum > 0) {
         		holder.num_visits.setText(item.visitsNum+" "+Util.pluralForm(mContext, item.visitsNum, mContext.getResources().getStringArray(R.array.plural_visits)));
+        		if(item.lastModifiedDate.toMillis(false) > mTodayBegin.toMillis(false)) {
+        			rlp.rightMargin = (int)(14*mDensity);
+        			holder.visited.setVisibility(View.VISIBLE);
+        		}
+        		else {
+        			rlp.rightMargin = 0;        		
+        			holder.visited.setVisibility(View.GONE);
+        		}
+        	}
+        	else {
+        		holder.num_visits.setText("");        		
+        		rlp.rightMargin = 0;
+        		holder.visited.setVisibility(View.GONE);
+        	}
+        	holder.num_visits.setLayoutParams(rlp);
+        	
+        	
+        	if(item.lastDate.toMillis(false) > 0) {        		
         		String snippet = "<s><b>"+DateFormat.getDateInstance(DateFormat.SHORT).format( new Date(item.lastDate.toMillis(true)) );
         		if(item.lastPersonName != null && item.lastPersonName.length() > 0)
         			snippet += ", "+item.lastPersonName;
         		snippet += "</b></s>: "+item.lastDesc;
         		holder.desc.setText( Html.fromHtml(snippet) );        		
-        		holder.desc.setTextColor( item.lastPersonReject == 1 ? 0xFFAAAAAA : 0xFF000000 );
+        		holder.desc.setTextColor( item.lastPersonReject == 1 ? 0xFFAAAAAA : 0xFF000000 );        		
         	}
         	else {
-        		holder.num_visits.setText("");
         		holder.desc.setText("");
         	}
+        	
+        	
+        	
         	
         	holder.desc.setLines(mTextRowsCnt);
         	
@@ -1215,6 +1493,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
             TextView name,num_visits;
             TextView desc;
             View color1,color2;
+            ImageView visited;
         }
 
 		@Override
@@ -1252,7 +1531,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 		public Cursor loadInBackground() {
 			
 			SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
-			Cursor rs = db.rawQuery("SELECT ROWID,group_id,order_num,col,row,name,color1,color2,visits_num,last_person_name,strftime('%s',last_date),last_desc,last_person_reject FROM door WHERE territory_id=? ORDER BY group_id, order_num ASC", new String[] {mTerritoryId.toString()});
+			Cursor rs = db.rawQuery("SELECT ROWID,group_id,order_num,col,row,name,color1,color2,visits_num,last_person_name,strftime('%s',last_date),last_desc,last_person_reject,strftime('%s',last_modified_date) FROM door WHERE territory_id=? ORDER BY group_id, order_num ASC", new String[] {mTerritoryId.toString()});
 			
 			return rs;
 		}

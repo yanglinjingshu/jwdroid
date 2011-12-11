@@ -1,6 +1,7 @@
 package com.jwdroid;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,18 +10,19 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 
-abstract public class SimpleArrayAdapter<T> extends BaseAdapter {
+abstract public class SimpleListAdapter<T> extends BaseAdapter {
 	
     protected LayoutInflater mInflater;
-    protected ArrayList<T> mItems;
+    protected LinkedList<T> mItems;
     protected Context mContext;
    
-    public SimpleArrayAdapter(Context context, ArrayList<T> items) {
+    public SimpleListAdapter(Context context, LinkedList<T> items) {
         mInflater = LayoutInflater.from(context);
         mItems = items;
         if(items == null)
-        	mItems = new ArrayList<T>();
+        	mItems = new LinkedList<T>();
         mContext = context;        
+        
     }
 
     public int getCount() {
@@ -49,7 +51,11 @@ abstract public class SimpleArrayAdapter<T> extends BaseAdapter {
     		return getItem(pos);
     }
     
-    public void swapData(ArrayList<T> data) {
+    public LinkedList<T> getData() {
+    	return mItems;
+    }
+    
+    public void swapData(LinkedList<T> data) {
     	mItems = data;
     	notifyDataSetChanged();
     }
