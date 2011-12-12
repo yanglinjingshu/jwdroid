@@ -264,12 +264,52 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 
 <string name="msg_person">Tenant</string>
 <string name="lbl_person_desc">Tenant description</string>
-<string name="lbl_male">Male</string>
-<string name="lbl_female">Female</string>
+<string name="lbl_male">Man</string>
+<string name="lbl_female">Woman</string>
 <string name="lbl_male_letter">M</string>
-<string name="lbl_female_letter">F</string>
+<string name="lbl_female_letter">W</string>
 <string name="msg_choose_age">Choose age:</string>
 
 <string name="lbl_visit_text">Visit content</string>
+
+<string name="action_object_add_na_visit">Not at home</string>
+<string name="msg_added_na_visit">Added \'N/A\' visit at %s</string>
+
+<string name="pref_hide_visited">Hide visited today</string>
+<string name="pref_hide_visited_note">Hide households visited today (marked with checkbox)</string>
+
+<string name="msg_delete_object">All tenants and their visits will be deleted! Do you really want to delete the household?</string>
+
+<string name="menu_territory_sort">Sort</string>
+<string name="msg_territory_sort">Soft list by household name?</string>
+
+<string-array name="menu_move_list">
+	<item>Set position</item>
+	<item>Move up</item>
+	<item>Move down</item>
+</string-array>
+
+<string name="pref_object_add_sorted">Auto sort</string>
+<string name="pref_object_add_sorted_note">Insert a new household with sorting by name (only for list view)</string>
+
+<string name="menu_backups">Backups</string>
+<string name="lbl_backup_list_empty">Backup list empty.</string>
+<string name="msg_backup_failed">Error creating backup copy</string>
+<string name="pref_title_backup">Backups</string>
+<string name="pref_autobackup">Auto backup</string>
+<string name="pref_autobackup_note">Automatically create a new backup after each service session</string>
+<string name="pref_num_backups">Copies number</string>
+<string name="pref_num_backups_note">Max number of stored backups</string>
+<string name="msg_create_backup">Create new backup?</string>
+<string name="msg_delete_backup">Delete this backup?</string>
+<string name="msg_restore_backup">Warning: ALL current data will be permanently lost and replaced with data from the backup. Are you sure?</string>
+<string name="action_backup_restore">Restore</string>
+<string name="action_backup_delete">Delete</string>
+<string name="msg_restore_backup_failed">Error restoring backup copy</string>
+<string name="msg_restore_backup_success">Backup has been successfully restored</string>
+
+<string name="msg_revision_notes">What\'s new</string>
+<string name="msg_revision_notes_1_2" formatted="true"><b>Version 1.2</b>\n\nData backups, including automatic\n\nManual adding service sessions\n\nSimplified editing of service date and time\n\nNew mark on households visited today\n\nSorting households by name\n\nQuick editing of age and gender after creating a new tenant\n\nQuick mark \"Not at home\" without entering a household\n\nMinor interface improvements
+</string>
 
 </resources>
