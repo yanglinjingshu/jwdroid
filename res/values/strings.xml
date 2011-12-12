@@ -104,7 +104,7 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string name="title_reports">Reports</string>
 <string name="title_chrono">Chronometer</string>
 
-<string name="lbl_people_list_empty">People list is empty. \n\nAdd new person by the button above or in the &amp;quot;Territories&amp;quot; section.</string>
+<string name="lbl_people_list_empty">People list is empty. \n\nAdd new person by the button above or in the &quot;Territories&quot; section.</string>
 <string name="lbl_person_add_from_people">Note that this person will be added without connection to any territory.</string>
 
 <string name="title_report">Report for %s</string>
@@ -278,7 +278,7 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string name="msg_added_na_visit">Added \'N/A\' visit at %s</string>
 
 <string name="pref_hide_visited">Hide visited today</string>
-<string name="pref_hide_visited_note">Hide households visited today (marked with flag)</string>
+<string name="pref_hide_visited_note">Hide households visited today (marked with checkbox)</string>
 
 <string name="msg_delete_object">All tenants and their visits will be deleted! Do you really want to delete the household?</string>
 
@@ -292,7 +292,7 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 </string-array>
 
 <string name="pref_object_add_sorted">Auto sort</string>
-<string name="pref_object_add_sorted_note">Insert a new household with sorting by name (only for list mode)</string>
+<string name="pref_object_add_sorted_note">Insert a new household with sorting by name (only for list view)</string>
 
 <string name="menu_backups">Backups</string>
 <string name="lbl_backup_list_empty">Backup list empty.</string>
@@ -300,10 +300,17 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string name="pref_title_backup">Backups</string>
 <string name="pref_autobackup">Auto backup</string>
 <string name="pref_autobackup_note">Automatically create a new backup after each service session</string>
-<string name="pref_num_backups">Copy number</string>
+<string name="pref_num_backups">Copies number</string>
 <string name="pref_num_backups_note">Max number of stored backups</string>
 <string name="msg_create_backup">Create new backup?</string>
 <string name="msg_delete_backup">Delete this backup?</string>
 <string name="msg_restore_backup">Warning: ALL current data will be permanently lost and replaced with data from the backup. Are you sure?</string>
+<string name="action_backup_restore">Restore</string>
+<string name="action_backup_delete">Delete</string>
+<string name="msg_restore_backup_failed">Error restoring backup copy</string>
+<string name="msg_restore_backup_success">Backup has been successfully restored</string>
 
+<string name="msg_revision_notes">What\'s new</string>
+<string name="msg_revision_notes_1_2" formatted="true"><b>Version 1.2</b>\n\nData backups, including automatic\n\nManual adding service sessions\n\nSimplified editing of service date and time\n\nNew mark on households visited today\n\nSorting households by name\n\nQuick editing of age and gender after creating a new tenant\n\nQuick mark \"Not at home\" without entering a household\n\nMinor interface improvements
+</string>
 </resources>
