@@ -93,7 +93,7 @@
 <string name="msg_delete_session">Quer mesmo apagar este serviço?</string>
 <string name="msg_session_deleted">Serviço removido</string>
 <string name="action_session_delete">Remover</string>
-<string name="title_session">Serciço em %s</string>
+<string name="title_session">Serviço em %s</string>
 <string name="lbl_report_list_empty">A lista de relatórios está vazia.</string>
 <string name="lbl_report_summary">Total</string>
 <string name="lbl_report_empty">Relatório vazio.</string>
