@@ -283,7 +283,7 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string name="msg_delete_object">All tenants and their visits will be deleted! Do you really want to delete the household?</string>
 
 <string name="menu_territory_sort">Sort</string>
-<string name="msg_territory_sort">Soft list by household name?</string>
+<string name="msg_territory_sort">Sort list by household name?</string>
 
 <string-array name="menu_move_list">
 	<item>Set position</item>
