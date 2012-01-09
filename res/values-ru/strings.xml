@@ -296,7 +296,7 @@
 <string name="pref_num_backups_note">Максимальное количество хранящихся резервных копий</string>
 <string name="msg_create_backup">Создать новую резервную копию?</string>
 <string name="msg_delete_backup">Удалить эту резервную копию?</string>
-<string name="msg_restore_backup">Внимание: ВСЕ текущие данные будут безвовратно утеряны и заменены на данные из резервной копии. Вы уверены?</string>
+<string name="msg_restore_backup">Внимание: ВСЕ текущие данные будут безвозвратно утеряны и заменены на данные из резервной копии. Вы уверены?</string>
 <string name="action_backup_restore">Восстановить</string>
 <string name="action_backup_delete">Удалить</string>
 <string name="msg_restore_backup_failed">Ошибка при восстановлении резервной копии</string>
