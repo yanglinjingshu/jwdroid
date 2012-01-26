@@ -14,6 +14,7 @@ Features:
  * Tracking of placed literature (including via text templates in notes), return visits, Bible studies.
  * Detailed tracking of all service sessions with all relevant statistics.
  * Composing total monthly reports and sending via e-mail or SMS.
+ * Manual and automatic data backups.
  * Absolutely free app, no ads.
 
 Open source project: http://code.google.com/p/jwdroid/
@@ -139,6 +140,7 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string name="lbl_visit_date">Date:</string>
 <string name="chk_visit_calc_auto">Take from text</string>
 <string name="msg_choose_color">Choose color:</string>
+<string name="msg_person_desc">Enter tenant description:</string>
 <string name="msg_delete_visit">Are you sure you want to delete this visit?</string>
 <string name="msg_delete_person">Do you really want to delete this tenant and all associated visits?</string>
 <string name="msg_person_deleted">Tenant deleted</string>
