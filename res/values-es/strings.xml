@@ -274,7 +274,7 @@ Tags: Jehovah's Witnesses, Bible, ministry, Testigos de Jehová, Biblia, Ministe
 <string name="lbl_visit_text">Contenido de visita</string>
 
 <string name="action_object_add_na_visit">No en casa</string>
-<string name="msg_added_na_visit">Added \'N/A\' visit at %s</string>
+<string name="msg_added_na_visit">Se añadio visita \'N/A\' en %s</string>
 
 <string name="pref_hide_visited">Esconder los visitados de hoy </string>
 <string name="pref_hide_visited_note">Esconder hogares visitados hoy (marcados con una palomita)</string>
