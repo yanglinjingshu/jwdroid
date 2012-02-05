@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Descripcion de la aplicacion en el market:
+Descripción de la aplicación en el Market:
 
-Organizador para el servicio de predicacion para los testigos de Jehova permite tomar notas, ver y arreglar los teritorios y personas interesadas, guarda automaticamente los estadisticos y las horas de la predicacion.
+Organizador para el servicio de predicación para los testigos de Jehová permite tomar notas, ver y arreglar los territorios y personas interesadas, guarda automáticamente los estadísticos y las horas de la predicación.
 
 Utilidades:
  * Tomar notas predicando en casas privadas y urbanizaciones.
  * Ver territorios por pantallas, familias, amos de casa y visitas.
  * Guardando fecha y hora de todos las visitas.
- * Colores personalizables para familias en modo automatico o manual.
- * Detalles de literatura dejado(hasta por plantillas de texto in apuntes, revisitas, Estudios Biblicos.
- * Guarda Detalles del servicio por tiempo y estadisticos relevantes.
- * Compone informes mensuales y los manda via e-mail o SMS.
- * Manual and automatic data backups.
- * App totalmente gratis, no ads.
+ * Colores personalizables para familias en modo automático o manual.
+ * Detalles de literatura dejado (hasta por plantillas de texto in apuntes, revisitas, Estudios Bíblicos.
+ * Guarda Detalles del servicio por tiempo y estadísticos relevantes.
+ * Compone informes mensuales y los manda vía e-mail o SMS.
+ * Copias de datos manualmente y automáticamente.
+ * Totalmente gratis, sin anuncios.
 
-Open source project: http://code.google.com/p/jwdroid/
+Proyecto Open-source: http://code.google.com/p/jwdroid/
 
-Tags: Jehovah's Witnesses, Bible, ministry, Testigos de Jehová, Biblia, Ministerio, Predicacion.
+Tags: Jehovah's Witnesses, Bible, ministry, Testigos de Jehová, Biblia, Ministerio, Predicación.
  -->
 <resources>
     
 <string name="app_name">JW Droid</string>
 
-<string name="lbl_territory_name">Nombre delTerritorio:</string>
+<string name="lbl_territory_name">Nombre del Territorio:</string>
 <string name="title_territory_add">Añade territorio</string>
-<string name="lbl_territory_desc">Descripcion Breve:</string>
-<string name="err_empty_name">Pon un Nombre!</string>
+<string name="lbl_territory_desc">Descripción breve:</string>
+<string name="err_empty_name">Ingresa un Nombre!</string>
 <string name="msg_territory_added">Territorio añadido</string>
-<string name="msg_territory_deleted">Territorio suprimido</string>
-<string name="territory_list_empty">Lista de Territorios vacio. Puedes añadir Territorio con el boton de arriba.</string>
-<string name="dlg_territory_delete_msg">Borrar Territorio no se puede deshacer. ¿Estas seguro?</string>
+<string name="msg_territory_deleted">Territorio borrado</string>
+<string name="territory_list_empty">Lista de Territorios vacío. Puedes añadir un territorio con el botón de arriba.</string>
+<string name="dlg_territory_delete_msg">No se podrá restablecer un territorio borrado. ¿Deseas continuar?</string>
 <string name="dlg_territory_delete_title">Borrar Territorio</string>
 <string name="dlg_territory_add_label">Nombre de Territorio:</string>
 <string name="dlg_territory_add_note">Por ejemplo: nombre de calle</string>
@@ -48,101 +48,101 @@ Tags: Jehovah's Witnesses, Bible, ministry, Testigos de Jehová, Biblia, Ministe
 <string name="lbl_hours">Horas:</string>
 <string name="lbl_studies">Estudios:</string>
 
-<string name="title_chrono">Chrono</string>
+<string name="title_chrono">Crono</string>
 <string name="lbl_chrono_started_time">Comenzado a %s</string>
-<string name="lbl_chrono_stopped">Chrono ha parado</string>
+<string name="lbl_chrono_stopped">Crono ha parado</string>
 <string name="btn_chrono_pause">Pause</string>
 <string name="btn_chrono_resume">Reanudar</string>
-<string name="btn_chrono_finish">Stop</string>
-<string name="btn_chrono_start">Start</string>
+<string name="btn_chrono_finish">Parar</string>
+<string name="btn_chrono_start">Comenzar</string>
 <string name="chk_chrono_calc_auto"> Toma de visitas</string>
-<string name="msg_chrono_finish">¿Predicacion Terminado?</string>
-<string name="msg_chrono_start">¿Comenzar Predicacion?</string>
-<string name="msg_chrono_service_started">Chrono predicacion empezado</string>
-<string name="lbl_chrono_current_time">Tiempo de predicacion:</string>
-<string name="lbl_chrono_service_note">Selecionar para ir a chrono</string>
+<string name="msg_chrono_finish">¿Predicación terminada?</string>
+<string name="msg_chrono_start">¿Comenzar predicación?</string>
+<string name="msg_chrono_service_started">Crono de predicación empezado</string>
+<string name="lbl_chrono_current_time">Tiempo de predicación:</string>
+<string name="lbl_chrono_service_note">Selecciona para ir a crono</string>
 
 <string name="action_add_single_object">Añade uno</string>
-<string name="action_add_many_objects">Añade alguno</string>
-<string name="dlg_add_single_object_note">Ejemplo, piso o numero de calle</string>
-<string name="msg_object_name">Enter heading:</string>
-<string name="msg_delete_object">Do you really want to delete this household?</string>
-<string name="lbl_set_row">Row:</string>
-<string name="lbl_set_col">Column:</string>
-<string name="lbl_numbers_from">Numbers from:</string>
-<string name="lbl_numbers_to">to:</string>
-<string name="msg_arrange_after_add">Households added. For your convenience (for example, if you add a condominium entrance) you may arrange the grid by rows and columns in the \&quot;Arrange\&quot; menu. Would you like to do it now?</string>
+<string name="action_add_many_objects">Añade algunos</string>
+<string name="dlg_add_single_object_note">Ejemplo: piso o numero de calle</string>
+<string name="msg_object_name">Ingresa el encabezamiento:</string>
+<string name="msg_delete_object">¿Deseas borrar este hogar?</string>
+<string name="lbl_set_row">Fila:</string>
+<string name="lbl_set_col">Columna:</string>
+<string name="lbl_numbers_from">Números de:</string>
+<string name="lbl_numbers_to">a:</string>
+<string name="msg_arrange_after_add">El hogar fue añadido. Para tu conveniencia (por ejemplo, si quieres agregar una entrada de condominio) puedes arreglar la red por filas y columnas en el menú de \“Arreglos\”. ¿Deseas hacerlo ahora?</string>
 <string name="msg_error">Error!</string>
-<string name="msg_object_deleted">Household deleted</string>
-<string name="err_invalid_input">Invalid input!</string>
-<string name="err_no_cols_value">Enter number of columns!</string>
-<string name="action_object_change_name">Heading</string>
+<string name="msg_object_deleted">Hogar borrado!</string>
+<string name="err_invalid_input">Entrada inválida!</string>
+<string name="err_no_cols_value">Ingresa la cantidad de columnas!</string>
+<string name="action_object_change_name">Encabezamiento</string>
 <string name="action_object_change_color">Color</string>
-<string name="action_object_move_up">Up</string>
-<string name="action_object_move_down">Down</string>
-<string name="action_object_delete">Delete</string>
-<string name="action_object_move">Move</string>
+<string name="action_object_move_up">Arriba</string>
+<string name="action_object_move_down">Abajo</string>
+<string name="action_object_delete">Borrar</string>
+<string name="action_object_move">Mover</string>
 
-<string name="lbl_from">From:</string>
-<string name="lbl_to">To:</string>
-<string name="lbl_rows">Rows:</string>
-<string name="lbl_cols">Columns:</string>
-<string name="li_top_down">Top-down</string>
-<string name="li_bottom_up">Bottom-up</string>
-<string name="li_left_right">Left to right</string>
-<string name="li_right_left">Right to left</string>
-<string name="lbl_one_color">  Solid color</string>
-<string name="lbl_two_colors">  Two colors</string>
+<string name="lbl_from">De:</string>
+<string name="lbl_to">A:</string>
+<string name="lbl_rows">Filas:</string>
+<string name="lbl_cols">Columnas:</string>
+<string name="li_top_down">Arriba-abajo</string>
+<string name="li_bottom_up">Abajo-arriba</string>
+<string name="li_left_right">Izquierda a derecha</string>
+<string name="li_right_left">Derecha a izquierda</string>
+<string name="lbl_one_color">  Color sólido</string>
+<string name="lbl_two_colors">  Dos colores</string>
 
-<string name="lbl_door_empty">Create a new tenant here.\n\nAdd a new visit by the button above.</string>
-<string name="lbl_group_empty">This screen is empty.\n\nAdd new households by the button above.</string>
+<string name="lbl_door_empty">Añade un amo aquí.\n\nAñade una visita nueva por medio del botón arriba.</string>
+<string name="lbl_group_empty">Esta pantalla está vacía.\n\nAñade hogares nuevos por medio del botón arriba.</string>
 
 <string name="title_help">Ayuda</string>
 <string name="title_territory_list">Territorios</string>
 <string name="title_people">Personas</string>
 <string name="title_reports">Reportes</string>
-<string name="title_chrono">Cronometro</string>
+<string name="title_chrono">Cronómetro</string>
 
-<string name="lbl_people_list_empty">Lista de personas esta vacia. \n\nAnade persona nueva por medio del boton arriba or en la seccion de &amp;quot;Territorios&amp;quot;.</string>
-<string name="lbl_person_add_from_people">Nota que esta persona sera anadida sin alguna connecion a un territorio.</string>
+<string name="lbl_people_list_empty">Lista de amos esta vacía. \n\nAñade un amo por medio del botón arriba o en la sección de \“Territorios\”.</string>
+<string name="lbl_person_add_from_people">Nota: este amo será añadido sin alguna conexión a un territorio.</string>
 
 <string name="title_report">Reporte para %s</string>
 <string name="action_calc_type_sessions">Por lista de servicio</string>
 <string name="action_calc_type_visits">Por visitas</string>
-<string name="lbl_report_no_data">No hay datos</string>
-<string name="msg_delete_session">Do you really want to delete this service?</string>
-<string name="msg_session_deleted">Service deleted</string>
+<string name="lbl_report_no_data">No hay datos!</string>
+<string name="msg_delete_session">¿Deseas borrar este servicio? </string>
+<string name="msg_session_deleted">Servicio borrado!</string>
 <string name="action_session_delete">Borrar</string>
-<string name="title_session">Service at %s</string>
-<string name="lbl_report_list_empty">Lista de reportes esta vacia.</string>
+<string name="title_session">Servicio en %s</string>
+<string name="lbl_report_list_empty">Lista de reportes esta vacía.</string>
 <string name="lbl_report_summary">Total</string>
-<string name="lbl_report_empty">Reporte vacio.</string>
-<string name="lbl_session_desc">Service description:</string>
+<string name="lbl_report_empty">Reporte vacío.</string>
+<string name="lbl_session_desc">Descripción de servicio:</string>
 
 <string name="lbl_territory_notes">Notas</string>
-<string name="lbl_territory_got">Territory taken:</string>
-<string name="lbl_territory_finished">Territory worked:</string>
+<string name="lbl_territory_got">Territorio tomado:</string>
+<string name="lbl_territory_finished">Territorio trabajado:</string>
 <string name="lbl_territory_last_visit">Visita ultima:</string>
 <string name="action_territory_change_name">Nombre</string>
-<string name="action_territory_info">Info</string>
+<string name="action_territory_info">Información</string>
 <string name="action_territory_delete">Borrar</string>
 
 <string name="lbl_visit_type">Visita:</string>
 <string-array name="visit_types">
-    <item>N/A</item>
+    <item>N/D</item>
     <item>Visita regular</item>
     <item>Revisita</item>
-    <item>Estudio biblico</item>
+    <item>Estudio bíblico</item>
 </string-array>
 
 <string name="lbl_visit_date">Fecha:</string>
 <string name="chk_visit_calc_auto">Toma del texto</string>
-<string name="msg_choose_color">Escoje el color:</string>
-<string name="msg_person_desc">Introduce una descripcion del amo de casa: </string>
-<string name="msg_delete_visit">Estas seguro de que quieres borrar esta visita?</string>
-<string name="msg_delete_person">Estas seguro de que quieres borrar el amo de casa y todas las visitas associadas?</string>
-<string name="msg_person_deleted">Amo de casa borrado</string>
-<string name="msg_visit_deleted">Visita borrada</string>
+<string name="msg_choose_color">Escoge el color:</string>
+<string name="msg_person_desc">Ingresa una descripción del amo de casa: </string>
+<string name="msg_delete_visit">¿Deseas borrar esta visita?</string>
+<string name="msg_delete_person">¿Deseas borrar el amo y todas las visitas asociadas?</string>
+<string name="msg_person_deleted">Amo de casa borrado!</string>
+<string name="msg_visit_deleted">Visita borrada!</string>
 <string name="title_visit">Visita</string>
 <string name="action_person_change">Editar</string>
 <string name="action_person_delete">Borrar</string>
@@ -151,31 +151,31 @@ Tags: Jehovah's Witnesses, Bible, ministry, Testigos de Jehová, Biblia, Ministe
 <string name="action_visit_delete">Borrar</string>
 
 <string name="menu_preferences">Preferencias</string>
-<string name="menu_feedback">Enviar commentarios</string>
+<string name="menu_feedback">Enviar comentarios</string>
 <string name="menu_help">Ayuda</string>
-<string name="menu_session_date">Date and time</string>
-<string name="menu_change_session_date">Change date</string>
-<string name="menu_change_session_time">Change time</string>
-<string name="menu_set_position">Set position</string>
-<string name="menu_move_up">Move up</string>
-<string name="menu_move_down">Move down</string>
-<string name="menu_move_left">Move left</string>
-<string name="menu_move_right">Move right</string>
+<string name="menu_session_date">Fecha y tiempo</string>
+<string name="menu_change_session_date">Cambiar la fecha</string>
+<string name="menu_change_session_time">Cambiar el tiempo</string>
+<string name="menu_set_position">Ajustar posición</string>
+<string name="menu_move_up">Mover arriba</string>
+<string name="menu_move_down">Mover abajo</string>
+<string name="menu_move_left">Mover a la izquierda</string>
+<string name="menu_move_right">Mover a la derecha</string>
 <string name="menu_territory_info">Info</string>
-<string name="menu_territory_layout">Layout</string>
-<string name="menu_territory_arrange">Arrange</string>
-<string name="menu_territory_shift_up">Move all up</string>
-<string name="menu_territory_shift_down">Move all down</string>
-<string name="menu_territory_shift_left">Move all left</string>
-<string name="menu_territory_shift_right">Move all right</string>
+<string name="menu_territory_layout">Disposición</string>
+<string name="menu_territory_arrange">Organizar</string>
+<string name="menu_territory_shift_up">Mover todos arriba</string>
+<string name="menu_territory_shift_down">Mover todos abajo</string>
+<string name="menu_territory_shift_left">Mover todos a la izquierda</string>
+<string name="menu_territory_shift_right">Mover todos a la derecha</string>
 
-<string name="title_preferences">Preferences</string>
+<string name="title_preferences">Preferencias</string>
 
-<string name="pref_title_appearance">Appariencia</string>
-<string name="pref_list_text_rows">Rows number</string>
-<string name="pref_list_text_rows_note">Number of rows of the last note of the household to display in list view</string>
-<string name="pref_table_button_size">Tamano de boton</string>
-<string name="pref_table_button_size_note">Size of buttons representing households in grid view</string>
+<string name="pref_title_appearance">Apariencia</string>
+<string name="pref_list_text_rows">Cantidad de filas</string>
+<string name="pref_list_text_rows_note">Cantidad de filas que deseas mostrar de la ultima nota del hogar</string>
+<string name="pref_table_button_size">Tamaño de botón</string>
+<string name="pref_table_button_size_note">Medida de los botones en la red que representan los hogares</string>
 <string-array name="entries_table_button_size_preference">
     <item>Chico</item>
     <item>Mediano</item>
@@ -183,15 +183,15 @@ Tags: Jehovah's Witnesses, Bible, ministry, Testigos de Jehová, Biblia, Ministe
 </string-array>
 
 <string name="pref_title_colors">Colores</string>
-<string name="pref_autocolor">Auto-set colors</string>
-<string name="pref_autocolor_note">Automatically set color against certain conditions</string>
-<string name="pref_assign_colors">Set colors</string>
+<string name="pref_autocolor">Ajustar colores automáticamente</string>
+<string name="pref_autocolor_note">Ajustar el color automáticamente ante condiciones determinadas </string>
+<string name="pref_assign_colors">Ajustar colores</string>
 <string name="pref_color_reject">No interesado</string>
 <string name="pref_color_visit">Visita</string>
 <string name="pref_color_return">Revisita</string>
-<string name="pref_color_study">Estudio biblico</string>
+<string name="pref_color_study">Estudio bíblico</string>
 <string-array name="entries_color_preference">
-	<item>Don\'t change</item>
+  <item>No cambies</item>
     <item>Azul</item>
     <item>Verde</item>
     <item>Amarillo</item>
@@ -202,15 +202,15 @@ Tags: Jehovah's Witnesses, Bible, ministry, Testigos de Jehová, Biblia, Ministe
     <item>Rojo brillante</item>
 </string-array>
 
-<string name="pref_title_literature">Literature tracking</string>
-<string name="pref_assign_templates">Set templates</string>
-<string name="pref_assign_templates_note">Set text templates to use in notes for tracking literature</string>
+<string name="pref_title_literature">Literatura colocada</string>
+<string name="pref_assign_templates">Establecer plantillas</string>
+<string name="pref_assign_templates_note">Establecer las plantillas de texto que deseas usar in tus notas</string>
 <string name="pref_template_magazine">Revista</string>
-<string name="pref_template_brochure">Tratado</string>
+<string name="pref_template_brochure">Folleto</string>
 <string name="pref_template_book">Libro</string>
-<string name="pref_template_magazine_default">--m</string>
-<string name="pref_template_brochure_default">--br</string>
-<string name="pref_template_book_default">--bk</string>
+<string name="pref_template_magazine_default">--r</string>
+<string name="pref_template_brochure_default">--f</string>
+<string name="pref_template_book_default">--l</string>
    
 <string-array name="months">
     <item>enero</item>
@@ -233,9 +233,9 @@ Tags: Jehovah's Witnesses, Bible, ministry, Testigos de Jehová, Biblia, Ministe
 </string-array>
 
 <string-array name="plural_brochures">
-    <item>tratado</item>
-    <item>tratados</item>
-</string-array>	
+    <item>folleto</item>
+    <item>folletos</item>
+</string-array>  
 
 <string-array name="plural_books">
     <item>libro</item>
@@ -249,68 +249,67 @@ Tags: Jehovah's Witnesses, Bible, ministry, Testigos de Jehová, Biblia, Ministe
 
 
 <string-array name="plural_studies">
-    <item>estudio biblico</item>
-    <item>estudios biblicos</item>
+    <item>estudio bíblico</item>
+    <item>estudios bíblicos</item>
 </string-array>
 
 <string-array name="plural_visits">
-    <item>visit</item>
-    <item>visits</item>
+    <item>visita</item>
+    <item>visitas</item>
 </string-array>
 
-<string name="title_tip">Contribucion</string>
-<string name="msg_tip_literature_templates" formatted="false">Note that you can use these text templates for placed literature:\n%s, %s, %s\n\nFor example: \"Placed %s about children.\"</string>
+<string name="title_tip">Contribución</string>
+<string name="msg_tip_literature_templates" formatted="false">Nota que puedes usar estas plantillas de texto para la literatura colocada:\n%s, %s, %s\n\nPor ejemplo: \"Coloqué %s acerca de los niños.\"</string>
 
 <!-- v1.2 -->
 
 <string name="msg_person">Amo de casa</string>
-<string name="lbl_person_desc">Descripcion del amo de casa</string>
-<string name="lbl_male">Mombre</string>
+<string name="lbl_person_desc">Descripción del amo</string>
+<string name="lbl_male">Hombre</string>
 <string name="lbl_female">Mujer</string>
 <string name="lbl_male_letter">H</string>
 <string name="lbl_female_letter">M</string>
-<string name="msg_choose_age">Escoje la edad:</string>
+<string name="msg_choose_age">Escoge la edad:</string>
 
-<string name="lbl_visit_text">Visit content</string>
+<string name="lbl_visit_text">Contenido de visita</string>
 
-<string name="action_object_add_na_visit">Not at home</string>
+<string name="action_object_add_na_visit">No en casa</string>
 <string name="msg_added_na_visit">Added \'N/A\' visit at %s</string>
 
-<string name="pref_hide_visited">Hide visited today</string>
-<string name="pref_hide_visited_note">Hide households visited today (marked with checkbox)</string>
+<string name="pref_hide_visited">Esconder los visitados de hoy </string>
+<string name="pref_hide_visited_note">Esconder hogares visitados hoy (marcados con una palomita)</string>
 
-<string name="msg_delete_object">All tenants and their visits will be deleted! Do you really want to delete the household?</string>
+<string name="msg_delete_object">Todos los amos y sus visitas serán borradas. ¿Deseas continuar?</string>
 
-<string name="menu_territory_sort">Sort</string>
-<string name="msg_territory_sort">Soft list by household name?</string>
+<string name="menu_territory_sort">Clasificar</string>
+<string name="msg_territory_sort">¿Clasificar lista por nombre de casa?</string>
 
 <string-array name="menu_move_list">
-	<item>Set position</item>
-	<item>Move up</item>
-	<item>Move down</item>
+  <item>Ajustar la posición</item>
+  <item>Mover arriba</item>
+  <item>Mover abajo</item>
 </string-array>
 
-<string name="pref_object_add_sorted">Auto sort</string>
-<string name="pref_object_add_sorted_note">Insert a new household with sorting by name (only for list view)</string>
+<string name="pref_object_add_sorted">Clasificación automática</string>
+<string name="pref_object_add_sorted_note">Insertar un hogar nuevo con clasificación por nombre (solo para la vista de lista)</string>
 
-<string name="menu_backups">Backups</string>
-<string name="lbl_backup_list_empty">Backup list empty.</string>
-<string name="msg_backup_failed">Error creating backup copy</string>
-<string name="pref_title_backup">Backups</string>
-<string name="pref_autobackup">Auto backup</string>
-<string name="pref_autobackup_note">Automatically create a new backup after each service session</string>
-<string name="pref_num_backups">Copies number</string>
-<string name="pref_num_backups_note">Max number of stored backups</string>
-<string name="msg_create_backup">Create new backup?</string>
-<string name="msg_delete_backup">Delete this backup?</string>
-<string name="msg_restore_backup">Warning: ALL current data will be permanently lost and replaced with data from the backup. Are you sure?</string>
-<string name="action_backup_restore">Restore</string>
-<string name="action_backup_delete">Delete</string>
-<string name="msg_restore_backup_failed">Error restoring backup copy</string>
-<string name="msg_restore_backup_success">Backup has been successfully restored</string>
+<string name="menu_backups">Copias</string>
+<string name="lbl_backup_list_empty">Lista de copias vacía.</string>
+<string name="msg_backup_failed">Error al crear la copia </string>
+<string name="pref_title_backup">Copias</string>
+<string name="pref_autobackup">Copias automáticas</string>
+<string name="pref_autobackup_note">Crear una copia nueva automáticamente después de cada sesión de servicio.</string>
+<string name="pref_num_backups">Número de copias</string>
+<string name="pref_num_backups_note">Número máximo de copias</string>
+<string name="msg_create_backup">¿Deseas crear una copia nueva?</string>
+<string name="msg_delete_backup">¿Deseas borrar esta copia?</string>
+<string name="msg_restore_backup">Aviso: TODOS los datos actuales serán remplazados permanentemente por los datos de la copia. ¿Deseas continuar?</string>
+<string name="action_backup_restore">Restablecer</string>
+<string name="action_backup_delete">Borrar</string>
+<string name="msg_restore_backup_failed">Error al restablecer la copia.</string>
+<string name="msg_restore_backup_success">La copia ha sido restablecida </string>
 
-<string name="msg_revision_notes">What\'s new</string>
-<string name="msg_revision_notes_1_2" formatted="true"><b>Version 1.2</b>\n\nData backups, including automatic\n\nManual adding service sessions\n\nSimplified editing of service date and time\n\nNew mark on households visited today\n\nSorting households by name\n\nQuick editing of age and gender after creating a new tenant\n\nQuick mark \"Not at home\" without entering a household\n\nMinor interface improvements
-</string>
+<string name="msg_revision_notes">Lo nuevo</string>
+<string name="msg_revision_notes_1_2" formatted="true"><b>Versión 1.2</b>\n\nCopia de datos, incluyendo copias automáticas\n\nAdición manual de sesiones de servicio\n\nEdición simplificada de fechas y tiempo de servicio.\n\nNueva marca en los hogares visitados de hoy. \n\nClasificación de hogares por nombre. \n\nEdicion rápida de edad y sexo después de añadir un amo.\n\nMarca rápida \"No en casa\" sin entrar en la sección del hogar \n\nMejoramientos menores del interfaz de usuario</string>
 
 </resources>
