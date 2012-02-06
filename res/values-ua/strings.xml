@@ -65,14 +65,14 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string name="action_add_many_objects">Додати декілька</string>
 <string name="dlg_add_single_object_note">Наприклад, номер квартири чи приватного будинку</string>
 <string name="msg_object_name">Введіть заголовок:</string>
-<string name="msg_delete_object">Ви дійсно хочете видалити цей об'єкт?</string>
+<string name="msg_delete_object">Ви дійсно хочете видалити цей об\'єкт?</string>
 <string name="lbl_set_row">Рядок:</string>
 <string name="lbl_set_col">Колонка:</string>
 <string name="lbl_numbers_from">Номера від</string>
 <string name="lbl_numbers_to">до:</string>
-<string name="msg_arrange_after_add">Житлові об'єкти додані. Для зручності (наприклад, якщо ви додаєте під'їзд багатоквартирного будинку) ви можете виконати упорядкування за рядками і колонками за допомогою меню \&quot;Розкладка\&quot;. Зробити це зараз?</string>
+<string name="msg_arrange_after_add">Житлові об\'єкти додані. Для зручності (наприклад, якщо ви додаєте під\'їзд багатоквартирного будинку) ви можете виконати упорядкування за рядками і колонками за допомогою меню \&quot;Розкладка\&quot;. Зробити це зараз?</string>
 <string name="msg_error">Помилка!</string>
-<string name="msg_object_deleted">Об'єкт видалений</string>
+<string name="msg_object_deleted">Об\'єкт видалений</string>
 <string name="err_invalid_input">Невірние уведенення!</string>
 <string name="err_no_cols_value">Введіть кількість колонок!</string>
 <string name="action_object_change_name">Заголовок</string>
@@ -174,7 +174,7 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string name="pref_list_text_rows">Кількість рядків</string>
 <string name="pref_list_text_rows_note">Рядки тексту останнього запису, що відображаються при перегляді території в режимі списку</string>
 <string name="pref_table_button_size">Розмір кнопок</string>
-<string name="pref_table_button_size_note">Розмір кнопок житлових об'єктів при перегляді території в режимі сітки</string>
+<string name="pref_table_button_size_note">Розмір кнопок житлових об\'єктів при перегляді території в режимі сітки</string>
 <string-array name="entries_table_button_size_preference">
     <item>Маленький</item>
     <item>Середній</item>
@@ -282,12 +282,12 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string name="msg_added_na_visit">Відвідування додано %s</string>
 
 <string name="pref_hide_visited">Приховати відвідані</string>
-<string name="pref_hide_visited_note">Приховувати житлові об'єкти, які були відвідані сьогодні (позначені прапорцем)</string>
+<string name="pref_hide_visited_note">Приховувати житлові об\'єкти, які були відвідані сьогодні (позначені прапорцем)</string>
 
-<string name="msg_delete_object">Будуть видалені всі мешканці та їх відвідування. Ви дійсно хочете видалити житловий об'єкт?</string>
+<string name="msg_delete_object">Будуть видалені всі мешканці та їх відвідування. Ви дійсно хочете видалити житловий об\'єкт?</string>
 
 <string name="menu_territory_sort">Сортування</string>
-<string name="msg_territory_sort">Відсортувати список за назвою житлових об'єктів?</string>
+<string name="msg_territory_sort">Відсортувати список за назвою житлових об\'єктів?</string>
 
 <string-array name="menu_move_list">
 	<item>Задати полодення</item>
@@ -296,7 +296,7 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 </string-array>
 
 <string name="pref_object_add_sorted">Автосортування</string>
-<string name="pref_object_add_sorted_note">Вставляти новий житловий об'єкт з урахуванням сортування по назві (тільки для режиму списку)</string>
+<string name="pref_object_add_sorted_note">Вставляти новий житловий об\'єкт з урахуванням сортування по назві (тільки для режиму списку)</string>
 
 <string name="menu_backups">Резервні копії</string>
 <string name="lbl_backup_list_empty">Список резервних копій пустий.</string>
@@ -315,8 +315,14 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string name="msg_restore_backup_success">Резервна копія успішно відновлена</string>
 
 <string name="msg_revision_notes">Що нового</string>
-<string name="msg_revision_notes_1_2" formatted="true"><b>Версія 1.2</b>\n\nРезервування даних, включаючи автоматичне\n\nПозначка відвіданого сьогодні житлового об'єкта\n\nМожливість сортування житлових об'єктів по імені\n\nШвидке редагування віку і статі мешканця при створенні\n\nМожливість вручну додавати служіння\n\nПолегшене редагування дати і часу служіння\n\nШвидка установка позначки \"Нема вдома\" без входу в житловий об'єкт\n\nІнші дрібні інтерфейсні поліпшення
+<string name="msg_revision_notes_1_2" formatted="true"><b>Версія 1.2</b>\n\nРезервування даних, включаючи автоматичне\n\nПозначка відвіданого сьогодні житлового об\'єкта\n\nМожливість сортування житлових об\'єктів по імені\n\nШвидке редагування віку і статі мешканця при створенні\n\nМожливість вручну додавати служіння\n\nПолегшене редагування дати і часу служіння\n\nШвидка установка позначки \"Нема вдома\" без входу в житловий об\'єкт\n\nІнші дрібні інтерфейсні поліпшення
 </string>
+
+<!-- v1.2.1 -->
+
+<string name="msg_backup_created">Backup created</string>
+<string name="pref_backups_manage">Manage backups</string>
+<string name="pref_backups_manage_note">View list of created backups</string>
 
 
 </resources>
