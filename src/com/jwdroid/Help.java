@@ -25,7 +25,9 @@ public class Help extends Activity {
         String locale = getResources().getConfiguration().locale.getLanguage();
 		if(locale.equals("ru")) 
 			mWebView.loadUrl("http://jwdroid.googlecode.com/svn/trunk/help-ru.html");
-		else
+		else if(locale.equals("es"))
+			mWebView.loadUrl("http://jwdroid.googlecode.com/svn/trunk/help-es.html");
+    else
 			mWebView.loadUrl("http://jwdroid.googlecode.com/svn/trunk/help-en.html");
 
 
