@@ -121,6 +121,16 @@
 		android:title="@string/pref_num_backups"
 		android:summary="@string/pref_num_backups_note"
 		android:defaultValue="20" />
+		
+	<PreferenceScreen
+        android:title="@string/pref_backups_manage"
+        android:summary="@string/pref_backups_manage_note">
+
+           <intent android:action="android.intent.action.VIEW"
+                   android:targetPackage="com.jwdroid"
+                   android:targetClass="com.jwdroid.BackupList"/>
+
+       </PreferenceScreen>
   	
   </PreferenceCategory>
     

@@ -292,4 +292,10 @@
 <string name="msg_revision_notes">O que há de novo?</string>
 <string name="msg_revision_notes_1_2" formatted="true"><b>Versão 1.2</b>\n\nCópias de segurança, incluindo opção automática \n\nAdições de sessões de serviço manual\n\n Edição da data de serviço e tempo simplificada\n\nNovo marcador para moradores visitados hoje\n\nOrdenar moradores por nome\n\nRápida edição da idade e género depois de criar um morador\n\nNota rápida \"Ninguém em casa\" sem ter de inserir um morador\n\nAlgumas melhorias da interface</string>
 
+<!-- v1.2.1 -->
+
+<string name="msg_backup_created">Backup created</string>
+<string name="pref_backups_manage">Manage backups</string>
+<string name="pref_backups_manage_note">View list of created backups</string>
+
 </resources>
