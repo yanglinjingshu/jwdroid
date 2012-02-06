@@ -294,8 +294,8 @@
 
 <!-- v1.2.1 -->
 
-<string name="msg_backup_created">Backup created</string>
-<string name="pref_backups_manage">Manage backups</string>
-<string name="pref_backups_manage_note">View list of created backups</string>
+<string name="msg_backup_created">Cópia de segurança criada</string>
+<string name="pref_backups_manage">Manejar as cópias de segurança</string>
+<string name="pref_backups_manage_note">Ver lista das cópias de segurança</string>
 
 </resources>
