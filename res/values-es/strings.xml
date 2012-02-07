@@ -48,7 +48,7 @@ Tags: Jehovah's Witnesses, Bible, ministry, Testigos de Jehová, Biblia, Ministe
 <string name="lbl_hours">Horas:</string>
 <string name="lbl_studies">Estudios:</string>
 
-<string name="title_chrono">Crono</string>
+<string name="title_chrono">Cronómetro</string>
 <string name="lbl_chrono_started_time">Comenzado a %s</string>
 <string name="lbl_chrono_stopped">Crono ha parado</string>
 <string name="btn_chrono_pause">Pause</string>
@@ -66,7 +66,6 @@ Tags: Jehovah's Witnesses, Bible, ministry, Testigos de Jehová, Biblia, Ministe
 <string name="action_add_many_objects">Añade algunos</string>
 <string name="dlg_add_single_object_note">Ejemplo: piso o numero de calle</string>
 <string name="msg_object_name">Ingresa el encabezamiento:</string>
-<string name="msg_delete_object">¿Deseas borrar este hogar?</string>
 <string name="lbl_set_row">Fila:</string>
 <string name="lbl_set_col">Columna:</string>
 <string name="lbl_numbers_from">Números de:</string>
@@ -101,7 +100,6 @@ Tags: Jehovah's Witnesses, Bible, ministry, Testigos de Jehová, Biblia, Ministe
 <string name="title_territory_list">Territorios</string>
 <string name="title_people">Personas</string>
 <string name="title_reports">Reportes</string>
-<string name="title_chrono">Cronómetro</string>
 
 <string name="lbl_people_list_empty">Lista de amos esta vacía. \n\nAñade un amo por medio del botón arriba o en la sección de \“Territorios\”.</string>
 <string name="lbl_person_add_from_people">Nota: este amo será añadido sin alguna conexión a un territorio.</string>
