@@ -92,6 +92,13 @@ public class TerritoryInfo extends Activity {
 		
 	}
 	
+	@Override
+    protected void onPause() {    
+    	super.onPause();
+    	
+    	mDbOpenHelper.close();
+    }
+	
 	 @Override
 	    protected Dialog onCreateDialog(int id) {
 	        switch (id) {

@@ -1,20 +1,44 @@
 package com.jwdroid;
 
+import java.io.File;
+
 import net.londatiga.android.R;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.os.Environment;
+import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainMenu extends Activity {
+	
+	static final private int DIALOG_REVISION_NOTES = 1;
+	
+	private int mRevisionResId;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
 		 setContentView(R.layout.main_menu);
+		 
+		 showRevisionNotes("1_2", R.string.msg_revision_notes_1_2);
+		 
+		 
+		 
+		 File root = Environment.getExternalStorageDirectory();
+         
+		 File dir = new File(root, "jwdroid");
+		 if(!dir.exists())
+			 dir.mkdir();
 		 
 		 
 		 findViewById(R.id.btn_territories).setOnClickListener(new View.OnClickListener() {
@@ -56,6 +80,7 @@ public class MainMenu extends Activity {
 	
 	 @Override
 		public boolean onCreateOptionsMenu(Menu menu) {
+		 	getMenuInflater().inflate(R.menu.main_menu_main, menu);
 			getMenuInflater().inflate(R.menu.main_menu, menu);
 			return true;
 		}	
@@ -90,5 +115,38 @@ public class MainMenu extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	 
+	    
+	    
+    @Override
+    protected Dialog onCreateDialog(int id) {    	
+    	Dialog dialog=null;
+    	LayoutInflater factory = LayoutInflater.from(this);
+    	
+    	switch(id) {
+    	case DIALOG_REVISION_NOTES:            
+     		dialog = new AlertDialog.Builder(this)
+     					.setTitle(R.string.msg_revision_notes)
+     					.setMessage(mRevisionResId)
+     					.setPositiveButton(R.string.btn_ok, null).create(); 
+    		break;
+    	}
+    	
+    	return dialog;
+    }
+	 
+	private void showRevisionNotes(String name, int resId) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		if(!prefs.getBoolean("revision_notes_"+name, false)) {
+			mRevisionResId = resId;
+			Editor editor = prefs.edit();
+			editor.putBoolean("revision_notes_"+name, true);
+			editor.commit();
+			
+			if(prefs.getBoolean("tip_literature_templates", false))
+				showDialog(DIALOG_REVISION_NOTES);
+		}
+	}
+	 
 
 }

@@ -215,6 +215,13 @@ public class Door extends FragmentActivity {
 	}
 	
 	@Override
+    protected void onPause() {    
+    	super.onPause();
+    	
+    	mDbOpenHelper.close();
+    }
+	
+	@Override
 	protected void onSaveInstanceState(Bundle outState) {	
 		super.onSaveInstanceState(outState);
 		
@@ -255,11 +262,6 @@ public class Door extends FragmentActivity {
 			
 	    case R.id.menu_help:
 	    	intent = new Intent(this, Help.class);
-	    	startActivity(intent);
-	    	break;
-	    	
-	    case R.id.menu_backups:
-			intent = new Intent(this, BackupList.class);
 	    	startActivity(intent);
 	    	break;
 	    }

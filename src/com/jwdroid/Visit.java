@@ -302,12 +302,10 @@ public class Visit extends FragmentActivity {
 	    		if(mVisitId == 0) {
 	    			db.execSQL(	"INSERT INTO visit (territory_id,door_id,person_id,desc,calc_auto,type,date,magazines,brochures,books)" +
 	    		    		"VALUES(?,?,?,?,?,?,?,?,?,?)", 
-	    		    		new Object[] {mTerritoryId, mDoorId, mPersonId, mDesc, mCalcAuto, mType, mDate.format3339(false), mMagazines, mBrochures, mBooks});
-	    				    			
+	    		    		new Object[] {mTerritoryId, mDoorId, mPersonId, mDesc, mCalcAuto, mType, mDate.format3339(false), mMagazines, mBrochures, mBooks});	    				    			
 	    		}
 	    		else {		    		
-	    			db.execSQL("UPDATE visit SET desc=?,calc_auto=?,type=?,`date`=?,magazines=?,brochures=?,books=? WHERE ROWID=?", new Object[] {mDesc, mCalcAuto, mType, mDate.format3339(false), mMagazines, mBrochures, mBooks, mVisitId});    			
-	    		
+	    			db.execSQL("UPDATE visit SET desc=?,calc_auto=?,type=?,`date`=?,magazines=?,brochures=?,books=? WHERE ROWID=?", new Object[] {mDesc, mCalcAuto, mType, mDate.format3339(false), mMagazines, mBrochures, mBooks, mVisitId});
 	    		}
 	    		
 	    		Door.updateVisits(Visit.this, mDoorId);
@@ -317,6 +315,13 @@ public class Visit extends FragmentActivity {
 			}
 		});
 	}
+	
+	@Override
+    protected void onPause() {    
+    	super.onPause();
+    	
+    	mDbOpenHelper.close();
+    }
 	
     @Override
     protected Dialog onCreateDialog(int id) {
@@ -432,11 +437,6 @@ public class Visit extends FragmentActivity {
 			
 	    case R.id.menu_help:
 	    	intent = new Intent(this, Help.class);
-	    	startActivity(intent);
-	    	break;
-	    	
-	    case R.id.menu_backups:
-			intent = new Intent(this, BackupList.class);
 	    	startActivity(intent);
 	    	break;
 	    }

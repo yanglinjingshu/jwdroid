@@ -57,7 +57,6 @@ public class BackupList extends Activity {
 	static private final int DIALOG_CREATE = 3;
 	
 	private BackupListAdapter mListAdapter;	
-	private AppDbOpenHelper mDbOpenHelper = new AppDbOpenHelper(this);
 	private ListView mListView;
 	
 	private File mRoot, mDir;
@@ -189,8 +188,7 @@ public class BackupList extends Activity {
 						public void onClick(DialogInterface dialog, int which) {
 							try {
 								
-								AppDbOpenHelper dbOpenHelper = new AppDbOpenHelper(BackupList.this);
-			    		        dbOpenHelper.close();
+								new File("/data/data/com.jwdroid/databases/jwdroid").delete();
 			    				
 			    	    		File root = Environment.getExternalStorageDirectory(); 
 			    	    		
@@ -319,6 +317,8 @@ public class BackupList extends Activity {
 			    	new File(dir, items.get(i)).delete();
 			    }
 		    }
+		    
+		    Toast.makeText(context, context.getResources().getString(R.string.msg_backup_created), Toast.LENGTH_LONG).show();
 		}
 		catch (Exception e) {
 			Toast.makeText(context, context.getResources().getString(R.string.msg_backup_failed), Toast.LENGTH_LONG).show();

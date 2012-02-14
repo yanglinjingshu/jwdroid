@@ -208,6 +208,13 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	}
 	
 	@Override
+    protected void onPause() {    
+    	super.onPause();
+    	
+    	mDbOpenHelper.close();
+    }
+	
+	@Override
 	protected void onSaveInstanceState(Bundle outState) {	
 		super.onSaveInstanceState(outState);
 		
@@ -283,11 +290,6 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 			
 	    case R.id.menu_help:
 	    	intent = new Intent(this, Help.class);
-	    	startActivity(intent);
-	    	break;
-	    	
-	    case R.id.menu_backups:
-			intent = new Intent(this, BackupList.class);
 	    	startActivity(intent);
 	    	break;
 	    }
