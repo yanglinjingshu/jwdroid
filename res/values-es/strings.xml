@@ -51,7 +51,7 @@ Tags: Jehovah's Witnesses, Bible, ministry, Testigos de Jehová, Biblia, Ministe
 <string name="title_chrono">Cronómetro</string>
 <string name="lbl_chrono_started_time">Comenzado a %s</string>
 <string name="lbl_chrono_stopped">Crono ha parado</string>
-<string name="btn_chrono_pause">Pause</string>
+<string name="btn_chrono_pause">Pausar</string>
 <string name="btn_chrono_resume">Reanudar</string>
 <string name="btn_chrono_finish">Parar</string>
 <string name="btn_chrono_start">Comenzar</string>
