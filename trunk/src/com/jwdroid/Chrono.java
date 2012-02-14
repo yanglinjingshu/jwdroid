@@ -15,10 +15,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.format.Time;
 import android.view.LayoutInflater;
@@ -240,6 +242,13 @@ public class Chrono extends Activity {
 	}
 	
 	 @Override
+	    protected void onPause() {    
+	    	super.onPause();
+	    	
+	    	mDbOpenHelper.close();
+	    }
+	
+	 @Override
 		public boolean onCreateOptionsMenu(Menu menu) {
 			getMenuInflater().inflate(R.menu.main_menu, menu);
 			return true;
@@ -268,11 +277,6 @@ public class Chrono extends Activity {
 	    	startActivity(intent);
 	    	break;
 	    	
-		case R.id.menu_backups:
-			intent = new Intent(this, BackupList.class);
-	    	startActivity(intent);
-	    	break;
-	    	
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -297,6 +301,11 @@ public class Chrono extends Activity {
 												new Object[] { mService.startTime.format3339(false), mService.minutes, mService.magazines, mService.books, mService.brochures, mService.returns });
 										long sessionId = Util.dbFetchLong(db, "SELECT last_insert_rowid()", new String[]{});
 										mService.stop();
+										
+										SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Chrono.this);
+										if(prefs.getBoolean("autobackup", true)) {
+											BackupList.createBackup(Chrono.this);
+										}
 										
 										Intent intent = new Intent(Chrono.this, Session.class);
 										intent.putExtra("session", sessionId);

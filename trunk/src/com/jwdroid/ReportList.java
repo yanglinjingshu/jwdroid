@@ -1,5 +1,6 @@
 package com.jwdroid;
 
+import java.nio.MappedByteBuffer;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -112,11 +113,6 @@ public class ReportList extends Activity {
 	    	startActivityForResult(intent,1);
 	    	break;
 	    	
-	    case R.id.menu_backups:
-			intent = new Intent(this, BackupList.class);
-	    	startActivity(intent);
-	    	break;
-	    	
 	    }
 	    
 	    return false;
@@ -126,6 +122,13 @@ public class ReportList extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	super.onActivityResult(requestCode, resultCode, data);
     	updateContent();
+    }
+    
+    @Override
+    protected void onPause() {    
+    	super.onPause();
+    	
+    	mDbOpenHelper.close();
     }
     
     private void updateContent() {

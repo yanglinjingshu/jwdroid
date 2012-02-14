@@ -256,11 +256,6 @@ public class Session extends Activity {
 	    	intent = new Intent(this, Help.class);
 	    	startActivity(intent);
 	    	break;
-	    	
-	    case R.id.menu_backups:
-			intent = new Intent(this, BackupList.class);
-	    	startActivity(intent);
-	    	break;
 	    }
 	    
 	    return false;
@@ -280,6 +275,7 @@ public class Session extends Activity {
 								mDate.normalize(true);
 								Date date = new Date(mDate.toMillis(true));
 								//((TextView)findViewById(R.id.title)).setText( String.format(getResources().getString(R.string.title_session), DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT).format(date)));
+								((Button)findViewById(R.id.btn_time)).setText( DateFormat.getTimeInstance(DateFormat.SHORT).format(new Date(mDate.toMillis(true))));
 							}
 						}, 
 						mDate.hour, mDate.minute, android.text.format.DateFormat.is24HourFormat(this));
@@ -293,6 +289,7 @@ public class Session extends Activity {
 								mDate.normalize(true);
 								Date date = new Date(mDate.toMillis(true));
 								//((TextView)findViewById(R.id.title)).setText( String.format(getResources().getString(R.string.title_session), DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT).format(date)));
+								((Button)findViewById(R.id.btn_date)).setText( DateFormat.getDateInstance(DateFormat.SHORT).format(new Date(mDate.toMillis(true))));
 							}
 						},
                         mDate.year, mDate.month, mDate.monthDay);
@@ -332,4 +329,11 @@ public class Session extends Activity {
             }
         }
     }  	
+    
+    @Override
+    protected void onPause() {    
+    	super.onPause();
+    	
+    	mDbOpenHelper.close();
+    }
 }

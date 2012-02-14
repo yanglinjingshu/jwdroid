@@ -154,7 +154,12 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
 	    	    
     }
     
-    
+    @Override
+    protected void onPause() {    
+    	super.onPause();
+    	
+    	mDbOpenHelper.close();
+    }
     
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -179,11 +184,6 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
 			
 	    case R.id.menu_help:
 	    	intent = new Intent(this, Help.class);
-	    	startActivity(intent);
-	    	break;
-	    	
-	    case R.id.menu_backups:
-			intent = new Intent(this, BackupList.class);
 	    	startActivity(intent);
 	    	break;
 	    }

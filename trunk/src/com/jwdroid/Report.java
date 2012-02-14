@@ -251,11 +251,6 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 	    	intent = new Intent(this, Help.class);
 	    	startActivity(intent);
 	    	break;
-	    	
-	    case R.id.menu_backups:
-			intent = new Intent(this, BackupList.class);
-	    	startActivity(intent);
-	    	break;
 	    }
 	    
 	    return false;
@@ -295,6 +290,7 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 	@Override
 	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
 		getSupportLoaderManager().getLoader(0).forceLoad();
+		calcSummary();
 	}
 	
 	private class SummaryInfo {
@@ -415,6 +411,13 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 	    		break;
 	    	}
     	}
+    }
+    
+    @Override
+    protected void onPause() {    
+    	super.onPause();
+    	
+    	mDbOpenHelper.close();
     }
 	    	
 	

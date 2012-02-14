@@ -147,6 +147,13 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
 		return true;
 	}
     
+    @Override
+    protected void onPause() {    
+    	super.onPause();
+    	
+    	mDbOpenHelper.close();
+    }
+    
     public boolean onOptionsItemSelected(MenuItem item) {    	
 	    switch (item.getItemId()) {
 	    case R.id.menu_preferences:
@@ -164,11 +171,6 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
 			
 	    case R.id.menu_help:
 	    	intent = new Intent(this, Help.class);
-	    	startActivity(intent);
-	    	break;
-	    	
-	    case R.id.menu_backups:
-			intent = new Intent(this, BackupList.class);
 	    	startActivity(intent);
 	    	break;
 	    	
