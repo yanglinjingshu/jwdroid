@@ -1,67 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-<Android Market application description>
+<Popis aplikace v Android Marketu>
 
-Powerful service organizer for Jehovah's Witnesses. Keep records, track statistics and service time, conveniently view and arrange territories and interested persons in an automated and intuitive way.
+Funkcemi nabitý organizér služby pro svědky Jehovovy, který umožňuje dělat si poznámky, pohodlně prohlížet a organizovat obvody, návštěvy, sledovat statistiky a čas služby.
 
-Features:
- * Conveniently keeping records in service.
- * Flexible display modes equally fitting for private houses and condominiums.
- * Viewing territories by screens, households, tenants, visits.
- * Saving date and time of all visits.
- * Tracking of service time in the chronometer mode.
- * Custom colors for households in automatic or manual mode.
- * Tracking of placed literature (including via text templates in notes), return visits, Bible studies.
- * Detailed tracking of all service sessions with all relevant statistics.
- * Composing total monthly reports and sending via e-mail or SMS.
- * Manual and automatic data backups.
- * Absolutely free app, no ads.
+Nabídka:
+ * Pohodlné vedení záznamů z kazatelské služby.
+ * Flexibilní režimy zobrazení, vhodné jak pro domy, tak byty.
+ * Informace o obvodech, zájemcích, a návštěvách a rozšířené literatuře.
+ * Ukládání data a časů všech návštěv.
+ * Sledování času tráveného ve službě na stopkách.
+ * Možnost přiřadit barvu k návštěvám, automaticky, nebo ručně.
+ * Správa zanechané literatury, (textové šablony v poznámkách), opětovných návštěv, studií.
+ * Detailni sledování služby se všemi příslušnými statistikami.
+ * Sestavení měsíční zprávy a odeslání e-mailem, nebo SMS zprávou.
+ * Manuální, a automatické zálohování.
+ * Naprosto bezplatná aplikace, žádné reklamy.
 
-Open source project: http://code.google.com/p/jwdroid/
+Otevřít zdroj projektu: http://code.google.com/p/jwdroid/
 
-Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated tags here>.
+Tags: Jehovah's Witnesses, Bible, preaching, ministry <svědkové Jehovovi, Bible, kázání, služba>.
  -->
 <resources>
     
 <string name="app_name">JW Droid</string>
 
-<string name="lbl_territory_name">Territory name:</string>
-<string name="title_territory_add">Add territory</string>
-<string name="lbl_territory_desc">Short description:</string>
-<string name="err_empty_name">Enter the name!</string>
-<string name="msg_territory_added">Territory added</string>
-<string name="msg_territory_deleted">Territory removed</string>
-<string name="territory_list_empty">Territory list is empty. You may add a new territory by the button above.</string>
-<string name="dlg_territory_delete_msg">Territory deletion cannot be undone. Are you sure?</string>
-<string name="dlg_territory_delete_title">Delete territory</string>
-<string name="dlg_territory_add_label">Territory name:</string>
-<string name="dlg_territory_add_note">For example, street name</string>
+<string name="lbl_territory_name">Název obvodu:</string>
+<string name="title_territory_add">Přidat obvod</string>
+<string name="lbl_territory_desc">Stručný popis:</string>
+<string name="err_empty_name">Zadejte jméno!</string>
+<string name="msg_territory_added">Obvod přidán</string>
+<string name="msg_territory_deleted">Obvod odstraněn</string>
+<string name="territory_list_empty">Sezam obvodů je prázdný. Můžete přidat obvod pomocí tlačítka nahoře.</string>
+<string name="dlg_territory_delete_msg">Odstranění obvodu je trvalé a nelze vrátit zpět. Jste ji jistí že jej chcete odstranit?</string>
+<string name="dlg_territory_delete_title">Odstranit obvod</string>
+<string name="dlg_territory_add_label">Název obvodu:</string>
+<string name="dlg_territory_add_note">Například: název ulice, číslo obvodu</string>
 
-<string name="btn_add">Add</string>
+<string name="btn_add">Přidat</string>
 <string name="btn_ok">OK</string>
-<string name="btn_yes">Yes</string>
-<string name="btn_no">No</string>
-<string name="btn_cancel">Cancel</string>
+<string name="btn_yes">Ano</string>
+<string name="btn_no">Ne</string>
+<string name="btn_cancel">Zrušit</string>
 
-<string name="lbl_magazines">Magazines:</string>
-<string name="lbl_brochures">Brochures:</string>
-<string name="lbl_books">Books:</string>
-<string name="lbl_returns">Return visits:</string>
-<string name="lbl_hours">Hours:</string>
-<string name="lbl_studies">B. studies:</string>
+<string name="lbl_magazines">Časopisy:</string>
+<string name="lbl_brochures">Brožury:</string>
+<string name="lbl_books">Knihy:</string>
+<string name="lbl_returns">Opětovné návštěvy:</string>
+<string name="lbl_hours">Hodiny:</string>
+<string name="lbl_studies">Biblická studia:</string>
 
-<string name="title_chrono">Chronometer</string>
-<string name="lbl_chrono_started_time">Started at %s</string>
-<string name="lbl_chrono_stopped">Chronometer is stopped</string>
-<string name="btn_chrono_pause">Pause</string>
-<string name="btn_chrono_resume">Resume</string>
-<string name="btn_chrono_finish">Finish</string>
+<string name="title_chrono">Stopky</string>
+<string name="lbl_chrono_started_time">Spuštěno v %s</string>
+<string name="lbl_chrono_stopped">Stopky jsou zastaveny</string>
+<string name="btn_chrono_pause">Pozastavit</string>
+<string name="btn_chrono_resume">Pokračovat</string>
+<string name="btn_chrono_finish">Konec</string>
 <string name="btn_chrono_start">Start</string>
 <string name="chk_chrono_calc_auto"> Take from visits</string>
 <string name="msg_chrono_finish">End service?</string>
-<string name="msg_chrono_start">Start service?</string>
-<string name="msg_chrono_service_started">Service chronometer started</string>
-<string name="lbl_chrono_current_time">Service time:</string>
+<string name="msg_chrono_start">Spustit stopky?</string>
+<string name="msg_chrono_service_started">Čas služby běží</string>
+<string name="lbl_chrono_current_time">Čas služby:</string>
 <string name="lbl_chrono_service_note">Select to go to chronometer</string>
 
 <string name="action_add_single_object">Add one</string>
@@ -204,15 +204,15 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
     <item>Bright red</item>
 </string-array>
 
-<string name="pref_title_literature">Literature tracking</string>
-<string name="pref_assign_templates">Set templates</string>
-<string name="pref_assign_templates_note">Set text templates to use in notes for tracking literature</string>
-<string name="pref_template_magazine">Magazine</string>
-<string name="pref_template_brochure">Brochure</string>
+<string name="pref_title_literature">Sledování literatury</string>
+<string name="pref_assign_templates">Nastavit šablonu</string>
+<string name="pref_assign_templates_note">Nastavení textovách šablon pro použití v poznámkách pro seldování literatury</string>
+<string name="pref_template_magazine">Časopis</string>
+<string name="pref_template_brochure">Brožura</string>
 <string name="pref_template_book">Book</string>
-<string name="pref_template_magazine_default">+m</string>
+<string name="pref_template_magazine_default">+c</string>
 <string name="pref_template_brochure_default">+br</string>
-<string name="pref_template_book_default">+bk</string>
+<string name="pref_template_book_default">+kn</string>
    
 <string-array name="months">
     <item>January</item>
@@ -268,7 +268,7 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 
 
 <string name="title_tip">Tip</string>
-<string name="msg_tip_literature_templates" formatted="false">Note that you can use these text templates for placed literature:\n%s, %s, %s\n\nFor example: \"Placed %s about children.\"</string>
+<string name="msg_tip_literature_templates" formatted="false">Uvědom si, že můžeš použít zkratky pro zanechanou literaturu:\n%s, %s, %s\n\nPříklad: \"Zanechána %s o dětech.\"</string>
 
 <!-- v1.2 -->
 
