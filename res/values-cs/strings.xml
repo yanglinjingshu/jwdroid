@@ -118,7 +118,7 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <svědkové Jehovovi, Bibl
 <string name="title_session">Služba %s</string>
 <string name="lbl_report_list_empty">Seznam zpráv je prázdný.</string>
 <string name="lbl_report_summary">Celkem</string>
-<string name="lbl_report_empty">Žádná zpráva!</string>
+<string name="lbl_report_empty">Žádná zpráva :-(</string>
 <string name="lbl_session_desc">Popis služby:</string>
 
 <string name="lbl_territory_notes">Poznámky</string>
@@ -232,43 +232,43 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <svědkové Jehovovi, Bibl
 <string-array name="plural_magazines">
     <item>časopis</item>
     <item>časopisy</item>
-    <item>časopisy</item>
+    <item>časopisů</item>
 </string-array>
 
 <string-array name="plural_brochures">
     <item>brožura</item>
     <item>brožury</item>
-    <item>brožury</item>
+    <item>brožur</item>
 </string-array>	
 
 <string-array name="plural_books">
     <item>kniha</item>
     <item>knihy</item>
-    <item>knihy</item>
+    <item>knih</item>
 </string-array>
 
 <string-array name="plural_returns">
     <item>opětovná návštěva</item>
-    <item>opětovná návštěvy</item>
-    <item>opětovná návštěvy</item>
+    <item>opětovné návštěvy</item>
+    <item>opětovných návštěv</item>
 </string-array>
 
 
 <string-array name="plural_studies">
     <item>biblické studium</item>
     <item>biblická studia</item>
-    <item>biblická studia</item>
+    <item>biblických studií</item>
 </string-array>
 
 <string-array name="plural_visits">
     <item>návštěva</item>
     <item>návštěvy</item>
-    <item>návštěvy</item>
+    <item>návštěv</item>
 </string-array>
 
 
 <string name="title_tip">Tip</string>
-<string name="msg_tip_literature_templates" formatted="false">Uvědom si, že můžeš použít zkratky pro zanechanou literaturu:\n%s, %s, %s\n\nNapříklad: \"Zanechána %s o dětech.\"</string>
+<string name="msg_tip_literature_templates" formatted="false">Uvědom si, že můžeš použít zkratky pro zanechanou literaturu:\n%s, %s, %s\n\nNapříklad: \"Zanechán %s o dětech.\"</string>
 
 <!-- v1.2 -->
 
