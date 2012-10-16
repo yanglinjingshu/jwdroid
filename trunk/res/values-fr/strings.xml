@@ -32,7 +32,7 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry, Témoins de Jéhovah, Bib
 <string name="msg_territory_added">Territoire ajouté</string>
 <string name="msg_territory_deleted">Territoire supprimé</string>
 <string name="territory_list_empty">La liste est vide de territoire. Vous pouvez ajouter un nouveau territoire en cliquant sur le bouton ci-dessus.</string>
-<string name="dlg_territory_delete_msg">La suppression d'un territoire ne peut pas être annulée. Etes-vous sûr?</string>
+<string name="dlg_territory_delete_msg">La suppression d\'un territoire ne peut pas être annulée. Etes-vous sûr?</string>
 <string name="dlg_territory_delete_title">Supprimer le territoire</string>
 <string name="dlg_territory_add_label">Nom du territoire:</string>
 <string name="dlg_territory_add_note">Par exemple, nom de la rue</string>
@@ -65,13 +65,13 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry, Témoins de Jéhovah, Bib
 
 <string name="action_add_single_object">Ajoutez une</string>
 <string name="action_add_many_objects">Ajoutez plusieurs</string>
-<string name="dlg_add_single_object_note">Par exemple, le numéro d'appartement ou d'une maison</string>
-<string name="msg_object_name">Entrez l'en tête:</string>
+<string name="dlg_add_single_object_note">Par exemple, le numéro d\'appartement ou d\'une maison</string>
+<string name="msg_object_name">Entrez l\'en tête:</string>
 <string name="lbl_set_row">Rangée:</string>
 <string name="lbl_set_col">Colonne:</string>
 <string name="lbl_numbers_from">Numéros à partir de:</string>
-<string name="lbl_numbers_to">Jusqu'à:</string>
-<string name="msg_arrange_after_add">Foyers ajoutés. Pour votre commodité (par exemple, si vous ajoutez une entrée en copropriété), vous pouvez organiser la grille par des rangées et des colonnes dans le menu \&laquo; Réorganiser \&raquo;. Aimeriez-vous faire cela maintenant ?</string>
+<string name="lbl_numbers_to">Jusqu\'à:</string>
+<string name="msg_arrange_after_add">Foyers ajoutés. Pour votre commodité (par exemple, si vous ajoutez une entrée en copropriété), vous pouvez organiser la grille par des rangées et des colonnes dans le menu &quot; Réorganiser &quot;. Aimeriez-vous faire cela maintenant ?</string>
 <string name="msg_error">Erreur!</string>
 <string name="msg_object_deleted">Foyer supprimé</string>
 <string name="err_invalid_input">Entrée non valide!</string>
@@ -84,7 +84,7 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry, Témoins de Jéhovah, Bib
 <string name="action_object_move">Déplacer</string>
 
 <string name="lbl_from">De:</string>
-<string name="lbl_to">Jusqu'à:</string>
+<string name="lbl_to">Jusqu\'à:</string>
 <string name="lbl_rows">Rangées:</string>
 <string name="lbl_cols">Columns:</string>
 <string name="li_top_down">Haut en bas</string>
@@ -103,7 +103,7 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry, Témoins de Jéhovah, Bib
 <string name="title_reports">Rapports</string>
 
 
-<string name="lbl_people_list_empty">Liste de personnes est vide./n/nAjoutez nouvelle personne par le bouton ci-dessus ou dans la section \&laquo; Territoires \&raquo;.</string>
+<string name="lbl_people_list_empty">Liste de personnes est vide./n/nAjoutez nouvelle personne par le bouton ci-dessus ou dans la section &quot; Territoires &quot;.</string>
 <string name="lbl_person_add_from_people">Notez que cette personne sera ajoutée sans connexion à un territoire.</string>
 
 <string name="title_report">Rapport de %s</string>
@@ -155,7 +155,7 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry, Témoins de Jéhovah, Bib
 <string name="menu_help">Aide</string>
 <string name="menu_session_date">Date et heure</string>
 <string name="menu_change_session_date">Modifier la date</string>
-<string name="menu_change_session_time">Modifier l'heure</string>
+<string name="menu_change_session_time">Modifier l\'heure</string>
 <string name="menu_set_position">Réglez la position</string>
 <string name="menu_move_up">Haut</string>
 <string name="menu_move_down">Bas</string>
@@ -260,7 +260,7 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry, Témoins de Jéhovah, Bib
 
 
 <string name="title_tip">Conseil</string>
-<string name="msg_tip_literature_templates" formatted="false">Notez que vous pouvez utiliser ces modèles de texte pour la littérature placée:\n%s, %s, %s\n\nPar exemple: \&laquo; %s placé sur les enfants. \&raquo;</string>
+<string name="msg_tip_literature_templates" formatted="false">Notez que vous pouvez utiliser ces modèles de texte pour la littérature placée:\n%s, %s, %s\n\nPar exemple: &quot; %s placé sur les enfants. &quot;</string>
 
 <!-- v1.2 -->
 
@@ -270,15 +270,15 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry, Témoins de Jéhovah, Bib
 <string name="lbl_female">Femme</string>
 <string name="lbl_male_letter">H</string>
 <string name="lbl_female_letter">F</string>
-<string name="msg_choose_age">Choisissez l'âge:</string>
+<string name="msg_choose_age">Choisissez l\'âge:</string>
 
 <string name="lbl_visit_text">Notes sur la visite</string>
 
 <string name="action_object_add_na_visit">Absent</string>
 <string name="msg_added_na_visit">Ajouté \'N/A\' visite au %s</string>
 
-<string name="pref_hide_visited">Cacher ceux visités aujourd'hui</string>
-<string name="pref_hide_visited_note">Cacher foyers visités aujourd'hui (marqués avec une case à cocher)</string>
+<string name="pref_hide_visited">Cacher ceux visités aujourd\'hui</string>
+<string name="pref_hide_visited_note">Cacher foyers visités aujourd\'hui (marqués avec une case à cocher)</string>
 
 <string name="msg_delete_object">Tous les locataires et leurs visites seront supprimés! Voulez-vous vraiment supprimer le foyer?</string>
 

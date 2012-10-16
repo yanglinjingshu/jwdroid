@@ -1,6 +1,7 @@
-package com.jwdroid;
+package com.jwdroid.ui;
 
 import java.io.File;
+
 
 import net.londatiga.android.R;
 import android.app.Activity;
@@ -23,14 +24,13 @@ public class MainMenu extends Activity {
 	
 	static final private int DIALOG_REVISION_NOTES = 1;
 	
-	private int mRevisionResId;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
 		 setContentView(R.layout.main_menu);
 		 
-		 showRevisionNotes("1_2", R.string.msg_revision_notes_1_2);
+		 showRevisionNotes();
 		 
 		 
 		 
@@ -127,7 +127,7 @@ public class MainMenu extends Activity {
     	case DIALOG_REVISION_NOTES:            
      		dialog = new AlertDialog.Builder(this)
      					.setTitle(R.string.msg_revision_notes)
-     					.setMessage(mRevisionResId)
+     					.setMessage(R.string.msg_revision_notes_1_2_3)
      					.setPositiveButton(R.string.btn_ok, null).create(); 
     		break;
     	}
@@ -135,16 +135,14 @@ public class MainMenu extends Activity {
     	return dialog;
     }
 	 
-	private void showRevisionNotes(String name, int resId) {
+	private void showRevisionNotes() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		if(!prefs.getBoolean("revision_notes_"+name, false)) {
-			mRevisionResId = resId;
+		if(!prefs.getBoolean("revision_notes_1_2_3", false)) {
 			Editor editor = prefs.edit();
-			editor.putBoolean("revision_notes_"+name, true);
+			editor.putBoolean("revision_notes_1_2_3", true);
 			editor.commit();
 			
-			if(prefs.getBoolean("tip_literature_templates", false))
-				showDialog(DIALOG_REVISION_NOTES);
+			showDialog(DIALOG_REVISION_NOTES);
 		}
 	}
 	 

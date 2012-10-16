@@ -1,10 +1,13 @@
-package com.jwdroid;
+package com.jwdroid.ui;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.jwdroid.AppDbOpenHelper;
+import com.jwdroid.Util;
 
 import net.londatiga.android.R;
 
@@ -67,7 +70,6 @@ public class Visit extends FragmentActivity {
     
     public static final int[] TYPE_ICONS = {R.drawable.visit_na, R.drawable.first_visit, R.drawable.revisit, R.drawable.study};
 	
-	private AppDbOpenHelper mDbOpenHelper = new AppDbOpenHelper(this);
 	private Long mTerritoryId, mDoorId, mPersonId, mVisitId;
 	
 	private String mDesc = "";
@@ -94,7 +96,7 @@ public class Visit extends FragmentActivity {
 		}
 		
 		 Cursor rs;
-	    SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+	    SQLiteDatabase db = AppDbOpenHelper.getInstance(Visit.this).getWritableDatabase();
 	    
 	    mDoorId = getIntent().getExtras().getLong("door");
 	    mPersonId = getIntent().getExtras().getLong("person");
@@ -298,7 +300,7 @@ public class Visit extends FragmentActivity {
 				
 				mDate.switchTimezone("UTC");
 				
-				SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+				SQLiteDatabase db = AppDbOpenHelper.getInstance(Visit.this).getWritableDatabase();
 	    		if(mVisitId == 0) {
 	    			db.execSQL(	"INSERT INTO visit (territory_id,door_id,person_id,desc,calc_auto,type,date,magazines,brochures,books)" +
 	    		    		"VALUES(?,?,?,?,?,?,?,?,?,?)", 
@@ -319,8 +321,6 @@ public class Visit extends FragmentActivity {
 	@Override
     protected void onPause() {    
     	super.onPause();
-    	
-    	mDbOpenHelper.close();
     }
 	
     @Override
@@ -391,7 +391,7 @@ public class Visit extends FragmentActivity {
     	    	AlertDialog alertDialog = (AlertDialog)dialog;
     	    	alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {					
     					public void onClick(DialogInterface dialog, int which) {
-    						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+    						SQLiteDatabase db = AppDbOpenHelper.getInstance(Visit.this).getWritableDatabase();
     				  		db.execSQL("DELETE FROM `visit` WHERE rowid=?", new Long[] { mVisitId });
     				  		Door.updateVisits(Visit.this, mDoorId);
     				  		Toast.makeText(Visit.this, R.string.msg_visit_deleted, Toast.LENGTH_SHORT).show();

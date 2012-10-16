@@ -1,4 +1,8 @@
-package com.jwdroid;
+package com.jwdroid.ui;
+
+import com.jwdroid.R;
+import com.jwdroid.R.id;
+import com.jwdroid.R.layout;
 
 import android.app.Activity;
 import android.os.Bundle;

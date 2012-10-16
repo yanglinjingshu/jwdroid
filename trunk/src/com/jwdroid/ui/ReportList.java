@@ -1,9 +1,13 @@
-package com.jwdroid;
+package com.jwdroid.ui;
 
 import java.nio.MappedByteBuffer;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import com.jwdroid.AppDbOpenHelper;
+import com.jwdroid.SimpleArrayAdapter;
+import com.jwdroid.Util;
 
 import net.londatiga.android.ActionItem;
 import net.londatiga.android.QuickAction;
@@ -46,7 +50,6 @@ public class ReportList extends Activity {
 	static private final int DIALOG_DELETE = 1;
 	
 	private ReportListAdapter mListAdapter;	
-	private AppDbOpenHelper mDbOpenHelper = new AppDbOpenHelper(this);
 	private ListView mListView;
 	 
 	
@@ -128,33 +131,37 @@ public class ReportList extends Activity {
     protected void onPause() {    
     	super.onPause();
     	
-    	mDbOpenHelper.close();
     }
     
     private void updateContent() {
-    	SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
+    	SQLiteDatabase db = AppDbOpenHelper.getInstance(ReportList.this).getReadableDatabase();
 	    Long firstDateVisits = Util.dbFetchLong(db, "SELECT MIN(strftime('%s',date)) FROM visit", new String[] {});
 	    Long firstDateSessions = Util.dbFetchLong(db, "SELECT MIN(strftime('%s',date)) FROM session", new String[] {});
 	    Time minDate = new Time();
 	    minDate.setToNow();
 	    if(firstDateVisits != null && firstDateVisits > 0)
 	    	minDate.set(firstDateVisits*1000);
-	    if(firstDateSessions != null && firstDateSessions > 0 && firstDateSessions*1000 < minDate.toMillis(true))
+	    if(firstDateSessions != null && firstDateSessions > 0 && firstDateSessions*1000 < minDate.toMillis(true)) {
 	    	minDate.set(firstDateSessions*1000);
+	    }
 	    
 	    Time now = new Time();
 	    now.setToNow();
+	    now.monthDay = 1;
 	    
 	    ArrayList<ReportItem> items = new ArrayList<ReportItem>();
 	    
 	    minDate.monthDay = 1;
+	    minDate.hour = 0;
+	    minDate.minute = 0;
 	    while(now.toMillis(true) >= minDate.toMillis(true)) {
 	    	ReportItem i = new ReportItem();
 	    	i.month = now.month;
 	    	i.year = now.year;
 	    	i.minutes = Util.dbFetchInt(db, "SELECT SUM(minutes) FROM session WHERE strftime('%Y%m',date)=?", new String[]{ String.format("%04d%02d", now.year, now.month+1) });
 	    	items.add(i);
-	    	now.month--;	    	
+	    	now.month--;	
+	    	now.monthDay = 1;
 	    	now.normalize(true);
 	    }
 	    

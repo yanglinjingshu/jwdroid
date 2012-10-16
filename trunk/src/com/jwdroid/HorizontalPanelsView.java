@@ -247,7 +247,7 @@ public class HorizontalPanelsView extends HorizontalScrollView {
     }
     
     
-    interface OnActiveChangedListener {
+    public interface OnActiveChangedListener {
     	public void  onActiveChanged(int newActive);
     };
    

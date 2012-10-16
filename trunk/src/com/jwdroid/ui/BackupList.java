@@ -1,4 +1,4 @@
-package com.jwdroid;
+package com.jwdroid.ui;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,6 +12,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.jwdroid.AlphanumComparator;
+import com.jwdroid.SimpleArrayAdapter;
 
 import net.londatiga.android.ActionItem;
 import net.londatiga.android.QuickAction;

@@ -28,7 +28,6 @@
 <string name="lbl_hours">Часы:</string>
 <string name="lbl_studies">Изучения:</string>
 
-<string name="title_chrono">Хронометр</string>
 <string name="lbl_chrono_started_time">Начало в %s</string>
 <string name="lbl_chrono_stopped">Хронометр остановлен</string>
 <string name="btn_chrono_pause">Пауза</string>
@@ -152,7 +151,6 @@
 <string name="action_add_many_objects">Добавить несколько</string>
 <string name="dlg_add_single_object_note">Например, номер квартиры или частного дома</string>
 <string name="msg_object_name">Введите заголовок:</string>
-<string name="msg_delete_object">Вы действительно хотите удалить этот объект?</string>
 <string name="lbl_set_row">Строка:</string>
 <string name="lbl_set_col">Столбец:</string>
 <string name="lbl_numbers_from">Номера от:</string>

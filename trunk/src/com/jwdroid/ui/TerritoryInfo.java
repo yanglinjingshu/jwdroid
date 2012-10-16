@@ -1,7 +1,9 @@
-package com.jwdroid;
+package com.jwdroid.ui;
 
 import java.text.DateFormat;
 import java.util.Date;
+
+import com.jwdroid.AppDbOpenHelper;
 
 import net.londatiga.android.R;
 import android.app.Activity;
@@ -24,7 +26,6 @@ public class TerritoryInfo extends Activity {
 	private static final int DIALOG_DATE_STARTED = 1;
 	private static final int DIALOG_DATE_FINISHED = 2;
 	
-	private AppDbOpenHelper mDbOpenHelper = new AppDbOpenHelper(this);
 	
 	private Long mTerritoryId;
 	
@@ -38,7 +39,7 @@ public class TerritoryInfo extends Activity {
 		
 		mTerritoryId = getIntent().getExtras().getLong("territory");
 		
-		SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+		SQLiteDatabase db = AppDbOpenHelper.getInstance(TerritoryInfo.this).getWritableDatabase();
 		Cursor rs = db.rawQuery("SELECT name,notes,strftime('%s',started),strftime('%s',finished),strftime('%s',modified) FROM territory WHERE ROWID=?", new String[] {mTerritoryId.toString()});
 		rs.moveToFirst();
 		String name = rs.getString(0);
@@ -83,7 +84,7 @@ public class TerritoryInfo extends Activity {
 				mStarted.switchTimezone("UTC");
 				if(mFinished != null)
 					mFinished.switchTimezone("UTC");
-				SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+				SQLiteDatabase db = AppDbOpenHelper.getInstance(TerritoryInfo.this).getWritableDatabase();
 				String notes = ((EditText)findViewById(R.id.edit_notes)).getText().toString();				
 				db.execSQL("UPDATE territory SET notes=?,started=?,finished=? WHERE ROWID=?", new Object[] {notes, mStarted.format3339(false), mFinished == null ? null : mFinished.format3339(false), mTerritoryId});
 				finish();
@@ -96,7 +97,6 @@ public class TerritoryInfo extends Activity {
     protected void onPause() {    
     	super.onPause();
     	
-    	mDbOpenHelper.close();
     }
 	
 	 @Override
