@@ -2,6 +2,8 @@ package com.jwdroid;
 
 import java.util.ArrayList;
 
+import com.jwdroid.ui.Door;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;

@@ -1,8 +1,13 @@
-package com.jwdroid;
+package com.jwdroid.ui;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import com.jwdroid.AppDbOpenHelper;
+import com.jwdroid.AsyncLoader;
+import com.jwdroid.SimpleArrayAdapter;
+import com.jwdroid.Util;
 
 import net.londatiga.android.ActionItem;
 import net.londatiga.android.QuickAction;
@@ -44,7 +49,6 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 	static private final int DIALOG_DELETE = 1;
 	
 	private SessionListAdapter mListAdapter;	
-	private AppDbOpenHelper mDbOpenHelper = new AppDbOpenHelper(this);
 	private ListView mListView;
 	
 	private String mMonth;
@@ -258,7 +262,7 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-		SessionListLoader loader = new SessionListLoader(this, mDbOpenHelper, mMonth);
+		SessionListLoader loader = new SessionListLoader(this, mMonth);
 		return loader;
 	}
 
@@ -304,7 +308,7 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 	    int calcType = Integer.parseInt(prefs.getString("report_calc_type", "1"));
 	    
-	    SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
+	    SQLiteDatabase db = AppDbOpenHelper.getInstance(Report.this).getReadableDatabase();
 	    
 	    if(calcType == 1) { // По хронометру
 	    	Cursor rs = db.rawQuery("SELECT SUM(magazines),SUM(brochures),SUM(books),SUM(returns) FROM session WHERE strftime('%Y%m',date)=?", new String[]{mMonth});
@@ -401,7 +405,7 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 		    	AlertDialog alertDialog = (AlertDialog)dialog;
 		    	alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {					
 						public void onClick(DialogInterface dialog, int which) {
-							SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+							SQLiteDatabase db = AppDbOpenHelper.getInstance(Report.this).getWritableDatabase();
 							db.execSQL("DELETE FROM `session` WHERE rowid=?", new Long[] { mDialogItemId });					  		
 					  		Toast.makeText(Report.this, R.string.msg_session_deleted, Toast.LENGTH_SHORT).show();			  		
 					  		getSupportLoaderManager().getLoader(0).forceLoad();
@@ -417,7 +421,6 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
     protected void onPause() {    
     	super.onPause();
     	
-    	mDbOpenHelper.close();
     }
 	    	
 	
@@ -431,18 +434,16 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 	
 	static public class SessionListLoader extends AsyncLoader<Cursor>  {
 		
-		private AppDbOpenHelper mDbOpenHelper;
 		private String mMonth;
 
-		public SessionListLoader(Context context, AppDbOpenHelper db, String month) {
+		public SessionListLoader(Context context, String month) {
 			super(context);			
-			mDbOpenHelper = db;
 			mMonth = month;
 		}		
 
 		@Override
 		public Cursor loadInBackground() {
-			SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+			SQLiteDatabase db = AppDbOpenHelper.getInstance(getContext()).getWritableDatabase();
 			Cursor rs = db.rawQuery("SELECT ROWID,strftime('%s',date),minutes,books,brochures,magazines,returns,desc FROM session WHERE strftime('%Y%m',date)=? ORDER BY date DESC", new String[]{mMonth});
 			return rs;
 		}

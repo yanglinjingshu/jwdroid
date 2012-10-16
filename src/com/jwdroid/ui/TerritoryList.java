@@ -1,4 +1,4 @@
-package com.jwdroid;
+package com.jwdroid.ui;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +11,12 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+
+import com.jwdroid.AppDbOpenHelper;
+import com.jwdroid.AsyncLoader;
+import com.jwdroid.HistogramView;
+import com.jwdroid.SimpleArrayAdapter;
+import com.jwdroid.Util;
 
 import net.londatiga.android.ActionItem;
 import net.londatiga.android.QuickAction;
@@ -64,7 +70,6 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
 	private static final int DIALOG_CHANGE_NAME = 3;
 	
 	private TerritoryListAdapter mListAdapter;	
-	private AppDbOpenHelper mDbOpenHelper = new AppDbOpenHelper(this);
 	private long mTerritoryForDelete;
 	private ListView mListView;
 	
@@ -157,8 +162,6 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
     @Override
     protected void onPause() {    
     	super.onPause();
-    	
-    	mDbOpenHelper.close();
     }
     
     @Override
@@ -217,7 +220,7 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
     protected Dialog onCreateDialog(int id) {    	
     	Dialog dialog=null;
     	LayoutInflater factory = LayoutInflater.from(this);
-    	SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+    	SQLiteDatabase db = AppDbOpenHelper.getInstance(TerritoryList.this).getWritableDatabase();
         final View dlgEditLayout = factory.inflate(R.layout.dlg_edit, null);
     	switch(id) {
     	case DIALOG_DELETE:
@@ -227,7 +230,7 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
     			   .setTitle(R.string.dlg_territory_delete_title)
     			   .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {					
 					public void onClick(DialogInterface dialog, int which) {
-						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+						SQLiteDatabase db = AppDbOpenHelper.getInstance(TerritoryList.this).getWritableDatabase();
 				  		db.execSQL("DELETE FROM territory WHERE rowid=?", new Long[] { mTerritoryForDelete });
 				  		db.execSQL("DELETE FROM person WHERE (SELECT territory_id FROM door WHERE door.ROWID=person.door_id LIMIT 1)=?", new Long[] { mTerritoryForDelete });
 				  		db.execSQL("DELETE FROM door WHERE territory_id=?", new Long[] { mTerritoryForDelete });				  		
@@ -271,7 +274,7 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
 								}
 								
 								
-								SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+								SQLiteDatabase db = AppDbOpenHelper.getInstance(TerritoryList.this).getWritableDatabase();
 								db.execSQL("INSERT INTO territory (name,created,started) VALUES(?,datetime('now'),datetime('now'))", new String[] { editable.toString() });
 									
 								Toast.makeText(dlgEditLayout.getContext(), R.string.msg_territory_added, Toast.LENGTH_SHORT).show();
@@ -310,7 +313,7 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
 								}
 								
 								
-								SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+								SQLiteDatabase db = AppDbOpenHelper.getInstance(TerritoryList.this).getWritableDatabase();
 								db.execSQL("UPDATE territory SET name=? WHERE ROWID=?", new Object[] { editable.toString(), mDialogItemId });
 								
 								mListAdapter.getItemById(mDialogItemId).name = editable.toString();
@@ -330,7 +333,7 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
     protected void onPrepareDialog(int id, Dialog dialog) {
     	super.onPrepareDialog(id, dialog);
     	
-    	SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+    	SQLiteDatabase db = AppDbOpenHelper.getInstance(TerritoryList.this).getWritableDatabase();
     	
     	switch(id) {
     	case DIALOG_CHANGE_NAME:
@@ -345,9 +348,9 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
 		
 		Loader loader = null;
 		if(id == 0)
-			loader = new TerritoryListLoader(this, mDbOpenHelper);
+			loader = new TerritoryListLoader(this);
 		else if(id == 1)
-			loader = new TerritoryDoorsLoader(this, mDbOpenHelper);		
+			loader = new TerritoryDoorsLoader(this);		
 		
 		return loader;
 	}
@@ -409,16 +412,14 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
 	
 	static public class TerritoryListLoader extends AsyncLoader<Cursor>  {
 		
-		private AppDbOpenHelper mDbOpenHelper;
 
-		public TerritoryListLoader(Context context, AppDbOpenHelper db) {
+		public TerritoryListLoader(Context context) {
 			super(context);			
-			mDbOpenHelper = db;
 		}		
 
 		@Override
 		public Cursor loadInBackground() {
-			SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+			SQLiteDatabase db = AppDbOpenHelper.getInstance(getContext()).getWritableDatabase();
 			Cursor rs = db.rawQuery("SELECT rowid _id,name,strftime('%s',started), strftime('%s', finished) FROM territory ORDER BY started DESC", new String[] {});
 			return rs;
 		}
@@ -426,16 +427,14 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
 	
 	static public class TerritoryDoorsLoader extends AsyncLoader<Cursor>  {
 		
-		private AppDbOpenHelper mDbOpenHelper;
 
-		public TerritoryDoorsLoader(Context context, AppDbOpenHelper db) {
+		public TerritoryDoorsLoader(Context context) {
 			super(context);			
-			mDbOpenHelper = db;
 		}		
 
 		@Override
 		public Cursor loadInBackground() {
-			SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+			SQLiteDatabase db = AppDbOpenHelper.getInstance(getContext()).getWritableDatabase();
 			Cursor rs = db.rawQuery("SELECT territory_id,color1 FROM door ORDER BY territory_id,group_id,order_num ASC", new String[] {});
 			
 			return rs;

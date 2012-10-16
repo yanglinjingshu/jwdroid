@@ -47,7 +47,6 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string name="lbl_hours">Години:</string>
 <string name="lbl_studies">Вивчення:</string>
 
-<string name="title_chrono">Хронометр</string>
 <string name="lbl_chrono_started_time">Почати о %s</string>
 <string name="lbl_chrono_stopped">Хронометр зупинений</string>
 <string name="btn_chrono_pause">Призупинити</string>
@@ -65,7 +64,6 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string name="action_add_many_objects">Додати декілька</string>
 <string name="dlg_add_single_object_note">Наприклад, номер квартири чи приватного будинку</string>
 <string name="msg_object_name">Введіть заголовок:</string>
-<string name="msg_delete_object">Ви дійсно хочете видалити цей об\'єкт?</string>
 <string name="lbl_set_row">Рядок:</string>
 <string name="lbl_set_col">Колонка:</string>
 <string name="lbl_numbers_from">Номера від</string>

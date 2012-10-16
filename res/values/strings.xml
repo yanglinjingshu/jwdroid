@@ -313,12 +313,13 @@ Tags: Jehovah's Witnesses, Bible, preaching, ministry <add the same translated t
 <string name="msg_restore_backup_success">Backup has been successfully restored</string>
 
 <string name="msg_revision_notes">What\'s new</string>
-<string name="msg_revision_notes_1_2" formatted="true"><b>Version 1.2</b>\n\nData backups, including automatic\n\nManual adding service sessions\n\nSimplified editing of service date and time\n\nNew mark on households visited today\n\nSorting households by name\n\nQuick editing of age and gender after creating a new tenant\n\nQuick mark \"Not at home\" without entering a household\n\nMinor interface improvements
-</string>
 
 <!-- v1.2.1 -->
 
 <string name="msg_backup_created">Backup created</string>
 <string name="pref_backups_manage">Manage backups</string>
 <string name="pref_backups_manage_note">View list of created backups</string>
+
+<!--  v1.2.3 -->
+<string name="msg_revision_notes_1_2_3" formatted="true"><b>Version 1.2.3</b>\n\n* Added French, Dutch, Romanian, Lithuanian and Czech translations. Thanks to all the translators!\n\n* Fixed bug that lead to app crashes in certain conditions.\n\n* Fixed bug that caused previous month report hide and the current one double on the 1st day of a new month.\n\n* Fixed and rebuilt Chronometer module, now it works properly in all cases and without crashes.\n\n<b>Version 1.2</b>\n\n* Data backups, including automatic\n\n* Manual adding service sessions\n\n* Simplified editing of service date and time\n\n* New mark on households visited today\n\n* Sorting households by name\n\n* Quick editing of age and gender after creating a new tenant\n\n* Quick mark \"Not at home\" without entering a household\n\n* Minor interface improvements</string>
 </resources>

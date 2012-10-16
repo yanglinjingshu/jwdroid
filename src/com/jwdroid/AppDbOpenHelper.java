@@ -16,8 +16,21 @@ public class AppDbOpenHelper extends SQLiteOpenHelper {
 	private static final int DATABASE_VERSION = 47;
 	private static final String DATABASE_NAME = "jwdroid";
 	private static final String TAG = "JWTerritoryDbOpenHelper";
+	
+	private static volatile AppDbOpenHelper instance;
+	
+	public static AppDbOpenHelper getInstance(Context context) {
+		if(instance == null) {
+			synchronized(AppDbOpenHelper.class) {
+				if(instance == null) {
+					instance = new AppDbOpenHelper(context);
+				}
+			}	
+		}
+		return instance;
+	}	
 
-	AppDbOpenHelper(Context context) {
+	private AppDbOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

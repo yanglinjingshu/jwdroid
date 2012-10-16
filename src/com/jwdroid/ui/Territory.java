@@ -1,4 +1,4 @@
-package com.jwdroid;
+package com.jwdroid.ui;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -8,6 +8,18 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.jwdroid.AlphanumComparator;
+import com.jwdroid.AppDbOpenHelper;
+import com.jwdroid.AsyncLoader;
+import com.jwdroid.ColorPicker;
+import com.jwdroid.DialogArrangeLayout;
+import com.jwdroid.HorizontalPanelsView;
+import com.jwdroid.SimpleArrayItem;
+import com.jwdroid.SimpleListAdapter;
+import com.jwdroid.TriangleButton;
+import com.jwdroid.Util;
+import com.jwdroid.ColorPicker.OnOkListener;
+import com.jwdroid.HorizontalPanelsView.OnActiveChangedListener;
 import com.jwdroid.TriangleButton.TriangleButtonContextMenuInfo;
 
 import net.londatiga.android.ActionItem;
@@ -107,7 +119,6 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	private static final int ARRANGE_DIR_LEFT = 4;	
 	
 	private Cursor mListCursor;	
-	private AppDbOpenHelper mDbOpenHelper = new AppDbOpenHelper(this);
 	private Long mTerritoryId;
 	
 	private HorizontalPanelsView mPanelsView;
@@ -136,7 +147,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	    }
 	    
 	    Cursor rs;
-	    SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+	    SQLiteDatabase db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();
 	    
 	    mTerritoryId = getIntent().getExtras().getLong("territory");
 	    
@@ -210,8 +221,6 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	@Override
     protected void onPause() {    
     	super.onPause();
-    	
-    	mDbOpenHelper.close();
     }
 	
 	@Override
@@ -241,7 +250,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
     }
     
     public boolean onOptionsItemSelected(MenuItem item) {		
-    	SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();	    
+    	SQLiteDatabase db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();	    
     	
 	    switch (item.getItemId()) {
 	    case R.id.menu_arrange:
@@ -428,7 +437,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 						showDialog(DIALOG_SET_POSITION_LIST);
 						break;
 					case 1:		// Переместить выше
-						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+						SQLiteDatabase db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();
 						Cursor rs = db.rawQuery("SELECT group_id,order_num FROM door WHERE ROWID=?", new String[] {String.valueOf(mDialogItemId)});
 						rs.moveToFirst();
 						int groupId = rs.getInt(0);
@@ -446,7 +455,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 						rs.close();
 						break;
 					case 2:		// Переместить ниже
-						db = mDbOpenHelper.getWritableDatabase();
+						db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();
 						rs = db.rawQuery("SELECT group_id,order_num FROM door WHERE ROWID=?", new String[] {String.valueOf(mDialogItemId)});
 						rs.moveToFirst();
 						groupId = rs.getInt(0);
@@ -490,13 +499,13 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
     	switch(id) {
 	    	case DIALOG_ADD_SINGLE: {
 	    		final AlertDialog editDialog = (AlertDialog)dialog;
-	    		SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();	    
+	    		SQLiteDatabase db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();	    
 	    		((EditText)editDialog.findViewById(R.id.edit_dlgedit_text)).setText("");
 	    		editDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						String name = ((EditText)editDialog.findViewById(R.id.edit_dlgedit_text)).getText().toString();
-						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+						SQLiteDatabase db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();
 						
 						Integer orderNum;
 						
@@ -553,7 +562,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 							int from = Integer.parseInt(((EditText)alertDialog.findViewById(R.id.edit_left)).getText().toString());							
 				    		int to = Integer.parseInt(((EditText)alertDialog.findViewById(R.id.edit_right)).getText().toString());
 				    		
-				    		SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+				    		SQLiteDatabase db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();
 
 				    		Integer maxRow = Util.dbFetchInt(db,"SELECT MAX(row) FROM door WHERE territory_id=? AND group_id=?", new String[] {mTerritoryId.toString(), String.valueOf(mPanelsView.getActivePos())});
 				    		Integer maxCol = 0;
@@ -622,7 +631,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 		    	AlertDialog alertDialog = (AlertDialog)dialog;
 		    	alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {					
 						public void onClick(DialogInterface dialog, int which) {
-							SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+							SQLiteDatabase db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();
 							db.execSQL("DELETE FROM `door` WHERE rowid=?", new Long[] { mDialogItemId });
 					  		db.execSQL("DELETE FROM `person` WHERE door_id=?", new Long[] { mDialogItemId });
 					  		db.execSQL("DELETE FROM `visit` WHERE door_id=?", new Long[] { mDialogItemId });	
@@ -637,7 +646,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	    	}
 	    	case DIALOG_CHANGE_NAME: {
 	    		final AlertDialog editDialog = (AlertDialog)dialog;
-	    		SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();	
+	    		SQLiteDatabase db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();	
 	    		Cursor rs = db.rawQuery("SELECT name FROM door WHERE ROWID=?", new String[] {mDialogItemId.toString()});
 	    		rs.moveToNext();
 	    		((EditText)editDialog.findViewById(R.id.edit_dlgedit_text)).setText(rs.getString(0));
@@ -646,7 +655,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						String newName = ((EditText)editDialog.findViewById(R.id.edit_dlgedit_text)).getText().toString();
-						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+						SQLiteDatabase db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();
 						db.execSQL("UPDATE `door` SET name=? WHERE ROWID=?", new Object[] { newName, mDialogItemId });
 						
 						if(mDisplayMode == DISPLAY_LIST) {
@@ -668,7 +677,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	    	}
     		
 	    	case DIALOG_COLOR: {	    		
-	    		SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();	
+	    		SQLiteDatabase db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();	
 	    		Cursor rs = db.rawQuery("SELECT name,color1,color2 FROM door WHERE ROWID=?", new String[] {mDialogItemId.toString()});
 	    	    rs.moveToFirst();
 	    	    String name = rs.getString(0);
@@ -681,7 +690,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	    		mColorPicker.setOkListener( new ColorPicker.OnOkListener() {
 	    			@Override
 	    			public void onOk(int newColor1, int newColor2) {
-	    				SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+	    				SQLiteDatabase db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();
 						db.execSQL("UPDATE `door` SET color1=?,color2=?,manual_color=1 WHERE ROWID=?", new Object[] { new Integer(newColor1), new Integer(newColor2), mDialogItemId });
 						
 						if(mDisplayMode == DISPLAY_LIST) {
@@ -710,7 +719,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	    	
 	    	case DIALOG_ARRANGE: {
 	    		final AlertDialog alertDialog = (AlertDialog)dialog;
-	    		((DialogArrangeLayout)alertDialog.findViewById(R.id.dlg_arrange)).prepare(mDbOpenHelper, mTerritoryId, mPanelsView.getActivePos());
+	    		((DialogArrangeLayout)alertDialog.findViewById(R.id.dlg_arrange)).prepare(AppDbOpenHelper.getInstance(Territory.this), mTerritoryId, mPanelsView.getActivePos());
 	    		alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {
 					
 					@Override
@@ -731,7 +740,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 						long directionVertical = ( (SimpleArrayItem)  ((Spinner)alertDialog.findViewById(R.id.spinner_arrange_direction_vertical)).getSelectedItem() ).id;
 						long directionHorizontal = ( (SimpleArrayItem)  ((Spinner)alertDialog.findViewById(R.id.spinner_arrange_direction_horizontal)).getSelectedItem() ).id;
 						
-						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();						
+						SQLiteDatabase db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();						
 						Cursor rs = db.rawQuery("SELECT ROWID FROM door WHERE territory_id=? AND group_id=? ORDER BY order_num ASC", new String[] {mTerritoryId.toString(), String.valueOf(mPanelsView.getActivePos())});
 												
 						Integer col = (directionHorizontal == ARRANGE_DIR_RIGHT ? 0 : cols-1), 
@@ -771,7 +780,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	    	case DIALOG_SET_POSITION: {
 	    		final AlertDialog alertDialog = (AlertDialog)dialog;
 	    		
-	    		final SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();						
+	    		final SQLiteDatabase db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();						
 				Cursor rs = db.rawQuery("SELECT row,col FROM door WHERE ROWID=?", new String[] {mDialogItemId.toString()});
 				rs.moveToFirst();
 				final int row = rs.getInt(0);
@@ -809,7 +818,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	    	case DIALOG_SET_POSITION_LIST: {
 	    		final AlertDialog alertDialog = (AlertDialog)dialog;
 	    		
-	    		final SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();						
+	    		final SQLiteDatabase db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();						
 				Cursor rs = db.rawQuery("SELECT order_num FROM door WHERE ROWID=?", new String[] {mDialogItemId.toString()});
 				rs.moveToFirst();
 				final int orderNum = rs.getInt(0);				
@@ -861,7 +870,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 		}
 			
 		if(info instanceof TriangleButtonContextMenuInfo) {
-			SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+			SQLiteDatabase db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();
 			Cursor rs;
 			TriangleButton btn = (TriangleButton) ((TriangleButtonContextMenuInfo)info).getView();
 			
@@ -874,7 +883,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 			
 			Runnable doMove = new Runnable() {
 				public void run() {
-					SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+					SQLiteDatabase db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();
 					Cursor rs = db.rawQuery("SELECT ROWID FROM door WHERE territory_id=? AND group_id=? AND row=? AND col=?", new String[]{
 							mTerritoryId.toString(), String.valueOf(mPanelsView.getActivePos()), row[1].toString(), col[1].toString() 
 					});
@@ -926,7 +935,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 
 	@Override
 	public Loader onCreateLoader(int arg0, Bundle arg1) {
-		TerritoryLoader loader = new TerritoryLoader(this, mDbOpenHelper, mTerritoryId);
+		TerritoryLoader loader = new TerritoryLoader(this, mTerritoryId);
 		return loader;
 	}
 
@@ -1027,7 +1036,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 						@Override
 						public void onItemClick(int pos) {
 							Bundle args;
-							SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+							SQLiteDatabase db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();
 							Cursor rs;
 							switch(pos) {
 							case 0:	// Add N/A
@@ -1294,7 +1303,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	}
 	
 	private void addNAVisit(Long doorId, DoorItem item) {
-		SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+		SQLiteDatabase db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();
 				
 		Cursor rs = db.rawQuery("SELECT ROWID FROM person WHERE door_id=?", new String[] {doorId.toString()});
 		if(rs.getCount() == 0) {
@@ -1309,7 +1318,6 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 			db.execSQL("INSERT INTO visit (territory_id,door_id,person_id,date,desc) VALUES(?,?,?,strftime('now'),'')", new Object[] {mTerritoryId, doorId, rs.getString(0)});
 		}
 		rs.close();
-		db.close();
 		
 		if(item != null)
 			item.lastModifiedDate.setToNow();
@@ -1321,7 +1329,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	}
 	
 	static public void sortDoors(Context context, Long territoryId, Integer groupId) {
-		AppDbOpenHelper dbOpenHelper = new AppDbOpenHelper(context);
+		AppDbOpenHelper dbOpenHelper = AppDbOpenHelper.getInstance(context);
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
 		
 		ArrayList<SimpleArrayItem> items = new ArrayList<SimpleArrayItem>();
@@ -1341,11 +1349,10 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 			db.execSQL("UPDATE door SET order_num=? WHERE ROWID=?", new Object[] {i, Long.toString( items.get(i).id )});			
 		}
 		
-		db.close();
 	}
 	
 	static public int findSortedOrderNum(Context context, Long territoryId, Integer groupId, String name) {
-		AppDbOpenHelper dbOpenHelper = new AppDbOpenHelper(context);
+		AppDbOpenHelper dbOpenHelper = AppDbOpenHelper.getInstance(context);
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
 		
 		AlphanumComparator comparator = new AlphanumComparator();
@@ -1369,7 +1376,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	}
 	
 	static public void fixOrderNums(Context context, Long territoryId, Integer groupId) {
-		AppDbOpenHelper dbHelper = new AppDbOpenHelper(context);
+		AppDbOpenHelper dbHelper = AppDbOpenHelper.getInstance(context);
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		int orderNum = 0;
 		Cursor rs = db.rawQuery("SELECT ROWID FROM door WHERE territory_id=? AND group_id=? ORDER BY order_num ASC", new String[] {territoryId.toString(), groupId.toString()});
@@ -1520,19 +1527,17 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	
 	static public class TerritoryLoader extends AsyncLoader<Cursor>  {
 		
-		private AppDbOpenHelper mDbOpenHelper;
 		private Long mTerritoryId;
 
-		public TerritoryLoader(Context context, AppDbOpenHelper db, Long territoryId) {
+		public TerritoryLoader(Context context, Long territoryId) {
 			super(context);			
-			mDbOpenHelper = db;
 			mTerritoryId = territoryId;
 		}		
 
 		@Override
 		public Cursor loadInBackground() {
 			
-			SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+			SQLiteDatabase db = AppDbOpenHelper.getInstance(getContext()).getWritableDatabase();
 			Cursor rs = db.rawQuery("SELECT ROWID,group_id,order_num,col,row,name,color1,color2,visits_num,last_person_name,strftime('%s',last_date),last_desc,last_person_reject,strftime('%s',last_modified_date) FROM door WHERE territory_id=? ORDER BY group_id, order_num ASC", new String[] {mTerritoryId.toString()});
 			
 			return rs;

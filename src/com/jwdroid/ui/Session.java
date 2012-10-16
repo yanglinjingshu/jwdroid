@@ -1,7 +1,9 @@
-package com.jwdroid;
+package com.jwdroid.ui;
 
 import java.sql.Date;
 import java.text.DateFormat;
+
+import com.jwdroid.AppDbOpenHelper;
 
 import net.londatiga.android.R;
 import android.app.Activity;
@@ -33,9 +35,7 @@ public class Session extends Activity {
 	private static final int DIALOG_DATE = 1;
 	private static final int DIALOG_TIME = 2;
 	private static final int DIALOG_DELETE = 3;
-	
-	private AppDbOpenHelper mDbOpenHelper = new AppDbOpenHelper(this);
-	
+		
 	Long mSessionId;
 	
 	Integer mMinutes=0,mBooks=0,mBrochures=0,mMagazines=0,mReturns=0;
@@ -49,7 +49,7 @@ public class Session extends Activity {
 		
 		mSessionId = getIntent().getExtras().getLong("session");
 		
-		SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+		SQLiteDatabase db = AppDbOpenHelper.getInstance(Session.this).getWritableDatabase();
 		
 		mDate = new Time();
 		mDate.setToNow();
@@ -204,7 +204,7 @@ public class Session extends Activity {
 	    findViewById(R.id.title_btn_ok).setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+				SQLiteDatabase db = AppDbOpenHelper.getInstance(Session.this).getWritableDatabase();
 				
 				if(mSessionId != 0) {				
 					db.execSQL("UPDATE session SET date=?,desc=?,minutes=?,magazines=?,brochures=?,books=?,returns=? WHERE ROWID=?",
@@ -318,7 +318,7 @@ public class Session extends Activity {
 		    	AlertDialog alertDialog = (AlertDialog)dialog;
 		    	alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {					
 						public void onClick(DialogInterface dialog, int which) {
-							SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+							SQLiteDatabase db = AppDbOpenHelper.getInstance(Session.this).getWritableDatabase();
 							db.execSQL("DELETE FROM `session` WHERE rowid=?", new Long[] { mSessionId });					  		
 					  		Toast.makeText(Session.this, R.string.msg_session_deleted, Toast.LENGTH_SHORT).show();
 					  		setResult(1);
@@ -334,6 +334,5 @@ public class Session extends Activity {
     protected void onPause() {    
     	super.onPause();
     	
-    	mDbOpenHelper.close();
     }
 }

@@ -28,7 +28,6 @@
 <string name="lbl_hours">Horas:</string>
 <string name="lbl_studies">E. Bíblicos:</string>
 
-<string name="title_chrono">Cronómetros</string>
 <string name="lbl_chrono_started_time">Começou à %s</string>
 <string name="lbl_chrono_stopped">Cronómetro parado</string>
 <string name="btn_chrono_pause">Pausar</string>
@@ -46,7 +45,6 @@
 <string name="action_add_many_objects">Adicionar alguns</string>
 <string name="dlg_add_single_object_note">Por exemplo, apartamento ou nº da casa</string>
 <string name="msg_object_name">Insira o cabeçalho:</string>
-<string name="msg_delete_object">Quer mesmo apagar este morador?</string>
 <string name="lbl_set_row">Linha:</string>
 <string name="lbl_set_col">Coluna:</string>
 <string name="lbl_numbers_from">Números desde:</string>

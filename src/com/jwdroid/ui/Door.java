@@ -1,4 +1,4 @@
-package com.jwdroid;
+package com.jwdroid.ui;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -6,6 +6,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.jwdroid.AppDbOpenHelper;
+import com.jwdroid.ColorPicker;
+import com.jwdroid.HorizontalPanelsView;
+import com.jwdroid.TriangleView;
+import com.jwdroid.Util;
+import com.jwdroid.ColorPicker.OnOkListener;
+import com.jwdroid.HorizontalPanelsView.OnActiveChangedListener;
 
 import net.londatiga.android.ActionItem;
 import net.londatiga.android.QuickAction;
@@ -85,11 +93,10 @@ public class Door extends FragmentActivity {
 	private static final int ID_PANEL_LISTVIEW = 1;
 	
 	
-	static final int[] COLORS = {R.color.gray, R.color.blue, R.color.green, R.color.yellow, R.color.red, R.color.lightgray, R.color.lightblue, R.color.lightgreen, R.color.lightyellow, R.color.lightred};
-	static final int[] COLORS_LIGHT = {R.color.gray_light, R.color.blue_light, R.color.green_light, R.color.yellow_light, R.color.red_light, R.color.lightgray_light, R.color.lightblue_light, R.color.lightgreen_light, R.color.lightyellow_light, R.color.lightred_light};
-	static final int[] DRAWABLES = {R.drawable.btn_colored_gray, R.drawable.btn_colored_blue, R.drawable.btn_colored_green, R.drawable.btn_colored_yellow, R.drawable.btn_colored_red, R.drawable.btn_colored_lightgray, R.drawable.btn_colored_lightblue, R.drawable.btn_colored_lightgreen, R.drawable.btn_colored_lightyellow, R.drawable.btn_colored_lightred};
-	
-	private AppDbOpenHelper mDbOpenHelper = new AppDbOpenHelper(this);
+	public static final int[] COLORS = {R.color.gray, R.color.blue, R.color.green, R.color.yellow, R.color.red, R.color.lightgray, R.color.lightblue, R.color.lightgreen, R.color.lightyellow, R.color.lightred};
+	public static final int[] COLORS_LIGHT = {R.color.gray_light, R.color.blue_light, R.color.green_light, R.color.yellow_light, R.color.red_light, R.color.lightgray_light, R.color.lightblue_light, R.color.lightgreen_light, R.color.lightyellow_light, R.color.lightred_light};
+	public static final int[] DRAWABLES = {R.drawable.btn_colored_gray, R.drawable.btn_colored_blue, R.drawable.btn_colored_green, R.drawable.btn_colored_yellow, R.drawable.btn_colored_red, R.drawable.btn_colored_lightgray, R.drawable.btn_colored_lightblue, R.drawable.btn_colored_lightgreen, R.drawable.btn_colored_lightyellow, R.drawable.btn_colored_lightred};
+		
 	private Long mTerritoryId, mDoorId;
 	private Long mViewPersonId;
 	
@@ -118,7 +125,7 @@ public class Door extends FragmentActivity {
 	    
 	    
 	    Cursor rs;
-	    SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+	    SQLiteDatabase db = AppDbOpenHelper.getInstance(this).getWritableDatabase();
 	    
 	    mDoorId = getIntent().getExtras().getLong("door");
 	    if(getIntent().hasExtra("person"))
@@ -218,7 +225,6 @@ public class Door extends FragmentActivity {
     protected void onPause() {    
     	super.onPause();
     	
-    	mDbOpenHelper.close();
     }
 	
 	@Override
@@ -356,7 +362,7 @@ public class Door extends FragmentActivity {
 								
 								Editable editable = ((EditText)view.findViewById(R.id.edit_dlgedit_text)).getText();
 								
-								SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+								SQLiteDatabase db = AppDbOpenHelper.getInstance(Door.this).getWritableDatabase();
 								
 								if(mCreatingNewPerson) {
 									int activeViewGroup = mPanelsView.getActivePos();
@@ -403,7 +409,7 @@ public class Door extends FragmentActivity {
     		
     	case DIALOG_COLOR:
     		
-    		SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+    		SQLiteDatabase db = AppDbOpenHelper.getInstance(this).getWritableDatabase();
     	    Cursor rs = db.rawQuery("SELECT name,color1,color2 FROM door WHERE ROWID=?", new String[] {mDoorId.toString()});
     	    rs.moveToFirst();
     	    Integer color1 = rs.getInt(1);
@@ -414,7 +420,7 @@ public class Door extends FragmentActivity {
     		colorPicker.setOkListener( new ColorPicker.OnOkListener() {
     			@Override
     			public void onOk(int newColor1, int newColor2) {
-    				SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+    				SQLiteDatabase db = AppDbOpenHelper.getInstance(Door.this).getWritableDatabase();
 					db.execSQL("UPDATE `door` SET color1=?,color2=?,manual_color=1 WHERE ROWID=?", new Object[] { new Integer(newColor1), new Integer(newColor2), mDoorId });
 					
 					((TriangleView)findViewById(R.id.title_color1)).setColor( getResources().getColor(COLORS[newColor1]) );
@@ -445,7 +451,7 @@ public class Door extends FragmentActivity {
     	switch(id) {
     	case DIALOG_EDIT_PERSON:
     		if(mPersonIds.containsKey(mPanelsView.getActivePos())) {
-	    		SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+	    		SQLiteDatabase db = AppDbOpenHelper.getInstance(this).getWritableDatabase();
 	    		Cursor rs = db.rawQuery("SELECT name FROM person WHERE ROWID=?", new String[] {mPersonIds.get(mPanelsView.getActivePos()).toString()});
 	    		rs.moveToNext();
 	    		((EditText)dialog.findViewById(R.id.edit_dlgedit_text)).setText(rs.getString(0));
@@ -460,7 +466,7 @@ public class Door extends FragmentActivity {
 	    	AlertDialog alertDialog = (AlertDialog)dialog;
 	    	alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {					
 					public void onClick(DialogInterface dialog, int which) {
-						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+						SQLiteDatabase db = AppDbOpenHelper.getInstance(Door.this).getWritableDatabase();
 				  		db.execSQL("DELETE FROM `visit` WHERE rowid=?", new Long[] { mDialogItemId });
 				  		updateVisits(Door.this, mDoorId);
 				  		Toast.makeText(Door.this, R.string.msg_visit_deleted, Toast.LENGTH_SHORT).show();			  		
@@ -482,7 +488,7 @@ public class Door extends FragmentActivity {
     			AlertDialog alertDialog = (AlertDialog)dialog;
 		    	alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {					
 						public void onClick(DialogInterface dialog, int which) {
-							SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+							SQLiteDatabase db = AppDbOpenHelper.getInstance(Door.this).getWritableDatabase();
 					  		db.execSQL("DELETE FROM `visit` WHERE person_id=?", new Long[] { personId });
 					  		db.execSQL("DELETE FROM `person` WHERE ROWID=?", new Long[] { personId });
 					  		updateVisits(Door.this, mDoorId);
@@ -503,7 +509,7 @@ public class Door extends FragmentActivity {
 	    	AlertDialog alertDialog = (AlertDialog)dialog;
 	    	alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {					
 					public void onClick(DialogInterface dialog, int which) {
-						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+						SQLiteDatabase db = AppDbOpenHelper.getInstance(Door.this).getWritableDatabase();
 						db.execSQL("DELETE FROM `door` WHERE rowid=?", new Long[] { mDoorId });
 				  		db.execSQL("DELETE FROM `person` WHERE door_id=?", new Long[] { mDoorId });
 				  		db.execSQL("DELETE FROM `visit` WHERE door_id=?", new Long[] { mDoorId });					  		
@@ -562,7 +568,7 @@ public class Door extends FragmentActivity {
     		
 		mPanelsView.removeViewGroups();
 		
-		SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+		SQLiteDatabase db = AppDbOpenHelper.getInstance(this).getWritableDatabase();
 		Cursor rs = db.rawQuery("SELECT ROWID,name,reject FROM person WHERE door_id=?", new String[] {mDoorId.toString()});
 				
 		mPersonIndexes = new HashMap<Long,Integer>();
@@ -633,7 +639,7 @@ public class Door extends FragmentActivity {
 						showDialog(DIALOG_DELETE_PERSON);
 						break;
 					case 2:	// Отказ
-						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+						SQLiteDatabase db = AppDbOpenHelper.getInstance(Door.this).getWritableDatabase();
 						db.execSQL("UPDATE person SET reject=? WHERE ROWID=?", new Object[] { Integer.toString(reject == 0 ? 1 : 0), mPersonIds.get(mPanelsView.getActivePos()) });
 						
 						updateColor(Door.this, mDoorId);
@@ -781,7 +787,7 @@ public class Door extends FragmentActivity {
 				
 		if(resultCode == 1) {
 			updateContent();
-			SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+			SQLiteDatabase db = AppDbOpenHelper.getInstance(this).getWritableDatabase();
 			Cursor rs = db.rawQuery("SELECT color1,color2 FROM door WHERE ROWID=?", new String[] {mDoorId.toString()});
 		    rs.moveToFirst();	    
 		    ((TriangleView)findViewById(R.id.title_color1)).setColor( getResources().getColor(COLORS[rs.getInt(0)]) );
@@ -794,7 +800,7 @@ public class Door extends FragmentActivity {
 	
 	public static void updateVisits(Context context, Long doorId) {
 		
-		AppDbOpenHelper dbOpenHelper = new AppDbOpenHelper(context);
+		AppDbOpenHelper dbOpenHelper = AppDbOpenHelper.getInstance(context);
 		
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
 		Cursor rs = db.rawQuery("SELECT date,desc,person.name,person.reject FROM visit LEFT JOIN person ON person.ROWID=visit.person_id WHERE visit.door_id=? AND visit.type!=? ORDER BY date DESC LIMIT 1", new String[] {doorId.toString(),String.valueOf(Visit.TYPE_NA)});
@@ -820,7 +826,7 @@ public class Door extends FragmentActivity {
 	
 	public static void updateColor(Context context, Long doorId) {
 				
-		AppDbOpenHelper dbOpenHelper = new AppDbOpenHelper(context);		
+		AppDbOpenHelper dbOpenHelper = AppDbOpenHelper.getInstance(context);		
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 				

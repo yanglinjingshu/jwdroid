@@ -1,8 +1,15 @@
-package com.jwdroid;
+package com.jwdroid.ui;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import com.jwdroid.AppDbOpenHelper;
+import com.jwdroid.AsyncLoader;
+import com.jwdroid.ColorPicker;
+import com.jwdroid.SimpleArrayAdapter;
+import com.jwdroid.Util;
+import com.jwdroid.ColorPicker.OnOkListener;
 
 import net.londatiga.android.ActionItem;
 import net.londatiga.android.QuickAction;
@@ -48,7 +55,6 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
 	private static final int DIALOG_COLOR = 3;
 	
 	private PeopleListAdapter mListAdapter;	
-	private AppDbOpenHelper mDbOpenHelper = new AppDbOpenHelper(this);
 	private ListView mListView;
 	
 	private Long mDialogItemId;
@@ -151,7 +157,6 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
     protected void onPause() {    
     	super.onPause();
     	
-    	mDbOpenHelper.close();
     }
     
     public boolean onOptionsItemSelected(MenuItem item) {    	
@@ -203,7 +208,7 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
 								Editable editable = ((EditText)view.findViewById(R.id.edit_dlgedit_text)).getText();									
-								SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+								SQLiteDatabase db = AppDbOpenHelper.getInstance(PeopleList.this).getWritableDatabase();
 								
 								if(mDialogItemId == null) {
 									db.execSQL("INSERT INTO door (territory_id,group_id,col,row,name,color1,color2,visits_num,order_num) VALUES(0,0,0,0,\"\",0,0,0,0)", new Object[]{});
@@ -242,7 +247,7 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
     	
     	switch(id) {
     	case DIALOG_COLOR: {	    		
-    		SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();	
+    		SQLiteDatabase db = AppDbOpenHelper.getInstance(PeopleList.this).getWritableDatabase();	
     		Cursor rs = db.rawQuery("SELECT door.ROWID,door.color1,door.color2 FROM person LEFT JOIN door ON door.ROWID=person.door_id WHERE person.ROWID=?", new String[] {mDialogItemId.toString()});
     	    rs.moveToFirst();
     	    Integer color1 = rs.getInt(1);
@@ -255,7 +260,7 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
     		mColorPicker.setOkListener( new ColorPicker.OnOkListener() {
     			@Override
     			public void onOk(int newColor1, int newColor2) {
-    				SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+    				SQLiteDatabase db = AppDbOpenHelper.getInstance(PeopleList.this).getWritableDatabase();
 					db.execSQL("UPDATE `door` SET color1=?,color2=?,manual_color=1 WHERE ROWID=?", new Object[] { new Integer(newColor1), new Integer(newColor2), doorId });
 					
 					
@@ -279,7 +284,7 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
     		}
     		else {
     			((TextView)dialog.findViewById(R.id.lbl_dlgedit_note)).setVisibility(View.GONE);
-	    		SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+	    		SQLiteDatabase db = AppDbOpenHelper.getInstance(PeopleList.this).getWritableDatabase();
 	    		Cursor rs = db.rawQuery("SELECT name FROM person WHERE ROWID=?", new String[] {mDialogItemId.toString()});
 	    		rs.moveToNext();
 	    		((EditText)dialog.findViewById(R.id.edit_dlgedit_text)).setText(rs.getString(0));
@@ -295,7 +300,7 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
 			AlertDialog alertDialog = (AlertDialog)dialog;
 	    	alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, null, new DialogInterface.OnClickListener() {					
 					public void onClick(DialogInterface dialog, int which) {
-						SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+						SQLiteDatabase db = AppDbOpenHelper.getInstance(PeopleList.this).getWritableDatabase();
 						Long doorId = Util.dbFetchLong(db,"SELECT door_id FROM person WHERE ROWID=?", new String[] {mDialogItemId.toString()});
 				  		db.execSQL("DELETE FROM `visit` WHERE person_id=?", new Long[] { mDialogItemId });
 				  		db.execSQL("DELETE FROM `person` WHERE ROWID=?", new Long[] { mDialogItemId });
@@ -313,7 +318,7 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-		PeopleListLoader loader = new PeopleListLoader(this, mDbOpenHelper);
+		PeopleListLoader loader = new PeopleListLoader(this);
 		return loader;
 	}
 
@@ -362,16 +367,14 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
 	
 	static public class PeopleListLoader extends AsyncLoader<Cursor>  {
 		
-		private AppDbOpenHelper mDbOpenHelper;
-
-		public PeopleListLoader(Context context, AppDbOpenHelper db) {
-			super(context);			
-			mDbOpenHelper = db;
+		
+		public PeopleListLoader(Context context) {
+			super(context);
 		}		
 
 		@Override
 		public Cursor loadInBackground() {
-			SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+			SQLiteDatabase db = AppDbOpenHelper.getInstance(getContext()).getWritableDatabase();
 			Cursor rs = db.rawQuery("SELECT person.rowid _id, " +
 									"		person.door_id, " +
 									"		door.name, " +
