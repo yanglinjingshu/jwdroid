@@ -1303,6 +1303,11 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	}
 	
 	private void addNAVisit(Long doorId, DoorItem item) {
+		
+		Time date = new Time();
+		date.setToNow();
+		date.switchTimezone("UTC");
+		
 		SQLiteDatabase db = AppDbOpenHelper.getInstance(Territory.this).getWritableDatabase();
 				
 		Cursor rs = db.rawQuery("SELECT ROWID FROM person WHERE door_id=?", new String[] {doorId.toString()});
@@ -1315,7 +1320,7 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 		while(rs.moveToNext()) {
 			if(item != null)
 				item.visitsNum++;
-			db.execSQL("INSERT INTO visit (territory_id,door_id,person_id,date,desc) VALUES(?,?,?,strftime('now'),'')", new Object[] {mTerritoryId, doorId, rs.getString(0)});
+			db.execSQL("INSERT INTO visit (territory_id,door_id,person_id,date,desc) VALUES(?,?,?,?,'')", new Object[] {mTerritoryId, doorId, rs.getString(0), date.format3339(false)});
 		}
 		rs.close();
 		
