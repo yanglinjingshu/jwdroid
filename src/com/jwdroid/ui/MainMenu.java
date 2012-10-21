@@ -1,6 +1,9 @@
 package com.jwdroid.ui;
 
 import java.io.File;
+import java.io.IOException;
+
+import com.jwdroid.AppDbOpenHelper;
 
 
 import net.londatiga.android.R;
@@ -40,7 +43,12 @@ public class MainMenu extends Activity {
 		 if(!dir.exists())
 			 dir.mkdir();
 		 
-		 
+		 /*try {
+			AppDbOpenHelper.copyDataBase();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 		 findViewById(R.id.btn_territories).setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -127,7 +135,7 @@ public class MainMenu extends Activity {
     	case DIALOG_REVISION_NOTES:            
      		dialog = new AlertDialog.Builder(this)
      					.setTitle(R.string.msg_revision_notes)
-     					.setMessage(R.string.msg_revision_notes_1_2_3)
+     					.setMessage(R.string.msg_revision_notes_1_2_4)
      					.setPositiveButton(R.string.btn_ok, null).create(); 
     		break;
     	}
@@ -137,9 +145,9 @@ public class MainMenu extends Activity {
 	 
 	private void showRevisionNotes() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		if(!prefs.getBoolean("revision_notes_1_2_3", false)) {
+		if(!prefs.getBoolean("revision_notes_1_2_4", false)) {
 			Editor editor = prefs.edit();
-			editor.putBoolean("revision_notes_1_2_3", true);
+			editor.putBoolean("revision_notes_1_2_4", true);
 			editor.commit();
 			
 			showDialog(DIALOG_REVISION_NOTES);

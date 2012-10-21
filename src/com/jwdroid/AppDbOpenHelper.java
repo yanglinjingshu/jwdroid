@@ -10,10 +10,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.format.Time;
 import android.util.Log;
 
 public class AppDbOpenHelper extends SQLiteOpenHelper {	
-	private static final int DATABASE_VERSION = 47;
+	private static final int DATABASE_VERSION = 50;
 	private static final String DATABASE_NAME = "jwdroid";
 	private static final String TAG = "JWTerritoryDbOpenHelper";
 	
@@ -118,13 +119,24 @@ public class AppDbOpenHelper extends SQLiteOpenHelper {
 			db.execSQL("ALTER TABLE `door` ADD last_modified_date INTEGER");
 		}
 		
+		if(oldVersion < 50) {
+			Time date = new Time();
+			date.setToNow();
+			date.switchTimezone("UTC");
+			
+			db.execSQL("UPDATE visit SET date=? WHERE date='now'", new String[] {date.format3339(false)});
+			db.execSQL("UPDATE door SET last_date=? WHERE last_date='now'", new String[] {date.format3339(false)});
+			db.execSQL("UPDATE door SET last_modified_date=(SELECT date FROM visit WHERE door_id=door.ROWID ORDER BY date DESC LIMIT 1)", new Object[] {});
+			db.execSQL("UPDATE territory SET modified=(SELECT date FROM visit WHERE territory_id=territory.ROWID ORDER BY date DESC LIMIT 1)", new Object[] {});
+		}
+		
 	}
 	
 	
 	static public void copyDataBase() throws IOException{
 
       
-        OutputStream databaseOutputStream = new FileOutputStream("/mnt/sdcard/jwdroid");
+        OutputStream databaseOutputStream = new FileOutputStream("/mnt/sdcard/jwdroid.db");
         InputStream databaseInputStream = new FileInputStream("/data/data/com.jwdroid/databases/jwdroid");
 
         byte[] buffer = new byte[1];

@@ -101,7 +101,7 @@
 <string name="title_territory_list">Райони</string>
 <string name="title_people">Хора</string>
 <string name="title_reports">Отчети</string>
-
+<string name="title_chrono">Хронометър</string>
 
 <string name="lbl_people_list_empty">Списъкът с домакини е празен. \n\nДобави нов човек посредством бутона по-горе или в секцията &quot;Райони&quot;.</string>
 <string name="lbl_person_add_from_people">Обърни внимание, че този човек ще бъде добавен без връзка с някой район.</string>
