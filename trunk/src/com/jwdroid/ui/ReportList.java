@@ -1,49 +1,27 @@
 package com.jwdroid.ui;
 
-import java.nio.MappedByteBuffer;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-
-import com.jwdroid.AppDbOpenHelper;
-import com.jwdroid.SimpleArrayAdapter;
-import com.jwdroid.Util;
-
-import net.londatiga.android.ActionItem;
-import net.londatiga.android.QuickAction;
-import net.londatiga.android.R;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.Loader;
-import android.text.Html;
 import android.text.format.Time;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.jwdroid.AppDbOpenHelper;
+import com.jwdroid.BugSenseConfig;
+import com.jwdroid.R;
+import com.jwdroid.SimpleArrayAdapter;
+import com.jwdroid.Util;
 
 public class ReportList extends Activity {
 
@@ -56,6 +34,9 @@ public class ReportList extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        BugSenseConfig.initAndStartSession(this);
+        
         setContentView(R.layout.report_list);
         
         

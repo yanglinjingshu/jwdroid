@@ -1,22 +1,12 @@
 package com.jwdroid.ui;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.jwdroid.AppDbOpenHelper;
-import com.jwdroid.Util;
-
-import net.londatiga.android.R;
-
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,22 +14,17 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.Time;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -49,12 +34,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.jwdroid.AppDbOpenHelper;
+import com.jwdroid.BugSenseConfig;
+import com.jwdroid.R;
+import com.jwdroid.Util;
 
 public class Visit extends FragmentActivity {
 	
@@ -77,13 +66,15 @@ public class Visit extends FragmentActivity {
 	private Integer mType = TYPE_FIRST_VISIT;
 	private Time mDate = new Time();
 	
-	private Integer mBooks=0, mBrochures=0, mMagazines=0;
+	private Integer mBooks=0, mBrochures=0, mMagazines=0, mTracts=0;
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		BugSenseConfig.initAndStartSession(this);
+				
 		setContentView(R.layout.visit);
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -128,7 +119,7 @@ public class Visit extends FragmentActivity {
 	    
 	    mVisitId = getIntent().getExtras().getLong("visit");
 	    if(mVisitId != 0) {
-	    	rs = db.rawQuery("SELECT calc_auto,desc,type,strftime('%s',date),magazines,brochures,books FROM visit WHERE ROWID=?", new String[] {mVisitId.toString()});
+	    	rs = db.rawQuery("SELECT calc_auto,desc,type,strftime('%s',date),magazines,brochures,books,tracts FROM visit WHERE ROWID=?", new String[] {mVisitId.toString()});
 	    	rs.moveToFirst();
 	    	
 	    	mCalcAuto = rs.getInt(0);
@@ -139,6 +130,7 @@ public class Visit extends FragmentActivity {
 	    	mMagazines = rs.getInt(4);
 	    	mBrochures = rs.getInt(5);
 	    	mBooks = rs.getInt(6);
+	    	mTracts = rs.getInt(7);
 	    	
 	    	rs.close();
 	    }
@@ -185,6 +177,8 @@ public class Visit extends FragmentActivity {
 				findViewById(R.id.btn_visit_magazines_more).setEnabled(!isChecked);
 				findViewById(R.id.btn_visit_brochures_less).setEnabled(!isChecked);
 				findViewById(R.id.btn_visit_brochures_more).setEnabled(!isChecked);
+				findViewById(R.id.btn_visit_tracts_less).setEnabled(!isChecked);
+				findViewById(R.id.btn_visit_tracts_more).setEnabled(!isChecked);
 				
 				findViewById(R.id.btn_visit_books_less).setClickable(!isChecked);
 				findViewById(R.id.btn_visit_books_more).setClickable(!isChecked);
@@ -192,6 +186,8 @@ public class Visit extends FragmentActivity {
 				findViewById(R.id.btn_visit_magazines_more).setClickable(!isChecked);
 				findViewById(R.id.btn_visit_brochures_less).setClickable(!isChecked);
 				findViewById(R.id.btn_visit_brochures_more).setClickable(!isChecked);
+				findViewById(R.id.btn_visit_tracts_less).setClickable(!isChecked);
+				findViewById(R.id.btn_visit_tracts_more).setClickable(!isChecked);
 				
 				if(mCalcAuto == 1)
 					recalcLiterature();
@@ -209,7 +205,7 @@ public class Visit extends FragmentActivity {
 				findViewById(R.id.literature_block).setVisibility(mType == TYPE_NA ? View.GONE : View.VISIBLE);
 				if(mType == TYPE_NA) { 
 					((EditText)findViewById(R.id.edit_visit_desc)).setText("");
-					mBooks = mBrochures = mMagazines = 0;
+					mBooks = mBrochures = mMagazines = mTracts = 0;
 				}
 
 			}
@@ -226,6 +222,7 @@ public class Visit extends FragmentActivity {
 	    ((TextView)findViewById(R.id.text_visit_books)).setText(mBooks.toString());
 	    ((TextView)findViewById(R.id.text_visit_brochures)).setText(mBrochures.toString());
 	    ((TextView)findViewById(R.id.text_visit_magazines)).setText(mMagazines.toString());
+	    ((TextView)findViewById(R.id.text_visit_tracts)).setText(mTracts.toString());
 	    
 	    ((ImageButton)findViewById(R.id.btn_visit_books_less)).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -272,6 +269,21 @@ public class Visit extends FragmentActivity {
 			}
 	    });
 	    
+	    ((ImageButton)findViewById(R.id.btn_visit_tracts_less)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {				
+				if(mTracts > 0) mTracts--;
+				((TextView)findViewById(R.id.text_visit_tracts)).setText(mTracts.toString());
+			}
+	    });
+	    ((ImageButton)findViewById(R.id.btn_visit_tracts_more)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {				
+				mTracts++;
+				((TextView)findViewById(R.id.text_visit_tracts)).setText(mTracts.toString());
+			}
+	    });
+	    
 	    
 	    
 	    ((Button)findViewById(R.id.btn_visit_date)).setText( DateFormat.getDateInstance(DateFormat.SHORT).format(new Date(mDate.toMillis(true))));
@@ -302,12 +314,12 @@ public class Visit extends FragmentActivity {
 				
 				SQLiteDatabase db = AppDbOpenHelper.getInstance(Visit.this).getWritableDatabase();
 	    		if(mVisitId == 0) {
-	    			db.execSQL(	"INSERT INTO visit (territory_id,door_id,person_id,desc,calc_auto,type,date,magazines,brochures,books)" +
-	    		    		"VALUES(?,?,?,?,?,?,?,?,?,?)", 
-	    		    		new Object[] {mTerritoryId, mDoorId, mPersonId, mDesc, mCalcAuto, mType, mDate.format3339(false), mMagazines, mBrochures, mBooks});	    				    			
+	    			db.execSQL(	"INSERT INTO visit (territory_id,door_id,person_id,desc,calc_auto,type,date,magazines,brochures,books,tracts)" +
+	    		    		"VALUES(?,?,?,?,?,?,?,?,?,?,?)", 
+	    		    		new Object[] {mTerritoryId, mDoorId, mPersonId, mDesc, mCalcAuto, mType, mDate.format3339(false), mMagazines, mBrochures, mBooks, mTracts});	    				    			
 	    		}
 	    		else {		    		
-	    			db.execSQL("UPDATE visit SET desc=?,calc_auto=?,type=?,`date`=?,magazines=?,brochures=?,books=? WHERE ROWID=?", new Object[] {mDesc, mCalcAuto, mType, mDate.format3339(false), mMagazines, mBrochures, mBooks, mVisitId});
+	    			db.execSQL("UPDATE visit SET desc=?,calc_auto=?,type=?,`date`=?,magazines=?,brochures=?,books=?,tracts=? WHERE ROWID=?", new Object[] {mDesc, mCalcAuto, mType, mDate.format3339(false), mMagazines, mBrochures, mBooks, mTracts, mVisitId});
 	    		}
 	    		
 	    		Door.updateVisits(Visit.this, mDoorId);
@@ -466,6 +478,12 @@ public class Visit extends FragmentActivity {
     	if(mMagazines != magazines) {
     		mMagazines = magazines;
     		((TextView)findViewById(R.id.text_visit_magazines)).setText(mMagazines.toString());
+    	}
+    	
+    	int tracts = cntDescTemplates(prefs.getString("literature_template_tract", getResources().getString(R.string.pref_template_tract_default)));
+    	if(mTracts != tracts) {
+    		mTracts = tracts;
+    		((TextView)findViewById(R.id.text_visit_tracts)).setText(mTracts.toString());
     	}
     }
     

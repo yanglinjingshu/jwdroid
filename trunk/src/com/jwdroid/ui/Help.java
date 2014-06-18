@@ -1,5 +1,6 @@
 package com.jwdroid.ui;
 
+import com.jwdroid.BugSenseConfig;
 import com.jwdroid.R;
 import com.jwdroid.R.id;
 import com.jwdroid.R.layout;
@@ -15,6 +16,8 @@ public class Help extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		BugSenseConfig.initAndStartSession(this);
 		
 		setContentView(R.layout.help);
         WebView mWebView = (WebView) findViewById(R.id.webview);

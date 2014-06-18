@@ -3,13 +3,9 @@ package com.jwdroid.ui;
 import java.text.DateFormat;
 import java.util.Date;
 
-import com.jwdroid.AppDbOpenHelper;
-
-import net.londatiga.android.R;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -19,7 +15,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.TimePicker;
+
+import com.jwdroid.AppDbOpenHelper;
+import com.jwdroid.BugSenseConfig;
+import com.jwdroid.R;
 
 public class TerritoryInfo extends Activity {
 	
@@ -34,6 +33,8 @@ public class TerritoryInfo extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
+		
+		BugSenseConfig.initAndStartSession(this);
 		
 		setContentView(R.layout.territory_info);
 		

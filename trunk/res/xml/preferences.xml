@@ -97,6 +97,11 @@
 	  			android:key="literature_template_brochure"
 	  			android:title="@string/pref_template_brochure"
 	  			android:defaultValue="@string/pref_template_brochure_default" />
+	  		
+	  		<EditTextPreference
+                android:key="literature_template_tract"
+                android:title="@string/pref_template_tract"
+                android:defaultValue="@string/pref_template_tract_default" />
 	  			
 	  		<EditTextPreference
 	  			android:key="literature_template_book"
@@ -110,16 +115,6 @@
   <PreferenceCategory
   	android:title="@string/pref_title_backup">
   	
-	<PreferenceScreen
-        android:title="@string/pref_backups_manage"
-        android:summary="@string/pref_backups_manage_note">
-
-           <intent android:action="android.intent.action.VIEW"
-                   android:targetPackage="com.jwdroid"
-                   android:targetClass="com.jwdroid.BackupList"/>
-
-       </PreferenceScreen>  	
-  	
   	<CheckBoxPreference 
   		android:key="autobackup"
   		android:title="@string/pref_autobackup"
@@ -131,6 +126,12 @@
 		android:title="@string/pref_num_backups"
 		android:summary="@string/pref_num_backups_note"
 		android:defaultValue="20" />
+  	
+    <Preference 
+        android:key="dropbox_off" 
+        android:title="@string/pref_dropbox_off" 
+        android:summary="@string/pref_dropbox_off_note"/>
+        
 		
 
   	

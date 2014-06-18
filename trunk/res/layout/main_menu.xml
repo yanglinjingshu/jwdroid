@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
   
-  <LinearLayout
+  <LinearLayout android:id="@+id/main_menu_logo"
   	android:layout_width="fill_parent"
   	android:layout_height="wrap_content"
+  	android:layout_alignParentTop="true"
   	android:background="#afafaf"
   	android:gravity="center">
 	  <ImageView
@@ -18,9 +19,11 @@
   	
   	
   <TableLayout
+      android:layout_below="@id/main_menu_logo" 
   	android:layout_width="wrap_content"
   	android:layout_height="wrap_content"
-  	android:layout_marginTop="40dip"
+  	android:layout_marginTop="10dip"
+  	android:layout_centerHorizontal="true"
   	android:layout_gravity="center_horizontal">
   	
   	<TableRow>  	
@@ -38,7 +41,7 @@
 		  		android:clickable="true"/>
 	  
 			<TextView
-			  	android:layout_width="wrap_content"
+			  	android:layout_width="wrap_content" 
 			  	android:layout_height="wrap_content"
 			  	android:text="@string/title_territory_list"
 			  	android:textStyle="bold"
@@ -116,9 +119,35 @@
 		</LinearLayout>  	
 	  		
 	 </TableRow>
+	 </TableLayout>
+	 
+    <LinearLayout android:id="@+id/btn_drive"
+        android:layout_alignParentBottom="true" 
+        android:background="@drawable/main_menu_drive"
+        android:clickable="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal|center_vertical">
+
+        <ImageView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"    
+            android:src="@drawable/dropbox"/>
+  
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/title_drive"
+            android:textSize="16dip"/>  
+    </LinearLayout>
+   
 	 
 	 
 	  
-	</TableLayout>
+	
     
-</LinearLayout>
+</RelativeLayout>

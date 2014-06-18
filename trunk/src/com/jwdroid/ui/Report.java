@@ -4,15 +4,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.jwdroid.AppDbOpenHelper;
-import com.jwdroid.AsyncLoader;
-import com.jwdroid.SimpleArrayAdapter;
-import com.jwdroid.Util;
-
 import net.londatiga.android.ActionItem;
 import net.londatiga.android.QuickAction;
-import net.londatiga.android.R;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -30,19 +23,22 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.text.Html;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.jwdroid.AppDbOpenHelper;
+import com.jwdroid.AsyncLoader;
+import com.jwdroid.BugSenseConfig;
+import com.jwdroid.R;
+import com.jwdroid.SimpleArrayAdapter;
+import com.jwdroid.Util;
 
 public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>, SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -58,6 +54,9 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        BugSenseConfig.initAndStartSession(this);
+        
         setContentView(R.layout.report);
         
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -142,9 +141,9 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 				Cursor rs;
 				SummaryInfo data = getSummaryInfo();
 				String text =   getResources().getString(R.string.lbl_books)+" "+data.books+"\n" +
-								getResources().getString(R.string.lbl_brochures)+" "+data.brochures+"\n" +
+								getResources().getString(R.string.lbl_brochures_tracts)+" "+(data.brochures+data.tracts)+"\n" +
 								getResources().getString(R.string.lbl_hours)+" "+(data.minutes/60)+"\n" +
-								getResources().getString(R.string.lbl_magazines)+" "+data.magazines+"\n" +
+								getResources().getString(R.string.lbl_magazines)+" "+data.magazines+"\n" +								
 								getResources().getString(R.string.lbl_returns)+" "+data.returns+"\n" +
 								getResources().getString(R.string.lbl_studies)+" "+data.studies;								
 								
@@ -278,8 +277,9 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 			item.books = cursor.getInt(3);
 			item.brochures = cursor.getInt(4);
 			item.magazines =  cursor.getInt(5);
-			item.returns = cursor.getInt(6);
-			item.desc = cursor.getString(7);
+			item.tracts =  cursor.getInt(6);
+			item.returns = cursor.getInt(7);
+			item.desc = cursor.getString(8);
 			
 			data.add(item);
 		}
@@ -298,7 +298,7 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 	}
 	
 	private class SummaryInfo {
-		int magazines,brochures,books,returns,studies,minutes;
+		int magazines,brochures,books,tracts,returns,studies,minutes;
 	}
 	
 	private SummaryInfo getSummaryInfo() {
@@ -311,20 +311,22 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 	    SQLiteDatabase db = AppDbOpenHelper.getInstance(Report.this).getReadableDatabase();
 	    
 	    if(calcType == 1) { // По хронометру
-	    	Cursor rs = db.rawQuery("SELECT SUM(magazines),SUM(brochures),SUM(books),SUM(returns) FROM session WHERE strftime('%Y%m',date)=?", new String[]{mMonth});
+	    	Cursor rs = db.rawQuery("SELECT SUM(magazines),SUM(brochures),SUM(books),SUM(returns),SUM(tracts) FROM session WHERE strftime('%Y%m',date)=?", new String[]{mMonth});
 	    	rs.moveToFirst();
 	    	data.magazines = rs.getInt(0);
 	    	data.brochures = rs.getInt(1);
 	    	data.books = rs.getInt(2);
 	    	data.returns = rs.getInt(3);
+	    	data.tracts = rs.getInt(4);
 	    	rs.close();
     	}
 	    else {			  // По посещениям
-	    	Cursor rs = db.rawQuery("SELECT SUM(magazines),SUM(brochures),SUM(books) FROM visit WHERE strftime('%Y%m',date)=?", new String[]{mMonth});
+	    	Cursor rs = db.rawQuery("SELECT SUM(magazines),SUM(brochures),SUM(books),SUM(tracts) FROM visit WHERE strftime('%Y%m',date)=?", new String[]{mMonth});
 	    	rs.moveToFirst();
 	    	data.magazines = rs.getInt(0);
 	    	data.brochures = rs.getInt(1);
 	    	data.books = rs.getInt(2);
+	    	data.tracts = rs.getInt(3);
 	    	rs.close();
 	    	data.returns = Util.dbFetchInt(db, "SELECT COUNT(*) FROM visit WHERE type>? AND strftime('%Y%m',date)=?", new String[]{String.valueOf(Visit.TYPE_FIRST_VISIT),mMonth});
 	    }
@@ -340,10 +342,10 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 	    String info = "";
         if(data.magazines>0)
         	info += data.magazines+" "+Util.pluralForm(this, data.magazines, getResources().getStringArray(R.array.plural_magazines));
-        if(data.brochures>0) {
+        if(data.brochures>0 || data.tracts>0) {
         	if(info.length()>0)
         		info += ", ";
-        	info += data.brochures+" "+Util.pluralForm(this, data.brochures, getResources().getStringArray(R.array.plural_brochures));
+        	info += (data.brochures+data.tracts)+" "+Util.pluralForm(this, data.brochures+data.tracts, getResources().getStringArray(R.array.plural_brochures_tracts));
         }
         if(data.books>0) {
         	if(info.length()>0)
@@ -426,7 +428,7 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 	
 	private class SessionItem {
 		Long id;	
-		Integer minutes,books,brochures,magazines,returns;
+		Integer minutes,books,brochures,tracts,magazines,returns;
 		String desc;
 		Time date;		
 	}
@@ -444,7 +446,7 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
 		@Override
 		public Cursor loadInBackground() {
 			SQLiteDatabase db = AppDbOpenHelper.getInstance(getContext()).getWritableDatabase();
-			Cursor rs = db.rawQuery("SELECT ROWID,strftime('%s',date),minutes,books,brochures,magazines,returns,desc FROM session WHERE strftime('%Y%m',date)=? ORDER BY date DESC", new String[]{mMonth});
+			Cursor rs = db.rawQuery("SELECT ROWID,strftime('%s',date),minutes,books,brochures,magazines,tracts,returns,desc FROM session WHERE strftime('%Y%m',date)=? ORDER BY date DESC", new String[]{mMonth});
 			return rs;
 		}
 	}
@@ -502,6 +504,11 @@ public class Report extends FragmentActivity implements LoaderCallbacks<Cursor>,
             	if(info.length()>0)
             		info += ", ";
             	info += item.books+" "+Util.pluralForm(mContext, item.books, mContext.getResources().getStringArray(R.array.plural_books));
+            }
+            if(item.tracts>0) {
+            	if(info.length()>0)
+            		info += ", ";
+            	info += item.tracts+" "+Util.pluralForm(mContext, item.tracts, mContext.getResources().getStringArray(R.array.plural_tracts));
             }
             if(item.returns>0) {
             	if(info.length()>0)
