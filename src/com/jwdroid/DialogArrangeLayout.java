@@ -1,6 +1,5 @@
 package com.jwdroid;
 
-import net.londatiga.android.R;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;

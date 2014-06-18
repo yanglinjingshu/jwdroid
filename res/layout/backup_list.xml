@@ -21,6 +21,10 @@
     		android:textSize="18dip"
     		android:textStyle="bold"
     		android:text="@string/menu_backups" />
+    	<Button android:id="@+id/title_btn_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/title_btn_refresh"/>
     	<Button android:id="@+id/title_btn_backup"
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
@@ -28,17 +32,6 @@
     </LinearLayout>
     
         
-	    <TextView android:id="@+id/backup_list_empty"
-	    	android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:gravity="center_horizontal"
-	    	android:paddingTop="20dip"
-	  		android:paddingLeft="10dip"
-	  		android:paddingRight="10dip"
-	  		android:textColor="#999999"
-	  		android:textSize="16dip"	
-	    	android:text="@string/lbl_backup_list_empty"
-	    	android:visibility="gone"/>
 		
 		<ListView android:id="@+id/backup_list"
 			android:layout_width="fill_parent"

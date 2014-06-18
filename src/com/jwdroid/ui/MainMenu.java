@@ -1,12 +1,7 @@
 package com.jwdroid.ui;
 
 import java.io.File;
-import java.io.IOException;
 
-import com.jwdroid.AppDbOpenHelper;
-
-
-import net.londatiga.android.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -20,8 +15,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+
+import com.jwdroid.BugSenseConfig;
+import com.jwdroid.R;
 
 public class MainMenu extends Activity {
 	
@@ -31,9 +27,12 @@ public class MainMenu extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
+		 
+		 BugSenseConfig.initAndStartSession(this);
+		 
 		 setContentView(R.layout.main_menu);
 		 
-		 showRevisionNotes();
+		 showRevisionNotes(); 
 		 
 		 
 		 
@@ -84,11 +83,19 @@ public class MainMenu extends Activity {
 	    		startActivity(intent);
 			}
 		 });
+		 
+		 findViewById(R.id.btn_drive).setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainMenu.this, BackupList.class);
+		    	startActivity(intent);
+			}
+		 });
 	}
 	
 	 @Override
 		public boolean onCreateOptionsMenu(Menu menu) {
-		 	getMenuInflater().inflate(R.menu.main_menu_main, menu);
 			getMenuInflater().inflate(R.menu.main_menu, menu);
 			return true;
 		}	
@@ -115,11 +122,6 @@ public class MainMenu extends Activity {
 	    	startActivity(intent);
 	    	break;
 	    	
-		case R.id.menu_backups:
-			intent = new Intent(this, BackupList.class);
-	    	startActivity(intent);
-	    	break;
-	    	
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -135,7 +137,7 @@ public class MainMenu extends Activity {
     	case DIALOG_REVISION_NOTES:            
      		dialog = new AlertDialog.Builder(this)
      					.setTitle(R.string.msg_revision_notes)
-     					.setMessage(R.string.msg_revision_notes_1_2_4)
+     					.setMessage(R.string.msg_revision_notes_1_3)
      					.setPositiveButton(R.string.btn_ok, null).create(); 
     		break;
     	}
@@ -145,9 +147,9 @@ public class MainMenu extends Activity {
 	 
 	private void showRevisionNotes() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		if(!prefs.getBoolean("revision_notes_1_2_4", false)) {
+		if(!prefs.getBoolean("revision_notes_1_3", false)) {
 			Editor editor = prefs.edit();
-			editor.putBoolean("revision_notes_1_2_4", true);
+			editor.putBoolean("revision_notes_1_3", true);
 			editor.commit();
 			
 			showDialog(DIALOG_REVISION_NOTES);

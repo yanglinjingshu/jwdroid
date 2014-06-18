@@ -3,9 +3,6 @@ package com.jwdroid.ui;
 import java.sql.Date;
 import java.text.DateFormat;
 
-import com.jwdroid.AppDbOpenHelper;
-
-import net.londatiga.android.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -24,11 +21,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.jwdroid.AppDbOpenHelper;
+import com.jwdroid.BugSenseConfig;
+import com.jwdroid.R;
+import com.jwdroid.RepeatListener;
 
 public class Session extends Activity {
 	
@@ -38,14 +40,17 @@ public class Session extends Activity {
 		
 	Long mSessionId;
 	
-	Integer mMinutes=0,mBooks=0,mBrochures=0,mMagazines=0,mReturns=0;
+	Integer mMinutes=0,mBooks=0,mBrochures=0,mMagazines=0,mReturns=0,mTracts=0;
 	String mDesc;
 	Time mDate;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.session);
+		
+		BugSenseConfig.initAndStartSession(this);
+		
+		setContentView(R.layout.session);		
 		
 		mSessionId = getIntent().getExtras().getLong("session");
 		
@@ -56,7 +61,7 @@ public class Session extends Activity {
 		
 		if(mSessionId != 0) {
 		
-			Cursor rs = db.rawQuery("SELECT strftime('%s',date),desc,minutes,books,brochures,magazines,returns FROM session WHERE ROWID=?", new String[]{mSessionId.toString()});
+			Cursor rs = db.rawQuery("SELECT strftime('%s',date),desc,minutes,books,brochures,magazines,returns,tracts FROM session WHERE ROWID=?", new String[]{mSessionId.toString()});
 			rs.moveToFirst();			
 			
 			mDate.set(rs.getLong(0)*1000);						
@@ -67,6 +72,7 @@ public class Session extends Activity {
 			mBrochures = rs.getInt(4);
 			mMagazines = rs.getInt(5);
 			mReturns = rs.getInt(6);
+			mTracts = rs.getInt(7);
 			
 			rs.close();
 		}
@@ -98,6 +104,7 @@ public class Session extends Activity {
 		((TextView)findViewById(R.id.text_magazines)).setText(String.valueOf(mMagazines));
 		((TextView)findViewById(R.id.text_brochures)).setText(String.valueOf(mBrochures));
 		((TextView)findViewById(R.id.text_books)).setText(String.valueOf(mBooks));
+		((TextView)findViewById(R.id.text_tracts)).setText(String.valueOf(mTracts));
 		((TextView)findViewById(R.id.text_returns)).setText(String.valueOf(mReturns));
 		
 		((EditText)findViewById(R.id.edit_desc)).addTextChangedListener(new TextWatcher() {
@@ -118,86 +125,101 @@ public class Session extends Activity {
 		});
 		
 		
-		((ImageButton)findViewById(R.id.btn_books_less)).setOnClickListener(new View.OnClickListener() {
+		((ImageButton)findViewById(R.id.btn_books_less)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {	
 				if(mBooks > 0) mBooks--;
 				((TextView)findViewById(R.id.text_books)).setText(String.valueOf(mBooks));
 			}
-	    });
-	    ((ImageButton)findViewById(R.id.btn_books_more)).setOnClickListener(new View.OnClickListener() {
+	    }));
+	    ((ImageButton)findViewById(R.id.btn_books_more)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {	
 				mBooks++;
 				((TextView)findViewById(R.id.text_books)).setText(String.valueOf(mBooks));
 			}
-	    });
+	    }));
 	    
-	    ((ImageButton)findViewById(R.id.btn_brochures_less)).setOnClickListener(new View.OnClickListener() {
+	    ((ImageButton)findViewById(R.id.btn_brochures_less)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {	
 				if(mBrochures > 0) mBrochures--;
 				((TextView)findViewById(R.id.text_brochures)).setText(String.valueOf(mBrochures));
 			}
-	    });
-	    ((ImageButton)findViewById(R.id.btn_brochures_more)).setOnClickListener(new View.OnClickListener() {
+	    }));
+	    ((ImageButton)findViewById(R.id.btn_brochures_more)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {	
 				mBrochures++;
 				((TextView)findViewById(R.id.text_brochures)).setText(String.valueOf(mBrochures));
 			}
-	    });
+	    }));
 	    
-	    ((ImageButton)findViewById(R.id.btn_magazines_less)).setOnClickListener(new View.OnClickListener() {
+	    ((ImageButton)findViewById(R.id.btn_magazines_less)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {	
 				if(mMagazines > 0) mMagazines--;
 				((TextView)findViewById(R.id.text_magazines)).setText(String.valueOf(mMagazines));
 			}
-	    });
-	    ((ImageButton)findViewById(R.id.btn_magazines_more)).setOnClickListener(new View.OnClickListener() {
+	    }));
+	    ((ImageButton)findViewById(R.id.btn_magazines_more)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				mMagazines++;
 				((TextView)findViewById(R.id.text_magazines)).setText(String.valueOf(mMagazines));
 			}
-	    });
+	    }));
+	    
+	    ((ImageButton)findViewById(R.id.btn_tracts_less)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {	
+				if(mTracts > 0) mTracts--;
+				((TextView)findViewById(R.id.text_tracts)).setText(String.valueOf(mTracts));
+			}
+	    }));
+	    ((ImageButton)findViewById(R.id.btn_tracts_more)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				mTracts++;
+				((TextView)findViewById(R.id.text_tracts)).setText(String.valueOf(mTracts));
+			}
+	    }));
 	    
 	    
-	    ((ImageButton)findViewById(R.id.btn_returns_less)).setOnClickListener(new View.OnClickListener() {
+	    ((ImageButton)findViewById(R.id.btn_returns_less)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				if(mReturns > 0) mReturns--;
 				((TextView)findViewById(R.id.text_returns)).setText(String.valueOf(mReturns));
 			}
-	    });
-	    ((ImageButton)findViewById(R.id.btn_returns_more)).setOnClickListener(new View.OnClickListener() {
+	    }));
+	    ((ImageButton)findViewById(R.id.btn_returns_more)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {	
 				mReturns++;
 				((TextView)findViewById(R.id.text_returns)).setText(String.valueOf(mReturns));
 			}
-	    });
+	    }));
 	    
 	    
 	    
-	    ((ImageButton)findViewById(R.id.btn_timer_less)).setOnClickListener(new View.OnClickListener() {
+	    ((ImageButton)findViewById(R.id.btn_timer_less)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				if(mMinutes > 10) mMinutes-=10;
+				if(mMinutes > 1) mMinutes-=1;
 				((TextView)findViewById(R.id.lbl_timer_hour)).setText(String.format("%d",mMinutes/60));
 				((TextView)findViewById(R.id.lbl_timer_minute)).setText(String.format("%02d",mMinutes%60));
 			}
-	    });
+	    }));
 	    
-	    ((ImageButton)findViewById(R.id.btn_timer_more)).setOnClickListener(new View.OnClickListener() {
+	    ((ImageButton)findViewById(R.id.btn_timer_more)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				mMinutes+=10;
+				mMinutes+=1;
 				((TextView)findViewById(R.id.lbl_timer_hour)).setText(String.format("%d",mMinutes/60));
 				((TextView)findViewById(R.id.lbl_timer_minute)).setText(String.format("%02d",mMinutes%60));
 			}
-	    });
+	    }));
 	    
 	    
 	    
@@ -207,8 +229,8 @@ public class Session extends Activity {
 				SQLiteDatabase db = AppDbOpenHelper.getInstance(Session.this).getWritableDatabase();
 				
 				if(mSessionId != 0) {				
-					db.execSQL("UPDATE session SET date=?,desc=?,minutes=?,magazines=?,brochures=?,books=?,returns=? WHERE ROWID=?",
-							new Object[] {mDate.format3339(false), mDesc, mMinutes, mMagazines, mBrochures, mBooks, mReturns, mSessionId});					
+					db.execSQL("UPDATE session SET date=?,desc=?,minutes=?,magazines=?,brochures=?,books=?,returns=?,tracts=? WHERE ROWID=?",
+							new Object[] {mDate.format3339(false), mDesc, mMinutes, mMagazines, mBrochures, mBooks, mReturns, mTracts, mSessionId});					
 					
 					Intent intent = new Intent(Session.this, Report.class);
 					intent.putExtra("month", mDate.format("%Y%m"));
@@ -217,8 +239,8 @@ public class Session extends Activity {
 					finish();
 				}
 				else {
-					db.execSQL("INSERT INTO session (date,desc,minutes,magazines,books,brochures,returns) VALUES(?,?,?,?,?,?,?)",							
-							new Object[] {mDate.format3339(false), mDesc, mMinutes, mMagazines, mBooks, mBrochures, mReturns});
+					db.execSQL("INSERT INTO session (date,desc,minutes,magazines,books,brochures,returns,tracts) VALUES(?,?,?,?,?,?,?,?)",							
+							new Object[] {mDate.format3339(false), mDesc, mMinutes, mMagazines, mBooks, mBrochures, mReturns, mTracts});
 					setResult(1);
 					finish();
 				}

@@ -8,25 +8,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.jwdroid.AlphanumComparator;
-import com.jwdroid.AppDbOpenHelper;
-import com.jwdroid.AsyncLoader;
-import com.jwdroid.ColorPicker;
-import com.jwdroid.DialogArrangeLayout;
-import com.jwdroid.HorizontalPanelsView;
-import com.jwdroid.SimpleArrayItem;
-import com.jwdroid.SimpleListAdapter;
-import com.jwdroid.TriangleButton;
-import com.jwdroid.Util;
-import com.jwdroid.ColorPicker.OnOkListener;
-import com.jwdroid.HorizontalPanelsView.OnActiveChangedListener;
-import com.jwdroid.TriangleButton.TriangleButtonContextMenuInfo;
-
 import net.londatiga.android.ActionItem;
 import net.londatiga.android.QuickAction;
-import net.londatiga.android.R;
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -34,60 +17,58 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.GradientDrawable.Orientation;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
-import android.text.Editable;
 import android.text.Html;
-import android.text.InputType;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.text.TextUtils.TruncateAt;
 import android.text.format.Time;
-import android.text.method.KeyListener;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Display;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.FrameLayout.LayoutParams;
+
+import com.jwdroid.AlphanumComparator;
+import com.jwdroid.AppDbOpenHelper;
+import com.jwdroid.AsyncLoader;
+import com.jwdroid.BugSenseConfig;
+import com.jwdroid.ColorPicker;
+import com.jwdroid.DialogArrangeLayout;
+import com.jwdroid.HorizontalPanelsView;
+import com.jwdroid.R;
+import com.jwdroid.SimpleArrayItem;
+import com.jwdroid.SimpleListAdapter;
+import com.jwdroid.TriangleButton;
+import com.jwdroid.TriangleButton.TriangleButtonContextMenuInfo;
+import com.jwdroid.Util;
 
 public class Territory extends FragmentActivity implements LoaderCallbacks<Cursor>, SharedPreferences.OnSharedPreferenceChangeListener {
 	
@@ -134,6 +115,8 @@ public class Territory extends FragmentActivity implements LoaderCallbacks<Curso
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
+	    
+	    BugSenseConfig.initAndStartSession(this);
 	    
 	    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 	    prefs.registerOnSharedPreferenceChangeListener(this);

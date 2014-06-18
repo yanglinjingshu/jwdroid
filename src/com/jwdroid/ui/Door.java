@@ -7,20 +7,8 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.jwdroid.AppDbOpenHelper;
-import com.jwdroid.ColorPicker;
-import com.jwdroid.HorizontalPanelsView;
-import com.jwdroid.TriangleView;
-import com.jwdroid.Util;
-import com.jwdroid.ColorPicker.OnOkListener;
-import com.jwdroid.HorizontalPanelsView.OnActiveChangedListener;
-
 import net.londatiga.android.ActionItem;
 import net.londatiga.android.QuickAction;
-import net.londatiga.android.R;
-
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -28,52 +16,47 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.GradientDrawable.Orientation;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.Loader;
 import android.text.Editable;
-import android.text.Html;
-import android.text.InputType;
 import android.text.Selection;
 import android.text.format.Time;
-import android.text.style.TypefaceSpan;
-import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.FrameLayout.LayoutParams;
+
+import com.jwdroid.AppDbOpenHelper;
+import com.jwdroid.BugSenseConfig;
+import com.jwdroid.ColorPicker;
+import com.jwdroid.HorizontalPanelsView;
+import com.jwdroid.R;
+import com.jwdroid.TriangleView;
+import com.jwdroid.Util;
 
 public class Door extends FragmentActivity {
 	
@@ -116,6 +99,8 @@ public class Door extends FragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
+	    
+	    BugSenseConfig.initAndStartSession(this);
 	    
 	    if(savedInstanceState != null) {
 	    	mEmptyCreateRequested = savedInstanceState.getBoolean("emptyCreateRequested", false);

@@ -1,28 +1,12 @@
 package com.jwdroid.ui;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FilePermission;
-import java.io.OutputStream;
-import java.security.PermissionCollection;
-import java.security.acl.Permission;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-import com.jwdroid.AppDbOpenHelper;
-import com.jwdroid.AsyncLoader;
-import com.jwdroid.HistogramView;
-import com.jwdroid.SimpleArrayAdapter;
-import com.jwdroid.Util;
-
 import net.londatiga.android.ActionItem;
 import net.londatiga.android.QuickAction;
-import net.londatiga.android.R;
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -32,31 +16,33 @@ import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.text.Editable;
-import android.text.Html;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
+
+import com.jwdroid.AppDbOpenHelper;
+import com.jwdroid.AsyncLoader;
+import com.jwdroid.BugSenseConfig;
+import com.jwdroid.HistogramView;
+import com.jwdroid.R;
+import com.jwdroid.SimpleArrayAdapter;
+import com.jwdroid.Util;
 
 
 public class TerritoryList extends FragmentActivity implements LoaderCallbacks<Cursor> {
@@ -79,6 +65,9 @@ public class TerritoryList extends FragmentActivity implements LoaderCallbacks<C
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        BugSenseConfig.initAndStartSession(this);
+        
         setContentView(R.layout.territory_list);
               
         // Set up territory list

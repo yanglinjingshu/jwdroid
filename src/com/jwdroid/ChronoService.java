@@ -34,6 +34,8 @@ public class ChronoService extends Service {
 	@Override
 	public void onCreate() {
 		
+		BugSenseConfig.initAndStartSession(this);
+		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		if(prefs.getLong("chronoStartTime", -1) == -1) {

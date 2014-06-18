@@ -14,7 +14,7 @@ import android.text.format.Time;
 import android.util.Log;
 
 public class AppDbOpenHelper extends SQLiteOpenHelper {	
-	private static final int DATABASE_VERSION = 50;
+	private static final int DATABASE_VERSION = 51;
 	private static final String DATABASE_NAME = "jwdroid";
 	private static final String TAG = "JWTerritoryDbOpenHelper";
 	
@@ -128,6 +128,11 @@ public class AppDbOpenHelper extends SQLiteOpenHelper {
 			db.execSQL("UPDATE door SET last_date=? WHERE last_date='now'", new String[] {date.format3339(false)});
 			db.execSQL("UPDATE door SET last_modified_date=(SELECT date FROM visit WHERE door_id=door.ROWID ORDER BY date DESC LIMIT 1)", new Object[] {});
 			db.execSQL("UPDATE territory SET modified=(SELECT date FROM visit WHERE territory_id=territory.ROWID ORDER BY date DESC LIMIT 1)", new Object[] {});
+		}
+		
+		if(oldVersion < 51) {
+			db.execSQL("ALTER TABLE `visit` ADD tracts INTEGER");
+			db.execSQL("ALTER TABLE `session` ADD tracts INTEGER NOT NULL DEFAULT 0");
 		}
 		
 	}

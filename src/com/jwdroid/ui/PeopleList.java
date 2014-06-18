@@ -4,18 +4,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.jwdroid.AppDbOpenHelper;
-import com.jwdroid.AsyncLoader;
-import com.jwdroid.ColorPicker;
-import com.jwdroid.SimpleArrayAdapter;
-import com.jwdroid.Util;
-import com.jwdroid.ColorPicker.OnOkListener;
-
 import net.londatiga.android.ActionItem;
 import net.londatiga.android.QuickAction;
-import net.londatiga.android.R;
-
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -27,13 +17,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,9 +32,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.jwdroid.AppDbOpenHelper;
+import com.jwdroid.AsyncLoader;
+import com.jwdroid.BugSenseConfig;
+import com.jwdroid.ColorPicker;
+import com.jwdroid.R;
+import com.jwdroid.SimpleArrayAdapter;
+import com.jwdroid.Util;
 
 public class PeopleList extends FragmentActivity implements LoaderCallbacks<Cursor> {
 	
@@ -64,6 +59,9 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        BugSenseConfig.initAndStartSession(this);
+        
         setContentView(R.layout.people_list);
               
         // Set up territory list
@@ -177,8 +175,7 @@ public class PeopleList extends FragmentActivity implements LoaderCallbacks<Curs
 	    case R.id.menu_help:
 	    	intent = new Intent(this, Help.class);
 	    	startActivity(intent);
-	    	break;
-	    	
+	    	break;   	
 	    	
 	    }
 	    

@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import net.londatiga.android.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -21,6 +20,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,8 +31,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.jwdroid.AppDbOpenHelper;
+import com.jwdroid.BugSenseConfig;
 import com.jwdroid.ChronoService;
+import com.jwdroid.DropboxConfig;
+import com.jwdroid.R;
+import com.jwdroid.RepeatListener;
 import com.jwdroid.Util;
+import com.jwdroid.export.DropboxBackuper;
+import com.jwdroid.export.LocalBackuper;
 
 public class Chrono extends Activity {
 	
@@ -71,6 +77,8 @@ public class Chrono extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {	
 		super.onCreate(savedInstanceState);
+		
+		BugSenseConfig.initAndStartSession(this);
 		
 		setContentView(R.layout.chrono);
 		initUI();
@@ -150,95 +158,113 @@ public class Chrono extends Activity {
 		});
 		
 		
-		((ImageButton)findViewById(R.id.btn_books_less)).setOnClickListener(new View.OnClickListener() {
+		((ImageButton)findViewById(R.id.btn_books_less)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {	
 				if(mService == null) return;
 				prefs.edit().putInt("chronoBooks", Math.max(prefs.getInt("chronoBooks", 0) - 1, 0)).commit();
 				((TextView)findViewById(R.id.text_books)).setText(String.valueOf(prefs.getInt("chronoBooks", 0)));
+				Log.w("", ""+prefs.getInt("chronoBooks", 0));
 			}
-	    });
-	    ((ImageButton)findViewById(R.id.btn_books_more)).setOnClickListener(new View.OnClickListener() {
+	    }));
+	    ((ImageButton)findViewById(R.id.btn_books_more)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {	
 				if(mService == null) return;
 				prefs.edit().putInt("chronoBooks", prefs.getInt("chronoBooks", 0) + 1).commit();
 				((TextView)findViewById(R.id.text_books)).setText(String.valueOf(prefs.getInt("chronoBooks", 0)));
 			}
-	    });
+	    }));
 	    
-	    ((ImageButton)findViewById(R.id.btn_brochures_less)).setOnClickListener(new View.OnClickListener() {
+	    ((ImageButton)findViewById(R.id.btn_brochures_less)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {	
 				if(mService == null) return;
 				prefs.edit().putInt("chronoBrochures", Math.max(prefs.getInt("chronoBrochures", 0) - 1, 0)).commit();
 				((TextView)findViewById(R.id.text_brochures)).setText(String.valueOf(prefs.getInt("chronoBrochures", 0)));
 			}
-	    });
-	    ((ImageButton)findViewById(R.id.btn_brochures_more)).setOnClickListener(new View.OnClickListener() {
+	    }));
+	    ((ImageButton)findViewById(R.id.btn_brochures_more)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {	
 				if(mService == null) return;
 				prefs.edit().putInt("chronoBrochures", prefs.getInt("chronoBrochures", 0) + 1).commit();
 				((TextView)findViewById(R.id.text_brochures)).setText(String.valueOf(prefs.getInt("chronoBrochures", 0)));
 			}
-	    });
+	    }));
 	    
-	    ((ImageButton)findViewById(R.id.btn_magazines_less)).setOnClickListener(new View.OnClickListener() {
+	    ((ImageButton)findViewById(R.id.btn_tracts_less)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {	
+				if(mService == null) return;
+				prefs.edit().putInt("chronoTracts", Math.max(prefs.getInt("chronoTracts", 0) - 1, 0)).commit();
+				((TextView)findViewById(R.id.text_tracts)).setText(String.valueOf(prefs.getInt("chronoTracts", 0)));
+			}
+	    }));
+	    ((ImageButton)findViewById(R.id.btn_tracts_more)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {	
+				if(mService == null) return;
+				prefs.edit().putInt("chronoTracts", prefs.getInt("chronoTracts", 0) + 1).commit();
+				((TextView)findViewById(R.id.text_tracts)).setText(String.valueOf(prefs.getInt("chronoTracts", 0)));
+			}
+	    }));
+	    
+	    ((ImageButton)findViewById(R.id.btn_magazines_less)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {	
 				if(mService == null) return;
 				prefs.edit().putInt("chronoMagazines", Math.max(prefs.getInt("chronoMagazines", 0) - 1, 0)).commit();
 				((TextView)findViewById(R.id.text_magazines)).setText(String.valueOf(prefs.getInt("chronoMagazines", 0)));
 			}
-	    });
-	    ((ImageButton)findViewById(R.id.btn_magazines_more)).setOnClickListener(new View.OnClickListener() {
+	    }));
+	    ((ImageButton)findViewById(R.id.btn_magazines_more)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				if(mService == null) return;
 				prefs.edit().putInt("chronoMagazines", prefs.getInt("chronoMagazines", 0) + 1).commit();
 				((TextView)findViewById(R.id.text_magazines)).setText(String.valueOf(prefs.getInt("chronoMagazines", 0)));
 			}
-	    });
+	    }));
 	    
 	    
-	    ((ImageButton)findViewById(R.id.btn_returns_less)).setOnClickListener(new View.OnClickListener() {
+	    ((ImageButton)findViewById(R.id.btn_returns_less)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				if(mService == null) return;
 				prefs.edit().putInt("chronoReturns", Math.max(prefs.getInt("chronoReturns", 0) - 1, 0)).commit();
-				((TextView)findViewById(R.id.text_returns)).setText(String.valueOf(prefs.getInt("chronoMagazines", 0)));
+				((TextView)findViewById(R.id.text_returns)).setText(String.valueOf(prefs.getInt("chronoReturns", 0)));
 			}
-	    });
-	    ((ImageButton)findViewById(R.id.btn_returns_more)).setOnClickListener(new View.OnClickListener() {
+	    }));
+	    ((ImageButton)findViewById(R.id.btn_returns_more)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {	
 				if(mService == null) return;
 				prefs.edit().putInt("chronoReturns", prefs.getInt("chronoReturns", 0) + 1).commit();
 				((TextView)findViewById(R.id.text_returns)).setText(String.valueOf(prefs.getInt("chronoReturns", 0)));
 			}
-	    });
+	    }));
 	    
 	    
 	    
-	    ((ImageButton)findViewById(R.id.btn_timer_less)).setOnClickListener(new View.OnClickListener() {
+	    ((ImageButton)findViewById(R.id.btn_timer_less)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				if(mService == null) return;
 				int minutes = prefs.getInt("chronoMinutes", 0);
-				if(ChronoService.getCurrentMinutes(Chrono.this) > 10) mService.setMinutes(minutes-10);
+				if(ChronoService.getCurrentMinutes(Chrono.this) > 1) mService.setMinutes(minutes-1);
 				updateUI();
 			}
-	    });
+	    }));
 	    
-	    ((ImageButton)findViewById(R.id.btn_timer_more)).setOnClickListener(new View.OnClickListener() {
+	    ((ImageButton)findViewById(R.id.btn_timer_more)).setOnTouchListener(new RepeatListener(300,100,new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				if(mService == null) return;
-				mService.setMinutes(prefs.getInt("chronoMinutes", 0)+10);
+				mService.setMinutes(prefs.getInt("chronoMinutes", 0)+1);
 				updateUI();
 			}
-	    }); 
+	    })); 
 	    
 	    ((CheckBox)findViewById(R.id.chk_calc_auto)).setChecked( prefs.getBoolean("chronoCalcAuto", true) );
 		
@@ -303,14 +329,15 @@ public class Chrono extends Activity {
 										beginTime.set(prefs.getLong("chronoBeginTime", 0));										
 										
 										SQLiteDatabase db = AppDbOpenHelper.getInstance(Chrono.this).getWritableDatabase();
-										db.execSQL("INSERT INTO session (date, minutes,magazines,books,brochures,returns) VALUES(?,?,?,?,?,?)",
+										db.execSQL("INSERT INTO session (date, minutes,magazines,books,brochures,returns,tracts) VALUES(?,?,?,?,?,?,?)",
 												new Object[] { 
 													beginTime.format3339(false), 
 													ChronoService.getCurrentMinutes(Chrono.this), 
 													prefs.getInt("chronoMagazines", 0), 
 													prefs.getInt("chronoBooks", 0),
 													prefs.getInt("chronoBrochures", 0), 
-													prefs.getInt("chronoReturns", 0) });
+													prefs.getInt("chronoReturns", 0),
+													prefs.getInt("chronoTracts", 0)});
 										
 										long sessionId = Util.dbFetchLong(db, "SELECT last_insert_rowid()", new String[]{});
 										
@@ -324,10 +351,15 @@ public class Chrono extends Activity {
 											.remove("chronoReturns")
 											.remove("chronoBrochures")
 											.remove("chronoMagazines")
+											.remove("chronoTracts")
 											.commit();
 										
 										if(prefs.getBoolean("autobackup", true)) {
-											BackupList.createBackup(Chrono.this);
+											
+											if(DropboxConfig.getAccountManager(Chrono.this).hasLinkedAccount())
+												new DropboxBackuper(Chrono.this, null).run();
+											else
+												new LocalBackuper(Chrono.this, null).run();
 										}
 										
 										Intent intent = new Intent(Chrono.this, Session.class);
@@ -354,6 +386,7 @@ public class Chrono extends Activity {
 										.putInt("chronoBooks", 0)
 										.putInt("chronoBrochures", 0)
 										.putInt("chronoReturns", 0)
+										.putInt("chronoTracts", 0)
 										.commit();
 									
 									Intent intent = new Intent(Chrono.this, ChronoService.class);
@@ -389,11 +422,12 @@ public class Chrono extends Activity {
 		
 		SQLiteDatabase db = AppDbOpenHelper.getInstance(Chrono.this).getReadableDatabase();
 		
-		Cursor rs = db.rawQuery("SELECT SUM(books),SUM(brochures),SUM(magazines) FROM visit WHERE strftime('%s',date) >= ? AND strftime('%s',date) <= ?", new String[]{ String.valueOf(prefs.getLong("chronoBeginTime", 0)), String.valueOf(now.toMillis(true))});
+		Cursor rs = db.rawQuery("SELECT SUM(books),SUM(brochures),SUM(magazines),SUM(tracts) FROM visit WHERE strftime('%s',date) >= ? AND strftime('%s',date) <= ?", new String[]{ String.valueOf(prefs.getLong("chronoBeginTime", 0)), String.valueOf(now.toMillis(true))});
 		rs.moveToFirst();
 		editor.putInt("chronoBooks", rs.getInt(0))
 			.putInt("chronoBrochures", rs.getInt(1))
-			.putInt("chronoMagazines", rs.getInt(2));
+			.putInt("chronoMagazines", rs.getInt(2))
+			.putInt("chronoTracts", rs.getInt(3));
 		rs.close();		
 		
 		rs = db.rawQuery("SELECT COUNT(*) FROM visit WHERE type > 1 AND strftime('%s',date) >= ? AND strftime('%s',date) <= ?", new String[]{ String.valueOf(prefs.getLong("chronoBeginTime", 0)), String.valueOf(now.toMillis(true))});
@@ -443,6 +477,8 @@ public class Chrono extends Activity {
 		findViewById(R.id.btn_magazines_more).setEnabled(!calcAuto);
 		findViewById(R.id.btn_brochures_less).setEnabled(!calcAuto);
 		findViewById(R.id.btn_brochures_more).setEnabled(!calcAuto);
+		findViewById(R.id.btn_tracts_less).setEnabled(!calcAuto);
+		findViewById(R.id.btn_tracts_more).setEnabled(!calcAuto);
 		findViewById(R.id.btn_returns_less).setEnabled(!calcAuto);
 		findViewById(R.id.btn_returns_more).setEnabled(!calcAuto);
 		
@@ -450,6 +486,8 @@ public class Chrono extends Activity {
 		findViewById(R.id.btn_books_more).setClickable(!calcAuto);
 		findViewById(R.id.btn_magazines_less).setClickable(!calcAuto);
 		findViewById(R.id.btn_magazines_more).setClickable(!calcAuto);
+		findViewById(R.id.btn_tracts_less).setClickable(!calcAuto);
+		findViewById(R.id.btn_tracts_more).setClickable(!calcAuto);
 		findViewById(R.id.btn_returns_less).setClickable(!calcAuto);
 		findViewById(R.id.btn_returns_more).setClickable(!calcAuto);
 		
@@ -466,6 +504,9 @@ public class Chrono extends Activity {
 			
 		((TextView)findViewById(R.id.text_magazines)).setText(String.valueOf(
 				prefs.getInt("chronoMagazines", 0)));
+		
+		((TextView)findViewById(R.id.text_tracts)).setText(String.valueOf(
+				prefs.getInt("chronoTracts", 0)));
 			
 		((TextView)findViewById(R.id.text_returns)).setText(String.valueOf(
 				prefs.getInt("chronoReturns", 0)));
